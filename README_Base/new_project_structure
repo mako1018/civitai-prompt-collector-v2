@@ -1,0 +1,63 @@
+# CivitAI Prompt Collector-v2 - 新しいプロジェクト構造
+
+## プロジェクト構造
+```
+civitai-prompt-collector/
+├── src/
+│   ├── __init__.py
+│   ├── config.py              # 設定管理
+│   ├── database.py            # DB操作
+│   ├── collector.py           # メイン収集ロジック
+│   ├── categorizer.py         # カテゴリ分類
+│   └── visualizer.py          # 可視化
+├── ui/
+│   └── streamlit_app.py       # Streamlit UI
+├── data/                      # データベース保存場所
+├── logs/                      # ログファイル
+├── requirements.txt
+├── .env.example
+├── .gitignore
+└── README.md
+```
+
+## ファイル分割案
+
+### 1. config.py
+- 環境変数管理
+- カテゴリ定義
+- デフォルト設定
+
+### 2. database.py
+- DB接続・初期化
+- CRUD操作
+
+### 3. collector.py
+- API呼び出し
+- データ収集ロジック
+
+### 4. categorizer.py
+- プロンプト分類
+- キーワードマッチング
+
+### 5. visualizer.py
+- グラフ生成
+- 統計表示
+
+### 6. streamlit_app.py
+- UI実装
+- ユーザーインターフェース
+
+## 即座に作成すべきファイル
+
+1. **requirements.txt** (現在の依存関係)
+2. **config.py** (設定の外部化)
+3. **collector.py** (既存コードをリファクタ)
+
+## 次のステップ
+
+1. 最小限の動作バージョンを作成
+2. 段階的に機能追加
+3. テスト追加
+4. UI実装
+
+**この方針で進めますか？**
