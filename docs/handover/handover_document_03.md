@@ -10,7 +10,7 @@
 
 ### 最重要：プロジェクト目的を絶対に見失わない
 1. **CivitAI条件指定プロンプト自動収集**
-2. **自動カテゴリ分け（6カテゴリ）**
+2. **自動カテゴリ分け（6カテゴリ）:（NSFW, style, lighting, composition, mood, basic, technical）に自動分類**
 3. **ComfyUI統合（WD14の表現不足を補完）**
 
 ### 🆕 AI対応ルール（更新・追加）
@@ -47,7 +47,7 @@
 - [x] categorizer.py - プロンプト自動分類・実データ処理機能追加
 - [x] **visualizer.py - グラフ生成・統計表示 ✅ 修正完了**
   - カテゴリ分布データ正常取得
-  - 信頼度データ正常取得 
+  - 信頼度データ正常取得
   - CSV結合エクスポート機能追加
 - [x] 新リポジトリ作成・基本ファイルプッシュ
 - [x] **データ収集・分類・可視化の完全フロー確認済み**
@@ -148,7 +148,7 @@ python main.py
 
 # 個別実行
 python main.py --collect-only
-python main.py --categorize-only  
+python main.py --categorize-only
 python main.py --visualize-only
 
 # 設定指定
@@ -188,7 +188,7 @@ python main.py --max-items=100 --model-id=xxx
 
 ### データ整合性の確認方法
 - collector.py → database.py: save_prompt_data()での保存
-- categorizer.py → database.py: save_prompt_categories()での保存  
+- categorizer.py → database.py: save_prompt_categories()での保存
 - visualizer.py → database.py: get_category_statistics()での取得
 
 ### 効果的なデバッグ手法
@@ -254,7 +254,7 @@ python main.py --max-items=100 --model-id=xxx
 ## 🎯 現時点での成果
 
 - **データ収集**: 44件完了
-- **自動分類**: 42件完了  
+- **自動分類**: 42件完了
 - **可視化**: グラフ・統計・CSV出力完了
 - **基本機能**: ほぼ完成状態
 - **残作業**: main.py統合実行機能のみ
