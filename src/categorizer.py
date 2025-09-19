@@ -8,14 +8,22 @@ from typing import Dict, List, Tuple, Optional
 from dataclasses import dataclass
 import logging
 
+# 一時的にCATEGORIESを直接定義（config.pyが未作成の場合）
 try:
     from .config import CATEGORIES
 except ImportError:
-    # スタンドアロン実行時の対応
-    import sys
-    import os
-    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    from src.config import CATEGORIES
+    try:
+        from src.config import CATEGORIES
+    except ImportError:
+        # config.pyが存在しない場合の暫定対応
+        CATEGORIES = [
+            "Character",
+            "Style",
+            "Environment",
+            "Technical",
+            "Objects",
+            "Artistic"
+        ]
 
 logger = logging.getLogger(__name__)
 
@@ -298,12 +306,18 @@ class PromptCategorizer:
         Returns:
             Dict[str, int]: カテゴリ別件数
         """
-        distribution = {category: 0 for category in CATEGORIES}
+        # 実際に使用するカテゴリで初期化
+        used_categories = list(self.category_keywords.keys())
+        distribution = {category: 0 for category in used_categories}
 
         results = self.classify_batch(prompts)
 
         for result in results:
-            distribution[result.category] += 1
+            if result.category in distribution:
+                distribution[result.category] += 1
+            else:
+                # 未知のカテゴリの場合は追加
+                distribution[result.category] = 1
 
         return distribution
 
