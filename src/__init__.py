@@ -14,7 +14,7 @@ from .categorizer import PromptCategorizer, ClassificationResult
 
 __all__ = [
     "CATEGORIES",
-    "DATABASE_CONFIG", 
+    "DATABASE_CONFIG",
     "API_CONFIG",
     "CivitAICollector",
     "DatabaseManager",
