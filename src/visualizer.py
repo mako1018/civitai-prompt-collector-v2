@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import numpy as np
+import sqlite3
 from pathlib import Path
 from typing import Dict, List, Tuple, Optional
 import logging
@@ -55,16 +56,18 @@ class DataVisualizer:
         }
 
     def get_category_distribution(self) -> Dict[str, int]:
-        """カテゴリ別分布データを取得"""
+        """カテゴリ別分布データを取得 - prompt_categoriesテーブルから正しくデータを取得"""
         try:
-            data = self.db_manager.get_all_prompts()
+            # データベースから既存の統計機能を使用
+            stats = self.db_manager.get_category_statistics()
             distribution = {}
 
-            for prompt_data in data:
-                category = prompt_data.get('category', 'Unknown')
-                distribution[category] = distribution.get(category, 0) + 1
+            # 全モデルの統計を合計
+            for model_stats in stats.values():
+                for category, count in model_stats.items():
+                    distribution[category] = distribution.get(category, 0) + count
 
-            logger.info(f"カテゴリ分布データ取得完了: {len(data)}件")
+            logger.info(f"カテゴリ分布データ取得完了: {sum(distribution.values())}件")
             return distribution
 
         except Exception as e:
@@ -72,14 +75,17 @@ class DataVisualizer:
             return {}
 
     def get_confidence_data(self) -> List[float]:
-        """信頼度データを取得"""
+        """信頼度データを取得 - prompt_categoriesテーブルから信頼度を取得"""
         try:
-            data = self.db_manager.get_all_prompts()
-            confidences = []
+            # SQLクエリで直接prompt_categoriesテーブルから信頼度取得
+            conn = sqlite3.connect(self.db_manager.db_path)
+            cursor = conn.cursor()
 
-            for prompt_data in data:
-                confidence = prompt_data.get('confidence', 0.0)
-                confidences.append(float(confidence))
+            cursor.execute('SELECT confidence FROM prompt_categories WHERE confidence IS NOT NULL')
+            rows = cursor.fetchall()
+
+            confidences = [float(row[0]) for row in rows if row[0] is not None]
+            conn.close()
 
             logger.info(f"信頼度データ取得完了: {len(confidences)}件")
             return confidences
@@ -260,23 +266,49 @@ class DataVisualizer:
             return {"error": str(e)}
 
     def export_data_csv(self, save_path: Optional[str] = None) -> str:
-        """データCSVエクスポート"""
+        """データCSVエクスポート - プロンプトとカテゴリ情報を結合して出力"""
         try:
-            data = self.db_manager.get_all_prompts()
+            # プロンプトデータを取得
+            prompts_data = self.db_manager.get_all_prompts()
 
-            if not data:
+            if not prompts_data:
                 logger.warning("エクスポートするデータがありません")
                 return ""
 
+            # カテゴリ情報を結合するため、SQLクエリで結合データを取得
+            conn = sqlite3.connect(self.db_manager.db_path)
+            cursor = conn.cursor()
+
+            cursor.execute('''
+                SELECT
+                    p.civitai_id,
+                    p.full_prompt,
+                    p.negative_prompt,
+                    p.quality_score,
+                    p.reaction_count,
+                    p.comment_count,
+                    p.download_count,
+                    p.model_name,
+                    p.collected_at,
+                    c.category,
+                    c.confidence
+                FROM civitai_prompts p
+                LEFT JOIN prompt_categories c ON p.id = c.prompt_id
+            ''')
+
+            rows = cursor.fetchall()
+            columns = [description[0] for description in cursor.description]
+
             # DataFrame作成
-            df = pd.DataFrame(data)
+            df = pd.DataFrame(rows, columns=columns)
+            conn.close()
 
             # 保存
             if not save_path:
-                save_path = self.output_dir / "prompt_data.csv"
+                save_path = self.output_dir / "prompt_data_with_categories.csv"
 
             df.to_csv(save_path, index=False, encoding='utf-8-sig')
-            logger.info(f"CSVエクスポート完了: {save_path} ({len(data)}件)")
+            logger.info(f"CSVエクスポート完了: {save_path} ({len(df)}件)")
 
             return str(save_path)
 
