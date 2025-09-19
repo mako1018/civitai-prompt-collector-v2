@@ -369,5 +369,75 @@ def test_categorizer():
     for category, count in distribution.items():
         print(f"{category}: {count}件")
 
+def process_database_prompts():
+    """データベースから実際のプロンプトを取得して分類"""
+    try:
+        # データベース接続
+        try:
+            from database import DatabaseManager
+        except ImportError:
+            from .database import DatabaseManager
+
+        db = DatabaseManager()
+        categorizer = PromptCategorizer()
+
+        # データベースからプロンプトを取得
+        prompts_data = db.get_all_prompts()
+
+        if not prompts_data:
+            print("データベースにプロンプトが見つかりません")
+            print("先に collector.py を実行してデータを収集してください")
+            return
+
+        print(f"データベースから {len(prompts_data)} 件のプロンプトを取得")
+
+        # プロンプト分類
+        classified_count = 0
+        for prompt_data in prompts_data:
+            full_prompt = prompt_data.get('full_prompt', '')
+            if not full_prompt:
+                continue
+
+            result = categorizer.classify(full_prompt)
+
+            # 分類結果をデータベースに保存
+            prompt_id = prompt_data.get('id')
+            if prompt_id:
+                categories_data = {
+                    result.category: {
+                        "keywords": result.matched_keywords,
+                        "confidence": result.confidence
+                    }
+                }
+
+                if db.save_prompt_categories(prompt_id, categories_data):
+                    classified_count += 1
+
+        print(f"分類完了: {classified_count} 件")
+
+        # 分布統計表示
+        prompts_text = [p.get('full_prompt', '') for p in prompts_data if p.get('full_prompt')]
+        distribution = categorizer.get_category_distribution(prompts_text)
+
+        print("\n=== カテゴリ分布 ===")
+        for category, count in distribution.items():
+            print(f"{category}: {count}件")
+
+        print(f"\n次は visualizer.py を実行してグラフを生成してください")
+
+    except Exception as e:
+        print(f"エラー: {e}")
+
+def main():
+    """メイン関数"""
+    import sys
+
+    if len(sys.argv) > 1 and sys.argv[1] == "--test":
+        # テストモード
+        test_categorizer()
+    else:
+        # 実データ処理モード
+        process_database_prompts()
+
 if __name__ == "__main__":
-    test_categorizer()
+    main()
