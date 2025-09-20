@@ -10,7 +10,7 @@ import os
 from datetime import datetime
 from typing import Dict, List, Optional, Any
 
-from config import DEFAULT_DB_PATH, DB_SCHEMA
+from .config import DEFAULT_DB_PATH, DB_SCHEMA
 
 
 class DatabaseManager:
@@ -26,6 +26,23 @@ class DatabaseManager:
         db_dir = os.path.dirname(self.db_path)
         if db_dir and not os.path.exists(db_dir):
             os.makedirs(db_dir)
+
+    # 互換性メソッド: Streamlit UI が期待するインターフェースを提供
+    def _get_connection(self):
+        """内部用: 生の sqlite3.Connection を返す"""
+        return sqlite3.connect(self.db_path)
+
+    def get_prompt_count(self) -> int:
+        """保存されているプロンプトの総数を返す (Streamlit UI 互換)"""
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            cursor.execute('SELECT COUNT(*) FROM civitai_prompts')
+            count = cursor.fetchone()[0]
+            conn.close()
+            return count
+        except Exception:
+            return 0
     
     def setup_database(self):
         """データベースとテーブルを作成"""
