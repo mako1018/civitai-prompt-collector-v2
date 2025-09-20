@@ -19,7 +19,7 @@ sys.path.insert(0, str(project_root))
 try:
     from src.config import CATEGORIES, DEFAULT_DB_PATH
     from src.database import DatabaseManager
-    from src.visualizer import VisualizationManager
+    from src.visualizer import DataVisualizer
 except ImportError:
     st.error("モジュールの読み込みに失敗しました。プロジェクト構造を確認してください。")
     st.stop()
@@ -71,16 +71,16 @@ def load_data():
         query = """
         SELECT
             p.id,
-            p.positive_prompt,
+            p.full_prompt,
             p.negative_prompt,
             p.model_name,
             p.model_id,
-            p.created_at,
+            p.collected_at,
             pc.category,
             pc.confidence
         FROM civitai_prompts p
         LEFT JOIN prompt_categories pc ON p.id = pc.prompt_id
-        ORDER BY p.created_at DESC
+        ORDER BY p.collected_at DESC
         """
 
         conn = db_manager._get_connection()
@@ -128,7 +128,9 @@ def create_category_distribution_chart(df):
         return None
 
     category_counts = df['category'].value_counts()
-
+    # Convert to DataFrame for plotly
+    df_counts = category_counts.rename_axis('category').reset_index(name='count')
+    
     # カラーマップ
     colors = {
         'NSFW': '#ff6b6b',
@@ -141,11 +143,12 @@ def create_category_distribution_chart(df):
     }
 
     fig = px.pie(
-        values=category_counts.values,
-        names=category_counts.index,
+        data_frame=df_counts,
+        names='category',
+        values='count',
         title="カテゴリ分布",
         color_discrete_map=colors,
-        hover_data=['value']
+        hover_data=['count']
     )
 
     fig.update_traces(textposition='inside', textinfo='percent+label')
@@ -192,15 +195,15 @@ def display_prompt_card(row):
             <div style="margin-bottom: 0.5rem;">
                 <strong>モデル:</strong> {row['model_name']} (ID: {row['model_id']})
             </div>
-            <div style="margin-bottom: 0.5rem;">
-                <strong>作成日:</strong> {row['created_at']}
+                <div style="margin-bottom: 0.5rem;">
+                <strong>作成日:</strong> {row.get('collected_at', '')}
             </div>
         </div>
         """, unsafe_allow_html=True)
 
         # プロンプト内容をexpanderで表示
         with st.expander("プロンプト詳細を表示"):
-            st.text_area("ポジティブプロンプト", value=row['positive_prompt'], height=100, disabled=True)
+            st.text_area("ポジティブプロンプト", value=row.get('full_prompt', ''), height=100, disabled=True)
             if pd.notna(row['negative_prompt']) and row['negative_prompt'].strip():
                 st.text_area("ネガティブプロンプト", value=row['negative_prompt'], height=80, disabled=True)
 
