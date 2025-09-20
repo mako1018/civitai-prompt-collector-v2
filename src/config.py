@@ -12,7 +12,8 @@ CIVITAI_API_KEY = "1fa8d053c6d7623478f19f3f098d0bf8"
 USER_AGENT = "CivitaiPromptCollector/2.0"
 
 # データベース設定
-DEFAULT_DB_PATH = "src/data/civitai_dataset.db"
+# Use project root `data/` directory for canonical DB location
+DEFAULT_DB_PATH = "data/civitai_dataset.db"
 
 # API設定
 API_BASE_URL = "https://civitai.com/api/v1/images"
