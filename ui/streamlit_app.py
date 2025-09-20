@@ -130,7 +130,7 @@ def create_category_distribution_chart(df):
     category_counts = df['category'].value_counts()
     # Convert to DataFrame for plotly
     df_counts = category_counts.rename_axis('category').reset_index(name='count')
-    
+
     # カラーマップ
     colors = {
         'NSFW': '#ff6b6b',
