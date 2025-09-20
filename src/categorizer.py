@@ -1,6 +1,7 @@
 """
 プロンプト自動分類モジュール
-CivitAIから収集したプロンプトを6カテゴリに自動分類
+CivitAIから収集したプロンプトを正しい6カテゴリに自動分類
+NSFW, style, lighting, composition, mood, basic, technical
 """
 
 import re
@@ -17,12 +18,13 @@ except ImportError:
     except ImportError:
         # config.pyが存在しない場合の暫定対応
         CATEGORIES = [
-            "Character",
-            "Style",
-            "Environment",
-            "Technical",
-            "Objects",
-            "Artistic"
+            "NSFW",
+            "style",
+            "lighting",
+            "composition",
+            "mood",
+            "basic",
+            "technical"
         ]
 
 logger = logging.getLogger(__name__)
@@ -35,7 +37,7 @@ class ClassificationResult:
     matched_keywords: List[str]
 
 class PromptCategorizer:
-    """プロンプト分類器"""
+    """プロンプト分類器 - 正しいカテゴリ定義版"""
 
     def __init__(self):
         """初期化: カテゴリ別キーワード定義を読み込み"""
@@ -43,122 +45,135 @@ class PromptCategorizer:
         self.confidence_weights = self._load_confidence_weights()
 
     def _load_category_keywords(self) -> Dict[str, List[str]]:
-        """カテゴリ別キーワードを定義"""
+        """正しいカテゴリ別キーワードを定義"""
         return {
-            "Character": [
-                # 人物・キャラクター関連
-                "girl", "woman", "man", "boy", "character", "person", "people",
-                "face", "portrait", "beautiful", "cute", "handsome", "sexy",
-                "anime", "manga", "waifu", "husbando", "idol", "model",
-                "cosplay", "uniform", "dress", "clothing", "outfit",
-                "hair", "eyes", "smile", "expression", "pose", "standing",
-                "sitting", "lying", "walking", "running", "dancing",
-                # 年齢・属性
-                "teen", "young", "adult", "mature", "old", "child",
-                "male", "female", "non-binary", "transgender",
-                # 職業・役割
-                "teacher", "student", "nurse", "maid", "warrior", "knight",
-                "princess", "queen", "king", "priest", "witch", "demon",
-                "angel", "vampire", "elf", "catgirl", "foxgirl"
+            "NSFW": [
+                # 成人向けコンテンツ
+                "nsfw", "explicit", "nude", "naked", "pussy""topless", "bottomless",
+                "nipples", "breasts", "cleavage", "underwear", "lingerie", "bikini",
+                "swimsuit", "revealing", "exposed", "uncensored", "18+", "adult",
+                "erotic", "sexual", "seductive", "provocative", "suggestive",
+                "pantyhose", "stockings", "thong", "bra", "panties", "see-through",
+                "transparent", "wet clothes", "tight clothes", "short dress",
+                "mini skirt", "low cut", "deep neckline", "bare shoulders",
+                "midriff", "belly", "navel", "partial nudity", "sideboob",
+                "underboob", "cameltoe", "upskirt", "downblouse", "wardrobe malfunction"
             ],
 
-            "Style": [
-                # アートスタイル
+            "style": [
+                # アートスタイル・技法
                 "realistic", "photorealistic", "hyperrealistic", "photography",
                 "anime", "manga", "cartoon", "illustration", "painting",
-                "digital art", "concept art", "sketch", "line art",
-                "watercolor", "oil painting", "acrylic", "pencil drawing",
-                "3d render", "cgi", "unreal engine", "blender",
-                # アーティスト・スタジオ
+                "digital art", "concept art", "sketch", "line art", "cel shading",
+                "watercolor", "oil painting", "acrylic", "pencil drawing", "charcoal",
+                "3d render", "cgi", "unreal engine", "blender", "maya",
                 "studio ghibli", "pixar", "disney", "makoto shinkai",
-                "hayao miyazaki", "artstation", "deviantart",
-                # 写真・映像スタイル
+                "hayao miyazaki", "artstation", "deviantart", "pixiv",
                 "cinematic", "film", "movie", "documentary", "vintage",
                 "retro", "modern", "futuristic", "cyberpunk", "steampunk",
-                "gothic", "baroque", "renaissance", "impressionist",
-                # 品質・技術用語
-                "masterpiece", "best quality", "high quality", "detailed",
-                "ultra detailed", "extremely detailed", "intricate",
-                "sharp focus", "professional", "award winning"
+                "gothic", "baroque", "renaissance", "impressionist", "abstract",
+                "surreal", "pop art", "minimalist", "maximalist", "grunge"
             ],
 
-            "Environment": [
-                # 場所・環境
-                "background", "scenery", "landscape", "cityscape", "seascape",
-                "indoor", "outdoor", "room", "bedroom", "kitchen", "bathroom",
-                "office", "school", "classroom", "library", "cafe", "restaurant",
-                "park", "garden", "forest", "mountain", "beach", "ocean",
-                "city", "town", "village", "street", "road", "building",
-                "house", "castle", "temple", "shrine", "church", "bridge",
-                "sky", "clouds", "sun", "moon", "stars", "night", "day",
-                "sunset", "sunrise", "rain", "snow", "storm", "weather",
-                # 架空・ファンタジー環境
-                "fantasy", "magical", "enchanted", "mystical", "ethereal",
-                "otherworldly", "dimensional", "space", "alien planet",
-                "underwater", "underground", "heaven", "hell", "limbo"
+            "lighting": [
+                # ライティング・照明
+                "lighting", "light", "illumination", "brightness", "darkness",
+                "natural light", "artificial light", "studio lighting", "professional lighting",
+                "soft light", "hard light", "diffused light", "directional light",
+                "rim light", "backlighting", "front lighting", "side lighting",
+                "top lighting", "bottom lighting", "ambient light", "fill light",
+                "key light", "bounce light", "reflected light", "harsh light",
+                "gentle light", "warm light", "cool light", "colored light",
+                "golden hour", "blue hour", "magic hour", "sunset lighting",
+                "sunrise lighting", "noon lighting", "twilight", "dusk", "dawn",
+                "candlelight", "firelight", "moonlight", "starlight", "neon light",
+                "led light", "fluorescent", "incandescent", "spotlight", "floodlight",
+                "dramatic lighting", "moody lighting", "atmospheric lighting",
+                "cinematic lighting", "volumetric lighting", "god rays", "lens flare",
+                "shadow", "shadows", "cast shadow", "drop shadow", "silhouette",
+                "contrast", "high contrast", "low contrast", "chiaroscuro"
             ],
 
-            "Technical": [
-                # カメラ・撮影技術
-                "camera", "lens", "focal length", "aperture", "depth of field",
-                "bokeh", "macro", "wide angle", "telephoto", "fisheye",
-                "close up", "medium shot", "long shot", "establishing shot",
-                "pov", "first person", "third person", "overhead", "aerial",
-                "low angle", "high angle", "dutch angle", "tracking shot",
-                # ライティング
-                "lighting", "natural light", "artificial light", "studio lighting",
-                "soft light", "hard light", "rim light", "backlighting",
-                "golden hour", "blue hour", "neon", "candlelight", "firelight",
-                "dramatic lighting", "moody", "atmospheric", "ambient",
-                # 色彩・構図
-                "composition", "rule of thirds", "symmetry", "asymmetry",
-                "leading lines", "framing", "negative space", "balance",
-                "color palette", "monochrome", "black and white", "sepia",
-                "vibrant", "muted", "saturated", "desaturated", "contrast",
-                # 解像度・品質
-                "4k", "8k", "hd", "uhd", "high resolution", "low resolution",
-                "pixelated", "blurry", "noise", "grain", "smooth", "crisp"
+            "composition": [
+                # 構図・カメラアングル・フレーミング
+                "composition", "framing", "frame", "angle", "perspective", "viewpoint",
+                "camera angle", "shot", "view", "position", "placement",
+                "close up", "close-up", "macro", "extreme close up", "medium shot",
+                "medium close up", "long shot", "wide shot", "full shot",
+                "establishing shot", "master shot", "two shot", "over shoulder",
+                "point of view", "pov", "first person", "third person",
+                "bird's eye view", "aerial view", "overhead view", "top view",
+                "worm's eye view", "low angle", "high angle", "eye level",
+                "dutch angle", "tilted", "canted", "diagonal", "straight",
+                "centered", "off-center", "symmetrical", "asymmetrical",
+                "rule of thirds", "golden ratio", "leading lines", "vanishing point",
+                "foreground", "middle ground", "background", "depth of field",
+                "shallow focus", "deep focus", "bokeh", "blur", "sharp focus",
+                "negative space", "positive space", "balance", "imbalance",
+                "cropped", "full body", "half body", "head and shoulders",
+                "portrait", "landscape", "square", "panoramic", "wide angle",
+                "telephoto", "fisheye", "tilt shift"
             ],
 
-            "Objects": [
-                # 日用品・道具
-                "object", "item", "tool", "weapon", "sword", "gun", "bow",
-                "shield", "armor", "helmet", "crown", "jewelry", "ring",
-                "necklace", "earrings", "bracelet", "watch", "glasses",
-                "hat", "cap", "bag", "backpack", "purse", "wallet",
-                "phone", "computer", "laptop", "tablet", "camera", "book",
-                "pen", "pencil", "paper", "notebook", "diary", "letter",
-                # 食べ物・飲み物
-                "food", "drink", "meal", "breakfast", "lunch", "dinner",
-                "snack", "dessert", "cake", "cookie", "bread", "rice",
-                "noodles", "soup", "salad", "fruit", "vegetable", "meat",
-                "coffee", "tea", "juice", "water", "wine", "beer", "sake",
-                # 乗り物・機械
-                "car", "bike", "motorcycle", "train", "plane", "ship", "boat",
-                "robot", "mecha", "android", "cyborg", "machine", "engine",
-                # 自然物
-                "flower", "tree", "plant", "rock", "stone", "crystal", "gem",
-                "fire", "water", "ice", "wind", "earth", "metal", "wood"
+            "mood": [
+                # 雰囲気・感情・トーン
+                "mood", "atmosphere", "feeling", "emotion", "tone", "vibe",
+                "ambience", "ambiance", "aura", "energy", "spirit",
+                "happy", "joyful", "cheerful", "upbeat", "positive", "optimistic",
+                "sad", "melancholic", "sorrowful", "depressing", "gloomy", "somber",
+                "angry", "aggressive", "fierce", "intense", "violent", "rage",
+                "calm", "peaceful", "serene", "tranquil", "relaxed", "zen",
+                "mysterious", "enigmatic", "cryptic", "secretive", "hidden",
+                "scary", "frightening", "terrifying", "horrifying", "spooky", "eerie",
+                "romantic", "loving", "passionate", "intimate", "tender", "sweet",
+                "dramatic", "theatrical", "epic", "grand", "majestic", "powerful",
+                "nostalgic", "wistful", "longing", "reminiscent", "bittersweet",
+                "dreamy", "ethereal", "surreal", "fantastical", "whimsical",
+                "dark", "moody", "brooding", "ominous", "foreboding", "sinister",
+                "bright", "vibrant", "lively", "energetic", "dynamic", "explosive",
+                "soft", "gentle", "delicate", "subtle", "muted", "understated",
+                "bold", "striking", "dramatic", "vivid", "saturated", "intense"
             ],
 
-            "Artistic": [
-                # 芸術的表現
-                "artistic", "creative", "expressive", "abstract", "surreal",
-                "impressionistic", "expressionistic", "cubist", "pop art",
-                "street art", "graffiti", "mural", "sculpture", "statue",
-                "installation", "performance art", "conceptual art",
-                # 装飾・パターン
-                "pattern", "texture", "ornament", "decoration", "design",
-                "geometric", "organic", "floral", "tribal", "celtic",
-                "mandala", "fractal", "kaleidoscope", "mosaic", "collage",
-                # 象徴・メタファー
-                "symbolic", "metaphorical", "allegorical", "mythological",
-                "spiritual", "religious", "sacred", "divine", "transcendent",
-                "dream", "nightmare", "vision", "hallucination", "trance",
-                # 感情・雰囲気
-                "emotional", "melancholic", "nostalgic", "romantic", "dramatic",
-                "mysterious", "ominous", "peaceful", "chaotic", "serene",
-                "intense", "gentle", "bold", "subtle", "elegant", "rustic"
+            "basic": [
+                # 基本的な品質・技術用語
+                "masterpiece", "best quality", "high quality", "ultra quality",
+                "highest quality", "premium quality", "professional quality",
+                "detailed", "ultra detailed", "extremely detailed", "highly detailed",
+                "intricate", "complex", "elaborate", "sophisticated", "refined",
+                "sharp", "crisp", "clear", "clean", "smooth", "polished",
+                "perfect", "flawless", "immaculate", "pristine", "impeccable",
+                "beautiful", "gorgeous", "stunning", "amazing", "incredible",
+                "spectacular", "breathtaking", "magnificent", "excellent",
+                "outstanding", "exceptional", "remarkable", "impressive",
+                "vivid", "vibrant", "rich", "deep", "intense", "saturated",
+                "realistic", "lifelike", "natural", "authentic", "genuine",
+                "award winning", "professional", "expert", "skillful", "masterful",
+                "artistic", "creative", "original", "unique", "innovative",
+                "stylish", "elegant", "graceful", "sophisticated", "classy"
+            ],
+
+            "technical": [
+                # 技術仕様・解像度・カメラ設定
+                "4k", "8k", "16k", "32k", "hd", "uhd", "full hd", "2k",
+                "high resolution", "ultra high resolution", "high res", "ultra high res",
+                "low resolution", "low res", "pixelated", "pixel art", "retro pixel",
+                "resolution", "dpi", "ppi", "pixel", "megapixel", "mp",
+                "aspect ratio", "16:9", "4:3", "1:1", "21:9", "ultrawide",
+                "vertical", "horizontal", "square", "panoramic", "widescreen",
+                "camera", "lens", "focal length", "aperture", "f-stop", "f/1.4", "f/2.8",
+                "iso", "shutter speed", "exposure", "overexposed", "underexposed",
+                "white balance", "color temperature", "kelvin", "daylight", "tungsten",
+                "macro lens", "wide angle lens", "telephoto lens", "prime lens",
+                "zoom lens", "fisheye lens", "tilt-shift lens", "portrait lens",
+                "canon", "nikon", "sony", "fujifilm", "leica", "pentax", "olympus",
+                "dslr", "mirrorless", "film camera", "digital camera", "medium format",
+                "35mm", "full frame", "crop sensor", "aps-c", "micro four thirds",
+                "raw", "jpeg", "tiff", "png", "bmp", "gif", "webp",
+                "noise", "grain", "chromatic aberration", "vignetting", "distortion",
+                "sharpness", "contrast", "saturation", "vibrance", "clarity",
+                "highlights", "shadows", "midtones", "blacks", "whites",
+                "hdr", "dynamic range", "tone mapping", "exposure bracketing"
             ]
         }
 
@@ -183,7 +198,7 @@ class PromptCategorizer:
             ClassificationResult: 分類結果
         """
         if not prompt or not prompt.strip():
-            return ClassificationResult("Character", 0.0, [])
+            return ClassificationResult("basic", 0.0, [])
 
         # プロンプトを正規化
         normalized_prompt = self._normalize_prompt(prompt)
@@ -292,7 +307,7 @@ class PromptCategorizer:
             except Exception as e:
                 logger.error(f"プロンプト分類エラー: {e}")
                 # エラー時はデフォルトカテゴリ
-                results.append(ClassificationResult("Character", 0.0, []))
+                results.append(ClassificationResult("basic", 0.0, []))
 
         return results
 
@@ -347,12 +362,13 @@ def test_categorizer():
     categorizer = PromptCategorizer()
 
     test_prompts = [
-        "beautiful anime girl with long hair",
-        "photorealistic portrait photography",
-        "cyberpunk city at night with neon lights",
-        "professional camera settings, 4k resolution",
-        "magical sword with glowing crystals",
-        "abstract art with vibrant colors"
+        "masterpiece, best quality, 1girl, beautiful",
+        "nsfw, nude, explicit content, adult",
+        "cinematic lighting, dramatic shadows, golden hour",
+        "close up portrait, rule of thirds, shallow depth of field",
+        "dark moody atmosphere, mysterious, gothic",
+        "oil painting style, realistic, detailed brushwork",
+        "4k resolution, high quality, professional photography"
     ]
 
     print("=== プロンプト分類テスト ===")
@@ -390,6 +406,16 @@ def process_database_prompts():
             return
 
         print(f"データベースから {len(prompts_data)} 件のプロンプトを取得")
+        print("正しいカテゴリ(NSFW, style, lighting, composition, mood, basic, technical)で再分類中...")
+
+        # 既存の分類データを削除（再分類のため）
+        import sqlite3
+        conn = sqlite3.connect(db.db_path)
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM prompt_categories')
+        conn.commit()
+        conn.close()
+        print("既存の分類データをクリア完了")
 
         # プロンプト分類
         classified_count = 0
@@ -413,17 +439,17 @@ def process_database_prompts():
                 if db.save_prompt_categories(prompt_id, categories_data):
                     classified_count += 1
 
-        print(f"分類完了: {classified_count} 件")
+        print(f"再分類完了: {classified_count} 件")
 
         # 分布統計表示
         prompts_text = [p.get('full_prompt', '') for p in prompts_data if p.get('full_prompt')]
         distribution = categorizer.get_category_distribution(prompts_text)
 
-        print("\n=== カテゴリ分布 ===")
+        print("\n=== 正しいカテゴリ分布 ===")
         for category, count in distribution.items():
             print(f"{category}: {count}件")
 
-        print(f"\n次は visualizer.py を実行してグラフを生成してください")
+        print(f"\n次は python main.py --visualize-only を実行してグラフを生成してください")
 
     except Exception as e:
         print(f"エラー: {e}")

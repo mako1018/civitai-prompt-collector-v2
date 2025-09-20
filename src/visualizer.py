@@ -1,377 +1,469 @@
 """
-CivitAI Prompt Collector - Data Visualization Module
-データ可視化とグラフ生成を担当
+プロンプト自動分類モジュール
+CivitAIから収集したプロンプトを正しい6カテゴリに自動分類
+NSFW, style, lighting, composition, mood, basic, technical
 """
 
-import matplotlib.pyplot as plt
-import seaborn as sns
-import pandas as pd
-import numpy as np
-import sqlite3
-from pathlib import Path
+import re
 from typing import Dict, List, Tuple, Optional
+from dataclasses import dataclass
 import logging
 
+# 一時的にCATEGORIESを直接定義（config.pyが未作成の場合）
 try:
-    from .database import DatabaseManager
     from .config import CATEGORIES
 except ImportError:
     try:
-        from database import DatabaseManager
-        from config import CATEGORIES
+        from src.config import CATEGORIES
     except ImportError:
-        # プロジェクトルートからの実行用
-        import sys
-        from pathlib import Path
-        sys.path.append(str(Path(__file__).parent))
-        from database import DatabaseManager
-        from config import CATEGORIES
+        # config.pyが存在しない場合の暫定対応
+        CATEGORIES = [
+            "NSFW",
+            "style",
+            "lighting",
+            "composition",
+            "mood",
+            "basic",
+            "technical"
+        ]
 
-# 日本語フォント設定（Windows環境対応）
-plt.rcParams['font.family'] = ['DejaVu Sans', 'Yu Gothic', 'Hiragino Sans', 'Meiryo']
-plt.rcParams['figure.figsize'] = (10, 6)
-plt.rcParams['figure.dpi'] = 100
-
-# ログ設定
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-class DataVisualizer:
-    """データ可視化クラス"""
+@dataclass
+class ClassificationResult:
+    """分類結果を格納するデータクラス"""
+    category: str
+    confidence: float
+    matched_keywords: List[str]
 
-    def __init__(self, db_manager: Optional[DatabaseManager] = None):
-        """初期化"""
-        self.db_manager = db_manager or DatabaseManager()
-        self.output_dir = Path("data/visualizations")
-        self.output_dir.mkdir(parents=True, exist_ok=True)
+class PromptCategorizer:
+    """プロンプト分類器 - 正しいカテゴリ定義版"""
 
-        # カテゴリ色設定
-        self.category_colors = {
-            'Character': '#FF6B6B',
-            'Style': '#4ECDC4',
-            'Environment': '#45B7D1',
-            'Technical': '#96CEB4',
-            'Objects': '#FECA57',
-            'Artistic': '#FF9FF3'
+    def __init__(self):
+        """初期化: カテゴリ別キーワード定義を読み込み"""
+        self.category_keywords = self._load_category_keywords()
+        self.confidence_weights = self._load_confidence_weights()
+
+    def _load_category_keywords(self) -> Dict[str, List[str]]:
+        """正しいカテゴリ別キーワードを定義"""
+        return {
+            "NSFW": [
+                # 成人向けコンテンツ
+                "nsfw", "explicit", "nude", "naked", "topless", "bottomless",
+                "nipples", "breasts", "cleavage", "underwear", "lingerie", "bikini",
+                "swimsuit", "revealing", "exposed", "uncensored", "18+", "adult",
+                "erotic", "sexual", "seductive", "provocative", "suggestive",
+                "pantyhose", "stockings", "thong", "bra", "panties", "see-through",
+                "transparent", "wet clothes", "tight clothes", "short dress",
+                "mini skirt", "low cut", "deep neckline", "bare shoulders",
+                "midriff", "belly", "navel", "partial nudity", "sideboob",
+                "underboob", "cameltoe", "upskirt", "downblouse", "wardrobe malfunction"
+            ],
+
+            "style": [
+                # アートスタイル・技法
+                "realistic", "photorealistic", "hyperrealistic", "photography",
+                "anime", "manga", "cartoon", "illustration", "painting",
+                "digital art", "concept art", "sketch", "line art", "cel shading",
+                "watercolor", "oil painting", "acrylic", "pencil drawing", "charcoal",
+                "3d render", "cgi", "unreal engine", "blender", "maya",
+                "studio ghibli", "pixar", "disney", "makoto shinkai",
+                "hayao miyazaki", "artstation", "deviantart", "pixiv",
+                "cinematic", "film", "movie", "documentary", "vintage",
+                "retro", "modern", "futuristic", "cyberpunk", "steampunk",
+                "gothic", "baroque", "renaissance", "impressionist", "abstract",
+                "surreal", "pop art", "minimalist", "maximalist", "grunge"
+            ],
+
+            "lighting": [
+                # ライティング・照明
+                "lighting", "light", "illumination", "brightness", "darkness",
+                "natural light", "artificial light", "studio lighting", "professional lighting",
+                "soft light", "hard light", "diffused light", "directional light",
+                "rim light", "backlighting", "front lighting", "side lighting",
+                "top lighting", "bottom lighting", "ambient light", "fill light",
+                "key light", "bounce light", "reflected light", "harsh light",
+                "gentle light", "warm light", "cool light", "colored light",
+                "golden hour", "blue hour", "magic hour", "sunset lighting",
+                "sunrise lighting", "noon lighting", "twilight", "dusk", "dawn",
+                "candlelight", "firelight", "moonlight", "starlight", "neon light",
+                "led light", "fluorescent", "incandescent", "spotlight", "floodlight",
+                "dramatic lighting", "moody lighting", "atmospheric lighting",
+                "cinematic lighting", "volumetric lighting", "god rays", "lens flare",
+                "shadow", "shadows", "cast shadow", "drop shadow", "silhouette",
+                "contrast", "high contrast", "low contrast", "chiaroscuro"
+            ],
+
+            "composition": [
+                # 構図・カメラアングル・フレーミング
+                "composition", "framing", "frame", "angle", "perspective", "viewpoint",
+                "camera angle", "shot", "view", "position", "placement",
+                "close up", "close-up", "macro", "extreme close up", "medium shot",
+                "medium close up", "long shot", "wide shot", "full shot",
+                "establishing shot", "master shot", "two shot", "over shoulder",
+                "point of view", "pov", "first person", "third person",
+                "bird's eye view", "aerial view", "overhead view", "top view",
+                "worm's eye view", "low angle", "high angle", "eye level",
+                "dutch angle", "tilted", "canted", "diagonal", "straight",
+                "centered", "off-center", "symmetrical", "asymmetrical",
+                "rule of thirds", "golden ratio", "leading lines", "vanishing point",
+                "foreground", "middle ground", "background", "depth of field",
+                "shallow focus", "deep focus", "bokeh", "blur", "sharp focus",
+                "negative space", "positive space", "balance", "imbalance",
+                "cropped", "full body", "half body", "head and shoulders",
+                "portrait", "landscape", "square", "panoramic", "wide angle",
+                "telephoto", "fisheye", "tilt shift"
+            ],
+
+            "mood": [
+                # 雰囲気・感情・トーン
+                "mood", "atmosphere", "feeling", "emotion", "tone", "vibe",
+                "ambience", "ambiance", "aura", "energy", "spirit",
+                "happy", "joyful", "cheerful", "upbeat", "positive", "optimistic",
+                "sad", "melancholic", "sorrowful", "depressing", "gloomy", "somber",
+                "angry", "aggressive", "fierce", "intense", "violent", "rage",
+                "calm", "peaceful", "serene", "tranquil", "relaxed", "zen",
+                "mysterious", "enigmatic", "cryptic", "secretive", "hidden",
+                "scary", "frightening", "terrifying", "horrifying", "spooky", "eerie",
+                "romantic", "loving", "passionate", "intimate", "tender", "sweet",
+                "dramatic", "theatrical", "epic", "grand", "majestic", "powerful",
+                "nostalgic", "wistful", "longing", "reminiscent", "bittersweet",
+                "dreamy", "ethereal", "surreal", "fantastical", "whimsical",
+                "dark", "moody", "brooding", "ominous", "foreboding", "sinister",
+                "bright", "vibrant", "lively", "energetic", "dynamic", "explosive",
+                "soft", "gentle", "delicate", "subtle", "muted", "understated",
+                "bold", "striking", "dramatic", "vivid", "saturated", "intense"
+            ],
+
+            "basic": [
+                # 基本的な品質・技術用語
+                "masterpiece", "best quality", "high quality", "ultra quality",
+                "highest quality", "premium quality", "professional quality",
+                "detailed", "ultra detailed", "extremely detailed", "highly detailed",
+                "intricate", "complex", "elaborate", "sophisticated", "refined",
+                "sharp", "crisp", "clear", "clean", "smooth", "polished",
+                "perfect", "flawless", "immaculate", "pristine", "impeccable",
+                "beautiful", "gorgeous", "stunning", "amazing", "incredible",
+                "spectacular", "breathtaking", "magnificent", "excellent",
+                "outstanding", "exceptional", "remarkable", "impressive",
+                "vivid", "vibrant", "rich", "deep", "intense", "saturated",
+                "realistic", "lifelike", "natural", "authentic", "genuine",
+                "award winning", "professional", "expert", "skillful", "masterful",
+                "artistic", "creative", "original", "unique", "innovative",
+                "stylish", "elegant", "graceful", "sophisticated", "classy"
+            ],
+
+            "technical": [
+                # 技術仕様・解像度・カメラ設定
+                "4k", "8k", "16k", "32k", "hd", "uhd", "full hd", "2k",
+                "high resolution", "ultra high resolution", "high res", "ultra high res",
+                "low resolution", "low res", "pixelated", "pixel art", "retro pixel",
+                "resolution", "dpi", "ppi", "pixel", "megapixel", "mp",
+                "aspect ratio", "16:9", "4:3", "1:1", "21:9", "ultrawide",
+                "vertical", "horizontal", "square", "panoramic", "widescreen",
+                "camera", "lens", "focal length", "aperture", "f-stop", "f/1.4", "f/2.8",
+                "iso", "shutter speed", "exposure", "overexposed", "underexposed",
+                "white balance", "color temperature", "kelvin", "daylight", "tungsten",
+                "macro lens", "wide angle lens", "telephoto lens", "prime lens",
+                "zoom lens", "fisheye lens", "tilt-shift lens", "portrait lens",
+                "canon", "nikon", "sony", "fujifilm", "leica", "pentax", "olympus",
+                "dslr", "mirrorless", "film camera", "digital camera", "medium format",
+                "35mm", "full frame", "crop sensor", "aps-c", "micro four thirds",
+                "raw", "jpeg", "tiff", "png", "bmp", "gif", "webp",
+                "noise", "grain", "chromatic aberration", "vignetting", "distortion",
+                "sharpness", "contrast", "saturation", "vibrance", "clarity",
+                "highlights", "shadows", "midtones", "blacks", "whites",
+                "hdr", "dynamic range", "tone mapping", "exposure bracketing"
+            ]
         }
 
-    def get_category_distribution(self) -> Dict[str, int]:
-        """カテゴリ別分布データを取得 - prompt_categoriesテーブルから正しくデータを取得"""
-        try:
-            # データベースから既存の統計機能を使用
-            stats = self.db_manager.get_category_statistics()
-            distribution = {}
+    def _load_confidence_weights(self) -> Dict[str, float]:
+        """信頼度計算用の重み設定"""
+        return {
+            "exact_match": 1.0,      # 完全一致
+            "partial_match": 0.7,    # 部分一致
+            "keyword_density": 2.0,   # キーワード密度ボーナス
+            "category_specificity": 1.5,  # カテゴリ特異性ボーナス
+            "length_penalty": 0.1     # 長いプロンプトのペナルティ
+        }
 
-            # 全モデルの統計を合計
-            for model_stats in stats.values():
-                for category, count in model_stats.items():
-                    distribution[category] = distribution.get(category, 0) + count
+    def classify(self, prompt: str) -> ClassificationResult:
+        """
+        プロンプトを分類
 
-            logger.info(f"カテゴリ分布データ取得完了: {sum(distribution.values())}件")
-            return distribution
+        Args:
+            prompt: 分類するプロンプトテキスト
 
-        except Exception as e:
-            logger.error(f"分布データ取得エラー: {e}")
-            return {}
+        Returns:
+            ClassificationResult: 分類結果
+        """
+        if not prompt or not prompt.strip():
+            return ClassificationResult("basic", 0.0, [])
 
-    def get_confidence_data(self) -> List[float]:
-        """信頼度データを取得 - prompt_categoriesテーブルから信頼度を取得"""
-        try:
-            # SQLクエリで直接prompt_categoriesテーブルから信頼度取得
-            conn = sqlite3.connect(self.db_manager.db_path)
-            cursor = conn.cursor()
+        # プロンプトを正規化
+        normalized_prompt = self._normalize_prompt(prompt)
 
-            cursor.execute('SELECT confidence FROM prompt_categories WHERE confidence IS NOT NULL')
-            rows = cursor.fetchall()
+        # 各カテゴリのスコアを計算
+        category_scores = {}
+        category_matches = {}
 
-            confidences = [float(row[0]) for row in rows if row[0] is not None]
-            conn.close()
+        for category, keywords in self.category_keywords.items():
+            score, matches = self._calculate_category_score(
+                normalized_prompt, keywords
+            )
+            category_scores[category] = score
+            category_matches[category] = matches
 
-            logger.info(f"信頼度データ取得完了: {len(confidences)}件")
-            return confidences
+        # 最高スコアのカテゴリを選択
+        best_category = max(category_scores, key=category_scores.get)
+        best_score = category_scores[best_category]
+        best_matches = category_matches[best_category]
 
-        except Exception as e:
-            logger.error(f"信頼度データ取得エラー: {e}")
-            return []
+        # 信頼度を正規化（0-1の範囲）
+        confidence = min(best_score / 10.0, 1.0)
 
-    def create_category_pie_chart(self, save_path: Optional[str] = None) -> str:
-        """カテゴリ分布円グラフ作成"""
-        distribution = self.get_category_distribution()
-
-        if not distribution:
-            logger.warning("表示するデータがありません")
-            return ""
-
-        # グラフ作成
-        fig, ax = plt.subplots(figsize=(10, 8))
-
-        categories = list(distribution.keys())
-        values = list(distribution.values())
-        colors = [self.category_colors.get(cat, '#CCCCCC') for cat in categories]
-
-        # 円グラフ描画
-        wedges, texts, autotexts = ax.pie(
-            values,
-            labels=categories,
-            colors=colors,
-            autopct='%1.1f%%',
-            startangle=90
+        return ClassificationResult(
+            category=best_category,
+            confidence=confidence,
+            matched_keywords=best_matches
         )
 
-        # スタイル調整
-        for autotext in autotexts:
-            autotext.set_color('white')
-            autotext.set_fontweight('bold')
+    def _normalize_prompt(self, prompt: str) -> str:
+        """プロンプトを正規化"""
+        # 小文字変換
+        normalized = prompt.lower()
 
-        ax.set_title('プロンプトカテゴリ分布', fontsize=16, fontweight='bold', pad=20)
+        # 特殊文字の処理
+        normalized = re.sub(r'[^\w\s]', ' ', normalized)
 
-        # 凡例追加
-        ax.legend(wedges, [f'{cat}: {val}件' for cat, val in zip(categories, values)],
-                 title="カテゴリ別件数",
-                 loc="center left",
-                 bbox_to_anchor=(1, 0, 0.5, 1))
+        # 複数スペースを単一スペースに
+        normalized = re.sub(r'\s+', ' ', normalized)
 
-        plt.tight_layout()
+        return normalized.strip()
 
-        # 保存
-        if not save_path:
-            save_path = self.output_dir / "category_pie_chart.png"
+    def _calculate_category_score(self, prompt: str, keywords: List[str]) -> Tuple[float, List[str]]:
+        """
+        カテゴリスコアを計算
 
-        plt.savefig(save_path, dpi=300, bbox_inches='tight')
-        logger.info(f"円グラフ保存完了: {save_path}")
+        Args:
+            prompt: 正規化されたプロンプト
+            keywords: カテゴリのキーワードリスト
 
-        plt.close()
-        return str(save_path)
+        Returns:
+            Tuple[float, List[str]]: (スコア, マッチしたキーワード)
+        """
+        matched_keywords = []
+        total_score = 0.0
 
-    def create_category_bar_chart(self, save_path: Optional[str] = None) -> str:
-        """カテゴリ分布棒グラフ作成"""
-        distribution = self.get_category_distribution()
+        prompt_words = set(prompt.split())
+        prompt_length = len(prompt_words)
 
-        if not distribution:
-            logger.warning("表示するデータがありません")
-            return ""
+        for keyword in keywords:
+            # 完全一致チェック
+            if keyword in prompt:
+                matched_keywords.append(keyword)
 
-        # データ準備
-        categories = list(distribution.keys())
-        values = list(distribution.values())
-        colors = [self.category_colors.get(cat, '#CCCCCC') for cat in categories]
+                # スコア計算
+                if keyword in prompt_words:
+                    # 単語として完全一致
+                    total_score += self.confidence_weights["exact_match"]
+                else:
+                    # 部分文字列として一致
+                    total_score += self.confidence_weights["partial_match"]
 
-        # グラフ作成
-        fig, ax = plt.subplots(figsize=(12, 6))
+                # キーワード密度ボーナス
+                keyword_count = prompt.count(keyword)
+                if keyword_count > 1:
+                    total_score += (keyword_count - 1) * self.confidence_weights["keyword_density"]
 
-        bars = ax.bar(categories, values, color=colors, alpha=0.8)
+        # カテゴリ特異性ボーナス（マッチ数に基づく）
+        if matched_keywords:
+            specificity_bonus = len(matched_keywords) * self.confidence_weights["category_specificity"]
+            total_score += specificity_bonus
 
-        # 値ラベル追加
-        for bar in bars:
-            height = bar.get_height()
-            ax.annotate(f'{height}',
-                       xy=(bar.get_x() + bar.get_width() / 2, height),
-                       xytext=(0, 3),
-                       textcoords="offset points",
-                       ha='center', va='bottom',
-                       fontweight='bold')
+        # 長いプロンプトにはペナルティ
+        if prompt_length > 50:
+            length_penalty = (prompt_length - 50) * self.confidence_weights["length_penalty"]
+            total_score = max(0, total_score - length_penalty)
 
-        # スタイル調整
-        ax.set_title('カテゴリ別プロンプト数', fontsize=16, fontweight='bold')
-        ax.set_xlabel('カテゴリ', fontsize=12)
-        ax.set_ylabel('プロンプト数', fontsize=12)
-        ax.tick_params(axis='x', rotation=45)
-        ax.grid(axis='y', alpha=0.3)
+        return total_score, matched_keywords
 
-        plt.tight_layout()
+    def classify_batch(self, prompts: List[str]) -> List[ClassificationResult]:
+        """
+        複数プロンプトをバッチ分類
 
-        # 保存
-        if not save_path:
-            save_path = self.output_dir / "category_bar_chart.png"
+        Args:
+            prompts: プロンプトリスト
 
-        plt.savefig(save_path, dpi=300, bbox_inches='tight')
-        logger.info(f"棒グラフ保存完了: {save_path}")
+        Returns:
+            List[ClassificationResult]: 分類結果リスト
+        """
+        results = []
 
-        plt.close()
-        return str(save_path)
+        for prompt in prompts:
+            try:
+                result = self.classify(prompt)
+                results.append(result)
+            except Exception as e:
+                logger.error(f"プロンプト分類エラー: {e}")
+                # エラー時はデフォルトカテゴリ
+                results.append(ClassificationResult("basic", 0.0, []))
 
-    def create_confidence_histogram(self, save_path: Optional[str] = None) -> str:
-        """信頼度分布ヒストグラム作成"""
-        confidences = self.get_confidence_data()
+        return results
 
-        if not confidences:
-            logger.warning("表示するデータがありません")
-            return ""
+    def get_category_distribution(self, prompts: List[str]) -> Dict[str, int]:
+        """
+        プロンプトリストのカテゴリ分布を取得
 
-        # グラフ作成
-        fig, ax = plt.subplots(figsize=(10, 6))
+        Args:
+            prompts: プロンプトリスト
 
-        # ヒストグラム描画
-        ax.hist(confidences, bins=20, color='skyblue', alpha=0.7, edgecolor='black')
+        Returns:
+            Dict[str, int]: カテゴリ別件数
+        """
+        # 実際に使用するカテゴリで初期化
+        used_categories = list(self.category_keywords.keys())
+        distribution = {category: 0 for category in used_categories}
 
-        # 統計線追加
-        mean_conf = np.mean(confidences)
-        ax.axvline(mean_conf, color='red', linestyle='--', linewidth=2,
-                  label=f'平均: {mean_conf:.3f}')
+        results = self.classify_batch(prompts)
 
-        # スタイル調整
-        ax.set_title('プロンプト分類信頼度分布', fontsize=16, fontweight='bold')
-        ax.set_xlabel('信頼度', fontsize=12)
-        ax.set_ylabel('件数', fontsize=12)
-        ax.legend()
-        ax.grid(alpha=0.3)
+        for result in results:
+            if result.category in distribution:
+                distribution[result.category] += 1
+            else:
+                # 未知のカテゴリの場合は追加
+                distribution[result.category] = 1
 
-        plt.tight_layout()
+        return distribution
 
-        # 保存
-        if not save_path:
-            save_path = self.output_dir / "confidence_histogram.png"
+    def get_low_confidence_prompts(self, prompts: List[str], threshold: float = 0.3) -> List[Tuple[str, ClassificationResult]]:
+        """
+        低信頼度プロンプトを取得（手動確認用）
 
-        plt.savefig(save_path, dpi=300, bbox_inches='tight')
-        logger.info(f"ヒストグラム保存完了: {save_path}")
+        Args:
+            prompts: プロンプトリスト
+            threshold: 信頼度閾値
 
-        plt.close()
-        return str(save_path)
+        Returns:
+            List[Tuple[str, ClassificationResult]]: 低信頼度プロンプトと分類結果
+        """
+        low_confidence = []
 
-    def generate_statistics_summary(self) -> Dict[str, any]:
-        """統計サマリー生成"""
-        try:
-            # 基本統計
-            data = self.db_manager.get_all_prompts()
-            total_prompts = len(data)
+        for prompt in prompts:
+            result = self.classify(prompt)
+            if result.confidence < threshold:
+                low_confidence.append((prompt, result))
 
-            if total_prompts == 0:
-                return {"error": "データがありません"}
+        return low_confidence
 
-            # カテゴリ分布
-            distribution = self.get_category_distribution()
+# 使用例・テスト用の関数
+def test_categorizer():
+    """categorizer.pyのテスト関数"""
+    categorizer = PromptCategorizer()
 
-            # 信頼度統計
-            confidences = self.get_confidence_data()
+    test_prompts = [
+        "masterpiece, best quality, 1girl, beautiful",
+        "nsfw, nude, explicit content, adult",
+        "cinematic lighting, dramatic shadows, golden hour",
+        "close up portrait, rule of thirds, shallow depth of field",
+        "dark moody atmosphere, mysterious, gothic",
+        "oil painting style, realistic, detailed brushwork",
+        "4k resolution, high quality, professional photography"
+    ]
 
-            summary = {
-                "総プロンプト数": total_prompts,
-                "カテゴリ分布": distribution,
-                "信頼度統計": {
-                    "平均": round(np.mean(confidences), 3) if confidences else 0,
-                    "中央値": round(np.median(confidences), 3) if confidences else 0,
-                    "標準偏差": round(np.std(confidences), 3) if confidences else 0,
-                    "最小値": round(min(confidences), 3) if confidences else 0,
-                    "最大値": round(max(confidences), 3) if confidences else 0
-                },
-                "低信頼度プロンプト数": len([c for c in confidences if c < 0.5]) if confidences else 0,
-                "最多カテゴリ": max(distribution.items(), key=lambda x: x[1])[0] if distribution else "なし"
-            }
+    print("=== プロンプト分類テスト ===")
+    for prompt in test_prompts:
+        result = categorizer.classify(prompt)
+        print(f"プロンプト: {prompt}")
+        print(f"カテゴリ: {result.category}")
+        print(f"信頼度: {result.confidence:.2f}")
+        print(f"マッチキーワード: {result.matched_keywords[:5]}")  # 最初の5個
+        print("-" * 50)
 
-            logger.info("統計サマリー生成完了")
-            return summary
+    print("\n=== カテゴリ分布 ===")
+    distribution = categorizer.get_category_distribution(test_prompts)
+    for category, count in distribution.items():
+        print(f"{category}: {count}件")
 
-        except Exception as e:
-            logger.error(f"統計サマリー生成エラー: {e}")
-            return {"error": str(e)}
-
-    def export_data_csv(self, save_path: Optional[str] = None) -> str:
-        """データCSVエクスポート - プロンプトとカテゴリ情報を結合して出力"""
-        try:
-            # プロンプトデータを取得
-            prompts_data = self.db_manager.get_all_prompts()
-
-            if not prompts_data:
-                logger.warning("エクスポートするデータがありません")
-                return ""
-
-            # カテゴリ情報を結合するため、SQLクエリで結合データを取得
-            conn = sqlite3.connect(self.db_manager.db_path)
-            cursor = conn.cursor()
-
-            cursor.execute('''
-                SELECT
-                    p.civitai_id,
-                    p.full_prompt,
-                    p.negative_prompt,
-                    p.quality_score,
-                    p.reaction_count,
-                    p.comment_count,
-                    p.download_count,
-                    p.model_name,
-                    p.collected_at,
-                    c.category,
-                    c.confidence
-                FROM civitai_prompts p
-                LEFT JOIN prompt_categories c ON p.id = c.prompt_id
-            ''')
-
-            rows = cursor.fetchall()
-            columns = [description[0] for description in cursor.description]
-
-            # DataFrame作成
-            df = pd.DataFrame(rows, columns=columns)
-            conn.close()
-
-            # 保存
-            if not save_path:
-                save_path = self.output_dir / "prompt_data_with_categories.csv"
-
-            df.to_csv(save_path, index=False, encoding='utf-8-sig')
-            logger.info(f"CSVエクスポート完了: {save_path} ({len(df)}件)")
-
-            return str(save_path)
-
-        except Exception as e:
-            logger.error(f"CSVエクスポートエラー: {e}")
-            return ""
-
-    def generate_all_visualizations(self) -> Dict[str, str]:
-        """全可視化ファイル生成"""
-        results = {}
-
-        try:
-            # 各グラフ生成
-            results["pie_chart"] = self.create_category_pie_chart()
-            results["bar_chart"] = self.create_category_bar_chart()
-            results["histogram"] = self.create_confidence_histogram()
-            results["csv_export"] = self.export_data_csv()
-
-            # 統計サマリー保存
-            summary = self.generate_statistics_summary()
-            summary_path = self.output_dir / "statistics_summary.txt"
-
-            with open(summary_path, 'w', encoding='utf-8') as f:
-                f.write("=== プロンプト分析統計サマリー ===\n\n")
-                for key, value in summary.items():
-                    f.write(f"{key}: {value}\n")
-
-            results["summary"] = str(summary_path)
-
-            logger.info("全可視化ファイル生成完了")
-            return results
-
-        except Exception as e:
-            logger.error(f"可視化生成エラー: {e}")
-            return {"error": str(e)}
-
-def main():
-    """テスト実行"""
+def process_database_prompts():
+    """データベースから実際のプロンプトを取得して分類"""
     try:
-        print("📊 DataVisualizer テスト開始")
+        # データベース接続
+        try:
+            from database import DatabaseManager
+        except ImportError:
+            from .database import DatabaseManager
 
-        # インスタンス作成
-        visualizer = DataVisualizer()
+        db = DatabaseManager()
+        categorizer = PromptCategorizer()
 
-        # 統計サマリー表示
-        print("\n=== 統計サマリー ===")
-        summary = visualizer.generate_statistics_summary()
-        for key, value in summary.items():
-            print(f"{key}: {value}")
+        # データベースからプロンプトを取得
+        prompts_data = db.get_all_prompts()
 
-        # 全グラフ生成
-        print("\n=== グラフ生成中 ===")
-        results = visualizer.generate_all_visualizations()
+        if not prompts_data:
+            print("データベースにプロンプトが見つかりません")
+            print("先に collector.py を実行してデータを収集してください")
+            return
 
-        print("\n✅ 生成完了ファイル:")
-        for graph_type, file_path in results.items():
-            if file_path and "error" not in graph_type:
-                print(f"  - {graph_type}: {file_path}")
+        print(f"データベースから {len(prompts_data)} 件のプロンプトを取得")
+        print("正しいカテゴリ(NSFW, style, lighting, composition, mood, basic, technical)で再分類中...")
 
-        print("\n🎯 visualizer.py テスト完了!")
+        # 既存の分類データを削除（再分類のため）
+        import sqlite3
+        conn = sqlite3.connect(db.db_path)
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM prompt_categories')
+        conn.commit()
+        conn.close()
+        print("既存の分類データをクリア完了")
+
+        # プロンプト分類
+        classified_count = 0
+        for prompt_data in prompts_data:
+            full_prompt = prompt_data.get('full_prompt', '')
+            if not full_prompt:
+                continue
+
+            result = categorizer.classify(full_prompt)
+
+            # 分類結果をデータベースに保存
+            prompt_id = prompt_data.get('id')
+            if prompt_id:
+                categories_data = {
+                    result.category: {
+                        "keywords": result.matched_keywords,
+                        "confidence": result.confidence
+                    }
+                }
+
+                if db.save_prompt_categories(prompt_id, categories_data):
+                    classified_count += 1
+
+        print(f"再分類完了: {classified_count} 件")
+
+        # 分布統計表示
+        prompts_text = [p.get('full_prompt', '') for p in prompts_data if p.get('full_prompt')]
+        distribution = categorizer.get_category_distribution(prompts_text)
+
+        print("\n=== 正しいカテゴリ分布 ===")
+        for category, count in distribution.items():
+            print(f"{category}: {count}件")
+
+        print(f"\n次は python main.py --visualize-only を実行してグラフを生成してください")
 
     except Exception as e:
-        print(f"❌ エラー: {e}")
+        print(f"エラー: {e}")
+
+def main():
+    """メイン関数"""
+    import sys
+
+    if len(sys.argv) > 1 and sys.argv[1] == "--test":
+        # テストモード
+        test_categorizer()
+    else:
+        # 実データ処理モード
+        process_database_prompts()
 
 if __name__ == "__main__":
     main()
