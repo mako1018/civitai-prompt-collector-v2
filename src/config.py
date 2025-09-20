@@ -8,11 +8,11 @@ import os
 from typing import Dict, List
 
 # 環境変数
-CIVITAI_API_KEY = os.getenv("CIVITAI_API_KEY", "")
-USER_AGENT = os.getenv("USER_AGENT", "CivitaiPromptCollector/2.0")
+CIVITAI_API_KEY = "1fa8d053c6d7623478f19f3f098d0bf8"
+USER_AGENT = "CivitaiPromptCollector/2.0"
 
 # データベース設定
-DEFAULT_DB_PATH = "data/civitai_dataset.db"
+DEFAULT_DB_PATH = "src/data/civitai_dataset.db"
 
 # API設定
 API_BASE_URL = "https://civitai.com/api/v1/images"
@@ -25,52 +25,52 @@ RATE_LIMIT_WAIT = 60
 # カテゴリ定義
 CATEGORIES: Dict[str, List[str]] = {
     "realism_quality": [
-        "realistic skin", "intricate details", "ultra-detailed", 
+        "realistic skin", "intricate details", "ultra-detailed",
         "photorealistic", "lifelike", "realistic"
     ],
     "lighting": [
-        "cinematic lighting", "dynamic lighting", "soft lighting", 
-        "studio lighting", "dramatic lighting", "golden hour", 
+        "cinematic lighting", "dynamic lighting", "soft lighting",
+        "studio lighting", "dramatic lighting", "golden hour",
         "backlight", "rim light", "natural lighting"
     ],
     "composition": [
-        "portrait", "full body", "close-up", "upper body", 
+        "portrait", "full body", "close-up", "upper body",
         "headshot", "wide shot", "rule of thirds", "medium shot"
     ],
     "character_features": [
-        "detailed face", "expressive eyes", "facial features", 
+        "detailed face", "expressive eyes", "facial features",
         "beautiful", "hands detail", "detailed eyes", "sharp eyes"
     ],
     "technical": [
-        "highres", "masterpiece", "best quality", "high resolution", 
+        "highres", "masterpiece", "best quality", "high resolution",
         "8k", "ultra high res", "4k", "high quality"
     ],
     "texture": [
-        "skin texture", "hair detail", "fabric detail", 
+        "skin texture", "hair detail", "fabric detail",
         "detailed texture", "rough texture", "smooth texture"
     ],
     "style": [
-        "anime", "manga", "3d render", "oil painting", "watercolor", 
+        "anime", "manga", "3d render", "oil painting", "watercolor",
         "digital art", "photorealism", "realistic", "illustration"
     ],
     "mood": [
-        "melancholic", "cheerful", "mysterious", "elegant", 
+        "melancholic", "cheerful", "mysterious", "elegant",
         "energetic", "moody", "dark", "bright", "calm"
     ],
     "nsfw_safe": [
-        "clothed", "sfw", "dress", "casual wear", 
+        "clothed", "sfw", "dress", "casual wear",
         "fully clothed", "covered", "appropriate"
     ],
     "nsfw_suggestive": [
-        "cleavage", "revealing clothing", "tight clothing", 
+        "cleavage", "revealing clothing", "tight clothing",
         "suggestive pose", "see-through", "revealing"
     ],
     "nsfw_mature": [
-        "lingerie", "underwear", "bikini", "swimsuit", 
+        "lingerie", "underwear", "bikini", "swimsuit",
         "partial nudity", "braless", "skimpy"
     ],
     "nsfw_explicit": [
-        "nude", "naked", "nsfw", "explicit", 
+        "nude", "naked", "nsfw", "explicit",
         "uncensored", "full nudity", "erotic"
     ]
 }
