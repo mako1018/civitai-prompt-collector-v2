@@ -86,3 +86,11 @@ CivitAI Prompt Collector — Streamlit Fixes Report
 - `.gitignore` に `.venv` は既に含まれているため、仮想環境は除外設定済みです。
 
 完了日: 2025-09-20
+
+## Verification - 2025-09-20 19:19:54
+
+- Streamlit process: running (PID 25880)
+- Local HTTP checks: http://localhost:8502, http://127.0.0.1:8502, http://192.168.40.145:8502 all returned HTTP 200 from PowerShell
+- Static assets: /static/js/index.CD8HuT3N.js and /static/css/index.C8X8rNzw.css fetched successfully
+- Logs: streamlit.out.log contains startup message; streamlit.err.log empty
+- Notes: App serves HTML and static assets; browser ERR_CONNECTION_REFUSED likely client-side (proxy/firewall/cache/extension)
