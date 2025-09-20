@@ -23,3 +23,5 @@ pytest==8.4.2
 # sentence-transformers==5.1.0
 # torch==2.8.0
 # transformers==4.56.1
+streamlit>=1.28.0
+plotly>=5.15.0
