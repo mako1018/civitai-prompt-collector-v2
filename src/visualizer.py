@@ -15,17 +15,10 @@ import logging
 try:
     from .database import DatabaseManager
     from .config import CATEGORIES
-except ImportError:
-    try:
-        from database import DatabaseManager
-        from config import CATEGORIES
-    except ImportError:
-        # プロジェクトルートからの実行用
-        import sys
-        from pathlib import Path
-        sys.path.append(str(Path(__file__).parent))
-        from database import DatabaseManager
-        from config import CATEGORIES
+except Exception:
+    # 実行方法によっては相対インポートが失敗するためフォールバック
+    from src.database import DatabaseManager
+    from src.config import CATEGORIES
 
 # 日本語フォント設定（Windows環境対応）
 plt.rcParams['font.family'] = ['DejaVu Sans', 'Yu Gothic', 'Hiragino Sans', 'Meiryo']

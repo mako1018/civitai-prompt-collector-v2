@@ -1,5 +1,5 @@
 import sqlite3
-paths=['data/civitai_dataset.db','src/data/civitai_dataset.db']
+paths=['data/civitai_dataset.db','data/civitai_dataset.db']
 for p in paths:
     try:
         conn=sqlite3.connect(p)

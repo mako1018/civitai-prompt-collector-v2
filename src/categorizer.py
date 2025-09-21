@@ -390,7 +390,7 @@ def process_database_prompts():
     try:
         # データベース接続
         try:
-            from database import DatabaseManager
+            from src.database import DatabaseManager
         except ImportError:
             from .database import DatabaseManager
 
