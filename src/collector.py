@@ -10,7 +10,7 @@ import time
 from datetime import datetime
 from typing import Dict, List, Optional, Tuple, Any
 
-from config import (
+from src.config import (
     CIVITAI_API_KEY, USER_AGENT, API_BASE_URL,
     REQUEST_TIMEOUT, RETRY_DELAY, RATE_LIMIT_WAIT,
     QUALITY_KEYWORDS
@@ -245,7 +245,7 @@ def main():
         print("🚀 CivitAI Prompt Collector テスト開始")
 
         # APIキー確認
-        from config import CIVITAI_API_KEY
+        from src.config import CIVITAI_API_KEY
         if not CIVITAI_API_KEY or CIVITAI_API_KEY == "your_api_key_here":
             print("❌ APIキーが設定されていません")
             print("config.py の CIVITAI_API_KEY を設定してください")
@@ -267,7 +267,7 @@ def main():
         if result['valid'] > 0:
             # データベース保存
             try:
-                from database import DatabaseManager
+                from src.database import DatabaseManager
                 db = DatabaseManager()
 
                 saved_count = 0

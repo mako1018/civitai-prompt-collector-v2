@@ -1,6 +1,6 @@
 import sqlite3
 
-src='src/data/civitai_dataset.db'
+src='data/civitai_dataset.db.src_backup'
 dst='data/civitai_dataset.db'
 
 print('Opening source:', src)

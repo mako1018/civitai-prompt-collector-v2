@@ -22,12 +22,22 @@ src_path = os.path.join(current_dir, 'src')
 sys.path.insert(0, src_path)
 
 try:
-    # 直接インポートで試行
-    import config
-    import collector
-    import categorizer
-    import visualizer
-    import database
+    # src をパッケージとして登録してから importlib で読み込む
+    import importlib
+    import types
+
+    pkg_name = 'src'
+    if pkg_name not in sys.modules:
+        pkg = types.ModuleType(pkg_name)
+        pkg.__path__ = [src_path]
+        sys.modules[pkg_name] = pkg
+
+    # src パッケージ配下のモジュールを安全に読み込む
+    config = importlib.import_module('src.config')
+    collector = importlib.import_module('src.collector')
+    categorizer = importlib.import_module('src.categorizer')
+    visualizer = importlib.import_module('src.visualizer')
+    database = importlib.import_module('src.database')
 
     # 必要な要素を個別に取得
     CIVITAI_API_KEY = config.CIVITAI_API_KEY
