@@ -171,54 +171,73 @@ class CivitaiPromptCollector:
         model_name: Optional[str] = None,
         max_items: int = 5000
     ) -> Dict[str, int]:
-        """指定されたモデルのプロンプトを収集"""
+        """指定されたモデルのプロンプト・画像を収集（modelVersionId指定時は画像APIで全件取得）"""
         print(f"\n=== Collecting: {model_name or 'ALL_MODELS'} (model_id={model_id}) ===")
 
         collected = 0
         valid_items = []
 
-        params = {"limit": 20, "sort": "Most Reactions"}
-        if model_id:
-            params["modelVersionId"] = model_id
-
-        next_page_url = None
-        page_count = 1
-
-        while collected < max_items:
-            if next_page_url:
-                print(f"[Collector] Fetching page via nextPage (collected: {collected}/{max_items})")
-                batch, next_page_url = self.api_client.fetch_batch(next_page_url)
-            else:
-                print(f"[Collector] Fetching page {page_count} (collected: {collected}/{max_items})")
-                batch, next_page_url = self.api_client.fetch_batch(params)
-
-            if not batch:
-                print("[Collector] No more items returned by API")
-                break
-
-            for item in batch:
-                if collected >= max_items:
+        # modelVersionIdが数字なら画像API（正しいエンドポイント）で収集
+        if model_id and str(model_id).isdigit():
+            page = 1
+            while collected < max_items:
+                api_url = f"https://civitai.com/api/v1/images?modelVersionId={model_id}&limit=100&page={page}"
+                print(f"[Collector] Fetching images page {page} (collected: {collected}/{max_items})")
+                resp = requests.get(api_url, timeout=15)
+                if resp.status_code != 200:
+                    print(f"[Collector] API error: {resp.status_code}")
                     break
-
-                prompt_data = self.extractor.extract_prompt_data(item)
-                if prompt_data and prompt_data.get("full_prompt"):
-                    # モデル情報を補完
-                    if model_name and not prompt_data.get("model_name"):
-                        prompt_data["model_name"] = model_name
-                    if model_id and not prompt_data.get("model_id"):
+                data = resp.json()
+                items = data.get("items", [])
+                if not items:
+                    print("[Collector] No more images returned by API")
+                    break
+                for item in items:
+                    if collected >= max_items:
+                        break
+                    prompt_data = self.extractor.extract_prompt_data(item)
+                    if prompt_data:
+                        if model_name and not prompt_data.get("model_name"):
+                            prompt_data["model_name"] = model_name
                         prompt_data["model_id"] = str(model_id)
-
-                    prompt_data["collected_at"] = datetime.now().isoformat()
-                    valid_items.append(prompt_data)
-
-                collected += 1
-
-            page_count += 1
-            time.sleep(1.2)  # レート制限対策
-
-            if not next_page_url:
-                break
-
+                        prompt_data["collected_at"] = datetime.now().isoformat()
+                        valid_items.append(prompt_data)
+                    collected += 1
+                page += 1
+                time.sleep(1.2)
+        else:
+            # 従来通りプロンプトAPIで収集
+            params = {"limit": 20, "sort": "Most Reactions"}
+            if model_id:
+                params["modelVersionId"] = model_id
+            next_page_url = None
+            page_count = 1
+            while collected < max_items:
+                if next_page_url:
+                    print(f"[Collector] Fetching page via nextPage (collected: {collected}/{max_items})")
+                    batch, next_page_url = self.api_client.fetch_batch(next_page_url)
+                else:
+                    print(f"[Collector] Fetching page {page_count} (collected: {collected}/{max_items})")
+                    batch, next_page_url = self.api_client.fetch_batch(params)
+                if not batch:
+                    print("[Collector] No more items returned by API")
+                    break
+                for item in batch:
+                    if collected >= max_items:
+                        break
+                    prompt_data = self.extractor.extract_prompt_data(item)
+                    if prompt_data and prompt_data.get("full_prompt"):
+                        if model_name and not prompt_data.get("model_name"):
+                            prompt_data["model_name"] = model_name
+                        if model_id and not prompt_data.get("model_id"):
+                            prompt_data["model_id"] = str(model_id)
+                        prompt_data["collected_at"] = datetime.now().isoformat()
+                        valid_items.append(prompt_data)
+                    collected += 1
+                page_count += 1
+                time.sleep(1.2)
+                if not next_page_url:
+                    break
         print(f"[Collector] Completed: {len(valid_items)} valid items from {collected} total")
         return {
             "collected": collected,
