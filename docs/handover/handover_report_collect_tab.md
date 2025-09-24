@@ -12,6 +12,16 @@
 - UI上でジョブの状態（実行中/完了/失敗）を確認できること
 - 収集完了後にデータベースに保存し、カテゴライズを実行するオプションを用意すること
 
+さらに今回の作業で以下の運用改善と実装追加を行いました（重要）:
+
+- Cursor（next_page_cursor）永続化: 収集中に API が cursor（metadata.nextPage）を返す場合、それを `collection_state.next_page_cursor` に保存し、次回の収集はこの cursor から再開します。これによりサーバーがページ番号ベースで同一 ID を返す場合の重複取得を回避します。
+- ハイブリッド自動進行: ランナー（`scripts/run_one_collect.py`）に `--auto-advance-on-empty` を追加しました。これを指定すると、収集結果が既に DB に存在して新規が0件の場合でも `last_offset` と `next_page_cursor` を進めて、次回は前回の続きから再開します（運用での継続収集に適します）。
+- 反復実行ランナー: `--repeat` / `--max-iterations` / `--repeat-sleep` オプションを追加し、一定間隔で継続収集を自動で繰り返すことができます（短時間バッチ運用に便利）。
+- DB マイグレーション: 既存の DB に `next_page_cursor` カラムが無い場合、自動で `ALTER TABLE` を試みるロジックを追加しました（起動時にカラムを追加）。
+- Page ガード: page ベースのリクエストでページ番号が一定値（例: 10）を超える場合、cursor が無ければリクエストを停止するガードを追加しました。これにより 429 (rate limit / too many pages) を避けられます。
+
+これらの改善は「継続的にデータを収集したい」という運用ニーズに直接応えるための対応です。
+
 ## 変更点（ファイル）
 - 追加 / 変更
   - `ui/streamlit_app_collect.py` (更新)
@@ -36,6 +46,39 @@
 - collector 側
   - 収集処理は `src.collector.CivitaiPromptCollector` が担当し、`scripts/collect_from_ui.py` が CLI ラッパーになっています。
   - 収集完了後、オプションによりデータベース保存とカテゴライズ（`src.categorizer.process_database_prompts`）を実行します。
+
+## ランナーと CLI フラグ（今回追加）
+
+- `--auto-advance-on-empty`:
+  - 説明: 収集バッチが全て既に DB に存在して新規が `0` の場合でも `collection_state.last_offset` と `next_page_cursor` を進めます（hybrid 動作）。
+  - 利点: サーバーが同じIDを先頭ページで繰り返す問題がある場合に、毎回1ページ目から始まることを避けて継続的に取得できます。
+  - 注意点: `total_collected` は DB の実際の件数を優先して同期するため、`total_collected` の不整合は基本的に発生しません。
+
+- `--repeat`, `--max-iterations`, `--repeat-sleep`:
+  - 説明: 指定した回数または無制限で収集を繰り返します。`--repeat-sleep` は反復間の待機秒数です。
+  - 利点: 長時間の継続収集を CLI だけで行う際に便利です。UI からのバックグラウンド実行と併用可能です。
+
+## マイグレーションと互換性
+
+- 既存 DB に `next_page_cursor` カラムがない場合、`ContinuousCivitaiCollector._get_collection_state` は起動時に `PRAGMA table_info(collection_state)` でカラムを確認し、必要なら `ALTER TABLE ... ADD COLUMN next_page_cursor TEXT` を実行します。ALTER に失敗した場合は警告ログを出しますが、操作は継続されます。
+
+## 実行例（CLI）
+
+- 単発（自動進行あり）:
+```pwsh
+python .\scripts\run_one_collect.py --model-id 82543 --version-id 2043971 --max-items 150 --auto-advance-on-empty
+```
+
+- 反復（5 回）:
+```pwsh
+python .\scripts\run_one_collect.py --model-id 82543 --version-id 2043971 --max-items 150 --auto-advance-on-empty --repeat --max-iterations 5 --repeat-sleep 2
+```
+
+## 例: 実行ログの読み方（今回のサンプル）
+- `Migrated collection_state: added next_page_cursor column` — 既存 DB にカラムがなかったため追加しました。
+- `Collected: 150 Valid: 79` — 1 回の run_one_collect が 150 件フェッチを試み、79 件が有効（保存候補）でした。
+- `DB Batch save completed: 0/79 new items` — 今回はすでに DB に存在するアイテムが多く新規はゼロでした。
+- `Auto-advanced collection_state to next_offset=300 (no new items)` — `--auto-advance-on-empty` により offset を進めました。
 
 ## ログ例と完了検出
 - 収集ログの例（抜粋）:
@@ -76,6 +119,24 @@ Get-Content .\scripts\collect_job_<ID>.log -Wait -Tail 200
 - 中: 完了ジョブの自動クリーニング（例: 完了後 1 日で非表示）やフィルタ（完了/実行中のみ表示）トグルを追加。
 - 中: ジョブキャンセル機能（起動したプロセスIDを保存・kill 実装）。Windows では権限と安全性の確認が必要。
 - 低: UI 上でログのストリーミング表示（WebSocket 風に小分けして表示）して、よりリアルなライブログにする。
+
+さらに今回の作業に基づく追加案（優先度）:
+- 高: `--start-offset` フラグをランナーに追加して、運用者が任意のオフセットから再開できるようにする（即効性が高くページ制限に強い）。
+- 高: DB マイグレーションを別スクリプト `scripts/migrate_db.py` として切り出し、安全に一度だけ実行できるようにする（CI/運用での確実性向上）。
+- 中: `collection_state` に `last_successful_fetch_at` と `last_page_number` などのメタデータを追加して運用監視を充実させる。
+
+## 引き継ぎ要約
+- 目的: Streamlit UI から CivitAI のプロンプト収集を起動・監視し、継続的に（前回の続きから）データを取り続けられる運用を実現しました。
+- 重要な変更点:
+  - UI の `Collect` タブ実装とバックグラウンドジョブ起動（`scripts/collect_from_ui.py` 経由）。
+  - `continuous_collector.py`：cursor 永続化、バッチ内 dedupe、ページガードを追加。
+  - `scripts/run_one_collect.py`：`--auto-advance-on-empty`, `--repeat` 系オプション、state 同期ロジックを追加。
+  - DB 互換性: 起動時に `next_page_cursor` カラムを自動追加するマイグレーションを追加。
+- 運用の注意点:
+  - デフォルトでは state は DB に保存された新規件数に基づき更新されます（安全）。自動進行が必要な場合は `--auto-advance-on-empty` を付けて実行してください。
+  - API のページング実装は安定しないことがあるため、cursor を優先して利用する運用が望ましいです。
+
+必要であれば、このドキュメントを PDF に変換したり、社内引き継ぎ用のスライド（PowerPoint/MDX）を作成します。どちらが良いですか？
 
 ## 付録: 変更履歴
 - 2025-09-22: `ui/streamlit_app_collect.py` に収集 UI とジョブ管理機能を追加、完了判定ロジックをログ文言に合わせて調整。
