@@ -180,6 +180,7 @@ class CivitaiPromptCollector:
         # modelVersionIdが数字なら画像API（正しいエンドポイント）で収集
         if model_id and str(model_id).isdigit():
             page = 1
+            initial_version_attempt = True
             while collected < max_items:
                 api_url = f"https://civitai.com/api/v1/images?modelVersionId={model_id}&limit=100&page={page}"
                 print(f"[Collector] Fetching images page {page} (collected: {collected}/{max_items})")
@@ -190,6 +191,32 @@ class CivitaiPromptCollector:
                 data = resp.json()
                 items = data.get("items", [])
                 if not items:
+                    # No images for this modelVersionId. If this was the initial attempt,
+                    # try treating the numeric id as a modelId to discover versions and retry.
+                    if initial_version_attempt:
+                        try:
+                            print("[Collector] No images returned for given id; trying model metadata lookup as modelId")
+                            base_api = API_BASE_URL.rsplit('/', 1)[0]
+                            model_meta_url = f"{base_api}/models/{model_id}"
+                            mresp = requests.get(model_meta_url, timeout=REQUEST_TIMEOUT)
+                            if mresp.status_code == 200:
+                                mj = mresp.json()
+                                versions = mj.get('modelVersions') or mj.get('versions') or []
+                                if versions:
+                                    # take the first/latest version that has an id
+                                    found_vid = None
+                                    for v in versions:
+                                        if isinstance(v, dict):
+                                            found_vid = v.get('id') or v.get('modelVersionId') or found_vid
+                                    if found_vid:
+                                        print(f"[Collector] Found version id {found_vid} for model {model_id}; retrying images API")
+                                        # reset for retry with new version id
+                                        model_id = str(found_vid)
+                                        page = 1
+                                        initial_version_attempt = False
+                                        continue
+                        except Exception as e:
+                            print(f"[Collector] Model metadata lookup failed: {e}")
                     print("[Collector] No more images returned by API")
                     break
                 for item in items:
