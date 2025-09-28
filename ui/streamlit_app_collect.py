@@ -12,12 +12,12 @@ import pandas as pd
 import requests
 from database import DatabaseManager
 try:
-    import plotly.express as px
+    import plotly.express as px  # type: ignore[import]
     PLOTLY_AVAILABLE = True
 except ImportError:
     PLOTLY_AVAILABLE = False
 try:
-    import matplotlib.pyplot as plt
+    import matplotlib.pyplot as plt  # type: ignore[import]
 except ImportError:
     plt = None
 import sqlite3
