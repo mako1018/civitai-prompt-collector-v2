@@ -654,7 +654,7 @@ def main():
         if st.button('🔍 全件収集（最初から最後まで）', disabled=start_disabled):
             # Start full collect (no max-items limit) as background job
             job_id = str(uuid.uuid4())[:8]
-            log_dir = Path(project_root) / 'logs'
+            log_dir = Path(project_root) / 'scripts'
             log_file = log_dir / f'collect_full_{job_id}.log'
             def _clean_id_local(s):
                 if not s:
@@ -686,7 +686,7 @@ def main():
         if st.button('▶ 再開（保存された状態から）'):
             # Start resume job using scripts/resume_collect.py
             job_id = str(uuid.uuid4())[:8]
-            log_dir = Path(project_root) / 'logs'
+            log_dir = Path(project_root) / 'scripts'
             log_file = log_dir / f'collect_resume_{job_id}.log'
             def _clean_id_local(s):
                 if not s:
@@ -717,7 +717,7 @@ def main():
         if start_button:
             # Launch background subprocess to run collection
             job_id = str(uuid.uuid4())[:8]
-            log_dir = Path(project_root) / 'logs'
+            log_dir = Path(project_root) / 'scripts'
             log_file = log_dir / f'collect_job_{job_id}.log'
 
             # Enforce version_id usage: version is required and will be used as modelVersionId
