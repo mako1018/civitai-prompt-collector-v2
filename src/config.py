@@ -21,7 +21,7 @@ DEFAULT_LIMIT = 20
 DEFAULT_MAX_ITEMS = 5000
 REQUEST_TIMEOUT = (5, 100)
 RETRY_DELAY = 3
-RATE_LIMIT_WAIT = 60
+RATE_LIMIT_WAIT = 120
 
 # カテゴリ定義
 CATEGORIES: Dict[str, List[str]] = {
@@ -103,6 +103,7 @@ DB_SCHEMA = {
             tag_count INTEGER,
             model_name TEXT,
             model_id TEXT,
+            model_version_id TEXT,
             collected_at TIMESTAMP,
             raw_metadata TEXT
         )
@@ -115,6 +116,39 @@ DB_SCHEMA = {
             keywords TEXT,
             confidence REAL,
             FOREIGN KEY (prompt_id) REFERENCES civitai_prompts (id)
+        )
+    """
+
+    ,"prompt_resources": """
+        CREATE TABLE IF NOT EXISTS prompt_resources (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            prompt_id INTEGER,
+            resource_index INTEGER,
+            resource_type TEXT,
+            resource_name TEXT,
+            resource_model_id TEXT,
+            resource_model_version_id TEXT,
+            resource_id TEXT,
+            resource_raw TEXT,
+            FOREIGN KEY (prompt_id) REFERENCES civitai_prompts (id)
+        )
+    """,
+    "collection_state": """
+        CREATE TABLE IF NOT EXISTS collection_state (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            model_id TEXT NOT NULL,
+            version_id TEXT DEFAULT '',
+            last_offset INTEGER DEFAULT 0,
+            total_collected INTEGER DEFAULT 0,
+            next_page_cursor TEXT DEFAULT NULL,
+            status TEXT DEFAULT 'idle',
+            planned_total INTEGER DEFAULT NULL,
+            attempted INTEGER DEFAULT 0,
+            duplicates INTEGER DEFAULT 0,
+            saved INTEGER DEFAULT 0,
+            summary_json TEXT DEFAULT NULL,
+            last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(model_id, version_id)
         )
     """
 }

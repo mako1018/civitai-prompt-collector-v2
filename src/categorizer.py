@@ -14,7 +14,7 @@ try:
     from .config import CATEGORIES
 except ImportError:
     try:
-        from src.config import CATEGORIES
+        from config import CATEGORIES
     except ImportError:
         # config.pyが存在しない場合の暫定対応
         CATEGORIES = [
@@ -49,10 +49,10 @@ class PromptCategorizer:
         return {
             "NSFW": [
                 # 成人向けコンテンツ
-                "nsfw", "explicit", "nude", "naked", "pussy""topless", "bottomless",
+                "nsfw", "explicit", "nude", "naked", "pussy", "topless", "bottomless",
                 "nipples", "breasts", "cleavage", "underwear", "lingerie", "bikini",
                 "swimsuit", "revealing", "exposed", "uncensored", "18+", "adult",
-                "erotic", "sexual", "seductive", "provocative", "suggestive",
+                "erotic", "sexual", "sex",  "blow job","seductive", "provocative", "suggestive",
                 "pantyhose", "stockings", "thong", "bra", "panties", "see-through",
                 "transparent", "wet clothes", "tight clothes", "short dress",
                 "mini skirt", "low cut", "deep neckline", "bare shoulders",
@@ -405,41 +405,46 @@ def process_database_prompts():
             print("先に collector.py を実行してデータを収集してください")
             return
 
-        print(f"データベースから {len(prompts_data)} 件のプロンプトを取得")
+        from datetime import datetime, timedelta, timezone
+        JST = timezone(timedelta(hours=9))
+        now_jst = datetime.now(JST).strftime('%Y-%m-%d %H:%M:%S')
+        print(f"[JST:{now_jst}] データベースから {len(prompts_data)} 件のプロンプトを取得")
         print("正しいカテゴリ(NSFW, style, lighting, composition, mood, basic, technical)で再分類中...")
 
-        # 既存の分類データを削除（再分類のため）
+        # 全件再分類オプション（Trueなら従来通り全件DELETE→再分類、Falseなら新規のみ分類）
+        FULL_RECLASSIFY = False  # 必要ならTrueに
         import sqlite3
         conn = sqlite3.connect(db.db_path)
         cursor = conn.cursor()
-        cursor.execute('DELETE FROM prompt_categories')
-        conn.commit()
+        if FULL_RECLASSIFY:
+            cursor.execute('DELETE FROM prompt_categories')
+            conn.commit()
+            print("既存の分類データをクリア完了（全件再分類）")
+        # 既存分類済みプロンプトIDを取得
+        cursor.execute('SELECT prompt_id FROM prompt_categories')
+        already_classified = set(row[0] for row in cursor.fetchall())
         conn.close()
-        print("既存の分類データをクリア完了")
 
         # プロンプト分類
         classified_count = 0
         for prompt_data in prompts_data:
             full_prompt = prompt_data.get('full_prompt', '')
-            if not full_prompt:
-                continue
-
-            result = categorizer.classify(full_prompt)
-
-            # 分類結果をデータベースに保存
             prompt_id = prompt_data.get('id')
-            if prompt_id:
+            if not full_prompt or not prompt_id:
+                continue
+            # FULL_RECLASSIFYなら全件、そうでなければ未分類のみ
+            if FULL_RECLASSIFY or prompt_id not in already_classified:
+                result = categorizer.classify(full_prompt)
                 categories_data = {
                     result.category: {
                         "keywords": result.matched_keywords,
                         "confidence": result.confidence
                     }
                 }
-
                 if db.save_prompt_categories(prompt_id, categories_data):
                     classified_count += 1
-
-        print(f"再分類完了: {classified_count} 件")
+        now_jst = datetime.now(JST).strftime('%Y-%m-%d %H:%M:%S')
+        print(f"[JST:{now_jst}] 分類完了: {classified_count} 件（新規分類のみ。全件再分類はFULL_RECLASSIFY=Trueで実行）")
 
         # 分布統計表示
         prompts_text = [p.get('full_prompt', '') for p in prompts_data if p.get('full_prompt')]

@@ -1,0 +1,3520 @@
+{
+  "logs": [
+    {
+      "file": "C:\\APP\\civitai-prompt-collector-v2\\scripts\\collect_full_fa598628.log",
+      "size": 74234,
+      "params": null,
+      "api_total": null,
+      "db_preview": null,
+      "collected": null,
+      "saved": null,
+      "job_summary": null,
+      "rate_limited": true,
+      "first_lines": "2025-09-27 16:45:43,891 - INFO - DB path = data/civitai_dataset.db\n2025-09-27 16:45:43,892 - INFO - Resetting collection state for 161068 / 690310\n2025-09-27 16:45:43,921 - INFO - Starting collection (iteration 1)...\n[State] Reset collection state for 161068/690310\n\n=== Continuous Collection: 690310 ===\n[Collector] Previous total: 0, Starting from offset: 0\n[Collector] Fetching page 1 (collected: 0/10000000)\n[Collector] page 1: 47/50 valid items\n[Collector] Fetching cursor page (from offset 50) (collected: 50/10000000)\n[Collector] cursor page (from offset 50): 47/50 valid items\n[Collector] Fetching cursor page (from offset 100) (collected: 100/10000000)\n[Collector] cursor page (from offset 100): 47/50 valid items\n[Collector] Fetching cursor page (from offset 150) (collected: 150/10000000)\n[Collector] cursor page (from offset 150): 47/50 valid items\n[Collector] Fetching cursor page (from offset 200) (collected: 200/10000000)\n[Collector] cursor page (from offset 200): 47/50 valid items\n[Collector] Fetching cursor page (from offset 250) (collected: 250/10000000)\n[Collector] cursor page (from offset 250): 47/50 valid items\n[Collector] Fetching cursor page (from offset 300) (collected: 300/10000000)\n[Collector] cursor page (from offset 300): 47/50 valid items\n[Collector] Fetching cursor page (from offset 350) (collected: 350/10000000)\n[Collector] cursor page (from offset 350): 47/50 valid items\n[Collector] Fetching cursor page (from offset 400) (collected: 400/10000000)\n[Collector] cursor page (from offset 400): 47/50 valid items\n[Collector] Fetching cursor page (from offset 450) (collected: 450/10000000)\n[Collector] cursor page (from offset 450): 47/50 valid items\n[Collector] Fetching cursor page (from offset 500) (collected: 500/10000000)\n[Collector] cursor page (from offset 500): 47/50 valid items\n[Collector] Fetching cursor page (from offset 550) (collected: 550/10000000)\n[Collector] cursor page (from offset 550): 47/50 valid items\n[Collector] Fetching cursor page (from offset 600) (collected: 600/10000000)\n[Collector] cursor page (from offset 600): 47/50 valid items\n[Collector] Fetching cursor page (from offset 650) (collected: 650/10000000)\n[Collector] cursor page (from offset 650): 47/50 valid items\n[Collector] Fetching cursor page (from offset 700) (collected: 700/10000000)\n[Collector] cursor page (from offset 700): 47/50 valid items\n[Collector] Fetching cursor page (from offset 750) (collected: 750/10000000)\n[Collector] cursor page (from offset 750): 47/50 valid items\n[Collector] Fetching cursor page (from offset 800) (collected: 800/10000000)",
+      "last_lines": "[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)\n[Collector] Rate limited, waiting 120s\n[Collector] Fetching cursor page (from offset 1000) (collected: 1000/10000000)"
+    },
+    {
+      "file": "C:\\APP\\civitai-prompt-collector-v2\\scripts\\collect_job_0eef5943.log",
+      "size": 1546,
+      "params": {
+        "model_id": "232565",
+        "version_id": "232565",
+        "model_name": "STOIQO NewReality 🟡 FLUX, SD3.5, SDXL, SD1.5",
+        "max_items": 1000,
+        "save": true,
+        "categorize": true
+      },
+      "api_total": null,
+      "db_preview": {
+        "version": "232565",
+        "rows": 1000,
+        "raw_contains": 961
+      },
+      "collected": 1000,
+      "saved": 0,
+      "job_summary": {
+        "planned": 1000,
+        "attempted": 1000,
+        "new_saved": 0,
+        "duplicates_total": 1000,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 7483483,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 6117064,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 5765635,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 4204997,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 7517492,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 5592112,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 6302149,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3777190,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 6107740,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 6494826,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      },
+      "rate_limited": false,
+      "first_lines": "=== Collection started at 2025-09-28T00:24:58.378359 ===\nParams: model_id=232565, version_id=232565, model_name=STOIQO NewReality 🟡 FLUX, SD3.5, SDXL, SD1.5, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 232565 -> 1000 rows (raw_metadata contains -> 961)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=232565, version_id=232565, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=1000 (items returned)\nSaved 0 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 1000, \"new_saved\": 0, \"duplicates_total\": 1000, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 7483483, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 6117064, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 5765635, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 4204997, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 7517492, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 5592112, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 6302149, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3777190, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 6107740, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 6494826, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T00:25:47.956785 ===",
+      "last_lines": "=== Collection started at 2025-09-28T00:24:58.378359 ===\nParams: model_id=232565, version_id=232565, model_name=STOIQO NewReality 🟡 FLUX, SD3.5, SDXL, SD1.5, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 232565 -> 1000 rows (raw_metadata contains -> 961)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=232565, version_id=232565, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=1000 (items returned)\nSaved 0 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 1000, \"new_saved\": 0, \"duplicates_total\": 1000, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 7483483, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 6117064, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 5765635, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 4204997, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 7517492, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 5592112, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 6302149, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3777190, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 6107740, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 6494826, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T00:25:47.956785 ==="
+    },
+    {
+      "file": "C:\\APP\\civitai-prompt-collector-v2\\scripts\\collect_job_356b4ea4.log",
+      "size": 1555,
+      "params": {
+        "model_id": "1767015",
+        "version_id": "1767015",
+        "model_name": "PornMaster-Pro 色情大师- Illustrious & noob",
+        "max_items": 1000,
+        "save": true,
+        "categorize": true
+      },
+      "api_total": null,
+      "db_preview": {
+        "version": "1767015",
+        "rows": 0,
+        "raw_contains": 0
+      },
+      "collected": 978,
+      "saved": 978,
+      "job_summary": {
+        "planned": 1000,
+        "attempted": 978,
+        "new_saved": 978,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 75219175,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 75219166,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 78559360,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 76249101,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 79235021,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 76249104,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 81924941,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 80614960,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 78541891,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 78559359,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      },
+      "rate_limited": false,
+      "first_lines": "=== Collection started at 2025-09-28T03:08:41.175504 ===\nParams: model_id=1767015, version_id=1767015, model_name=PornMaster-Pro 色情大师- Illustrious & noob, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 1767015 -> 0 rows (raw_metadata contains -> 0)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=1767015, version_id=1767015, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=978 (items returned)\nSaved 978 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 978, \"new_saved\": 978, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 75219175, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 75219166, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 78559360, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 76249101, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 79235021, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 76249104, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 81924941, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 80614960, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 78541891, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 78559359, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T03:09:53.007702 ===",
+      "last_lines": "=== Collection started at 2025-09-28T03:08:41.175504 ===\nParams: model_id=1767015, version_id=1767015, model_name=PornMaster-Pro 色情大师- Illustrious & noob, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 1767015 -> 0 rows (raw_metadata contains -> 0)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=1767015, version_id=1767015, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=978 (items returned)\nSaved 978 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 978, \"new_saved\": 978, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 75219175, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 75219166, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 78559360, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 76249101, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 79235021, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 76249104, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 81924941, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 80614960, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 78541891, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 78559359, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T03:09:53.007702 ==="
+    },
+    {
+      "file": "C:\\APP\\civitai-prompt-collector-v2\\scripts\\collect_job_4305c560.log",
+      "size": 1536,
+      "params": {
+        "model_id": "219222",
+        "version_id": "219222",
+        "model_name": "STOIQO NewReality 🟡 FLUX, SD3.5, SDXL, SD1.5",
+        "max_items": 1000,
+        "save": true,
+        "categorize": true
+      },
+      "api_total": null,
+      "db_preview": {
+        "version": "219222",
+        "rows": 0,
+        "raw_contains": 0
+      },
+      "collected": 18,
+      "saved": 18,
+      "job_summary": {
+        "planned": 1000,
+        "attempted": 18,
+        "new_saved": 18,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 3537846,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3537845,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3537840,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3532681,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3537844,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3537841,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3537839,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3534933,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3534932,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3552992,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      },
+      "rate_limited": false,
+      "first_lines": "=== Collection started at 2025-09-28T00:40:00.343099 ===\nParams: model_id=219222, version_id=219222, model_name=STOIQO NewReality 🟡 FLUX, SD3.5, SDXL, SD1.5, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 219222 -> 0 rows (raw_metadata contains -> 0)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=219222, version_id=219222, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=18 (items returned)\nSaved 18 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 18, \"new_saved\": 18, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 3537846, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3537845, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3537840, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3532681, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3537844, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3537841, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3537839, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3534933, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3534932, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3552992, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T00:40:17.862494 ===",
+      "last_lines": "=== Collection started at 2025-09-28T00:40:00.343099 ===\nParams: model_id=219222, version_id=219222, model_name=STOIQO NewReality 🟡 FLUX, SD3.5, SDXL, SD1.5, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 219222 -> 0 rows (raw_metadata contains -> 0)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=219222, version_id=219222, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=18 (items returned)\nSaved 18 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 18, \"new_saved\": 18, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 3537846, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3537845, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3537840, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3532681, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3537844, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3537841, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3537839, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3534933, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3534932, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3552992, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T00:40:17.862494 ==="
+    },
+    {
+      "file": "C:\\APP\\civitai-prompt-collector-v2\\scripts\\collect_job_43963c9d.log",
+      "size": 1520,
+      "params": {
+        "model_id": "1077585",
+        "version_id": "1077585",
+        "model_name": "Big Love",
+        "max_items": 1000,
+        "save": true,
+        "categorize": true
+      },
+      "api_total": null,
+      "db_preview": {
+        "version": "1077585",
+        "rows": 0,
+        "raw_contains": 0
+      },
+      "collected": 1000,
+      "saved": 1000,
+      "job_summary": {
+        "planned": 1000,
+        "attempted": 1000,
+        "new_saved": 1000,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 90524024,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 41008691,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 41008701,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 41008719,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 83407273,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 87871073,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 69778142,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 47118652,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 64978838,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 87871070,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      },
+      "rate_limited": false,
+      "first_lines": "=== Collection started at 2025-09-28T01:52:29.205046 ===\nParams: model_id=1077585, version_id=1077585, model_name=Big Love, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 1077585 -> 0 rows (raw_metadata contains -> 0)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=1077585, version_id=1077585, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=1000 (items returned)\nSaved 1000 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 1000, \"new_saved\": 1000, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 90524024, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 41008691, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 41008701, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 41008719, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 83407273, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 87871073, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 69778142, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 47118652, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 64978838, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 87871070, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T01:53:35.417160 ===",
+      "last_lines": "=== Collection started at 2025-09-28T01:52:29.205046 ===\nParams: model_id=1077585, version_id=1077585, model_name=Big Love, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 1077585 -> 0 rows (raw_metadata contains -> 0)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=1077585, version_id=1077585, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=1000 (items returned)\nSaved 1000 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 1000, \"new_saved\": 1000, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 90524024, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 41008691, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 41008701, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 41008719, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 83407273, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 87871073, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 69778142, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 47118652, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 64978838, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 87871070, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T01:53:35.417160 ==="
+    },
+    {
+      "file": "C:\\APP\\civitai-prompt-collector-v2\\scripts\\collect_job_49789894.log",
+      "size": 1516,
+      "params": {
+        "model_id": "1744439",
+        "version_id": "1744439",
+        "model_name": "Big Love",
+        "max_items": 1000,
+        "save": true,
+        "categorize": true
+      },
+      "api_total": null,
+      "db_preview": {
+        "version": "1744439",
+        "rows": 0,
+        "raw_contains": 0
+      },
+      "collected": 612,
+      "saved": 612,
+      "job_summary": {
+        "planned": 1000,
+        "attempted": 612,
+        "new_saved": 612,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 79968782,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 74624546,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 77090849,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 74565992,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 78661168,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 84445567,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 79682322,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 76842212,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 84823610,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 80129011,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      },
+      "rate_limited": false,
+      "first_lines": "=== Collection started at 2025-09-28T01:20:57.539461 ===\nParams: model_id=1744439, version_id=1744439, model_name=Big Love, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 1744439 -> 0 rows (raw_metadata contains -> 0)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=1744439, version_id=1744439, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=612 (items returned)\nSaved 612 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 612, \"new_saved\": 612, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 79968782, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 74624546, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 77090849, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 74565992, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 78661168, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84445567, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 79682322, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 76842212, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84823610, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 80129011, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T01:21:47.847899 ===",
+      "last_lines": "=== Collection started at 2025-09-28T01:20:57.539461 ===\nParams: model_id=1744439, version_id=1744439, model_name=Big Love, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 1744439 -> 0 rows (raw_metadata contains -> 0)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=1744439, version_id=1744439, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=612 (items returned)\nSaved 612 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 612, \"new_saved\": 612, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 79968782, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 74624546, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 77090849, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 74565992, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 78661168, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84445567, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 79682322, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 76842212, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84823610, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 80129011, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T01:21:47.847899 ==="
+    },
+    {
+      "file": "C:\\APP\\civitai-prompt-collector-v2\\scripts\\collect_job_644a3da4.log",
+      "size": 1522,
+      "params": {
+        "model_id": "2117129",
+        "version_id": "2117129",
+        "model_name": "Big Love",
+        "max_items": 1000,
+        "save": true,
+        "categorize": true
+      },
+      "api_total": null,
+      "db_preview": {
+        "version": "2117129",
+        "rows": 1,
+        "raw_contains": 1
+      },
+      "collected": 162,
+      "saved": 161,
+      "job_summary": {
+        "planned": 1000,
+        "attempted": 162,
+        "new_saved": 161,
+        "duplicates_total": 1,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 95236578,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 100734340,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 100734413,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 100734262,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 100734176,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 100734080,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 100734026,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 97901303,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 95297376,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 99120857,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      },
+      "rate_limited": false,
+      "first_lines": "=== Collection started at 2025-09-28T00:49:56.100034 ===\nParams: model_id=2117129, version_id=2117129, model_name=Big Love, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 2117129 -> 1 rows (raw_metadata contains -> 1)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=2117129, version_id=2117129, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=162 (items returned)\nSaved 161 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 162, \"new_saved\": 161, \"duplicates_total\": 1, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 95236578, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 100734340, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 100734413, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 100734262, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 100734176, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 100734080, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 100734026, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 97901303, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 95297376, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 99120857, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T00:50:19.595882 ===",
+      "last_lines": "=== Collection started at 2025-09-28T00:49:56.100034 ===\nParams: model_id=2117129, version_id=2117129, model_name=Big Love, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 2117129 -> 1 rows (raw_metadata contains -> 1)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=2117129, version_id=2117129, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=162 (items returned)\nSaved 161 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 162, \"new_saved\": 161, \"duplicates_total\": 1, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 95236578, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 100734340, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 100734413, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 100734262, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 100734176, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 100734080, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 100734026, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 97901303, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 95297376, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 99120857, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T00:50:19.595882 ==="
+    },
+    {
+      "file": "C:\\APP\\civitai-prompt-collector-v2\\scripts\\collect_job_79e87a38.log",
+      "size": 1536,
+      "params": {
+        "model_id": "181258",
+        "version_id": "181258",
+        "model_name": "STOIQO NewReality 🟡 FLUX, SD3.5, SDXL, SD1.5",
+        "max_items": 1000,
+        "save": true,
+        "categorize": true
+      },
+      "api_total": null,
+      "db_preview": {
+        "version": "181258",
+        "rows": 0,
+        "raw_contains": 3
+      },
+      "collected": 68,
+      "saved": 68,
+      "job_summary": {
+        "planned": 1000,
+        "attempted": 68,
+        "new_saved": 68,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 3027213,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3027208,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3027217,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3027203,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3026814,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3009977,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3027202,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3026771,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3026770,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3025851,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      },
+      "rate_limited": false,
+      "first_lines": "=== Collection started at 2025-09-28T00:33:43.201352 ===\nParams: model_id=181258, version_id=181258, model_name=STOIQO NewReality 🟡 FLUX, SD3.5, SDXL, SD1.5, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 181258 -> 0 rows (raw_metadata contains -> 3)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=181258, version_id=181258, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=68 (items returned)\nSaved 68 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 68, \"new_saved\": 68, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 3027213, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3027208, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3027217, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3027203, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3026814, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3009977, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3027202, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3026771, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3026770, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3025851, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T00:34:08.226197 ===",
+      "last_lines": "=== Collection started at 2025-09-28T00:33:43.201352 ===\nParams: model_id=181258, version_id=181258, model_name=STOIQO NewReality 🟡 FLUX, SD3.5, SDXL, SD1.5, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 181258 -> 0 rows (raw_metadata contains -> 3)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=181258, version_id=181258, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=68 (items returned)\nSaved 68 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 68, \"new_saved\": 68, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 3027213, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3027208, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3027217, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3027203, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3026814, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3009977, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3027202, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3026771, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3026770, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3025851, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T00:34:08.226197 ==="
+    },
+    {
+      "file": "C:\\APP\\civitai-prompt-collector-v2\\scripts\\collect_job_82c892fe.log",
+      "size": 1522,
+      "params": {
+        "model_id": "2248865",
+        "version_id": "2248865",
+        "model_name": "Big Love",
+        "max_items": 1000,
+        "save": true,
+        "categorize": true
+      },
+      "api_total": null,
+      "db_preview": {
+        "version": "2248865",
+        "rows": 0,
+        "raw_contains": 2
+      },
+      "collected": 52,
+      "saved": 52,
+      "job_summary": {
+        "planned": 1000,
+        "attempted": 52,
+        "new_saved": 52,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 102614261,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 102614251,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 102627016,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 102614273,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 102614268,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 102614265,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 102614262,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 102614252,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 102614250,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 102541619,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      },
+      "rate_limited": false,
+      "first_lines": "=== Collection started at 2025-09-28T00:44:42.881682 ===\nParams: model_id=2248865, version_id=2248865, model_name=Big Love, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 2248865 -> 0 rows (raw_metadata contains -> 2)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=2248865, version_id=2248865, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=52 (items returned)\nSaved 52 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 52, \"new_saved\": 52, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 102614261, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102614251, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102627016, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102614273, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102614268, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102614265, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102614262, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102614252, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102614250, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102541619, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T00:45:00.681300 ===",
+      "last_lines": "=== Collection started at 2025-09-28T00:44:42.881682 ===\nParams: model_id=2248865, version_id=2248865, model_name=Big Love, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 2248865 -> 0 rows (raw_metadata contains -> 2)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=2248865, version_id=2248865, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=52 (items returned)\nSaved 52 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 52, \"new_saved\": 52, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 102614261, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102614251, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102627016, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102614273, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102614268, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102614265, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102614262, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102614252, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102614250, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102541619, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T00:45:00.681300 ==="
+    },
+    {
+      "file": "C:\\APP\\civitai-prompt-collector-v2\\scripts\\collect_job_8afa9f66.log",
+      "size": 1555,
+      "params": {
+        "model_id": "2107048",
+        "version_id": "2107048",
+        "model_name": "PornMaster-Pro 色情大师- Illustrious & noob",
+        "max_items": 1000,
+        "save": true,
+        "categorize": true
+      },
+      "api_total": null,
+      "db_preview": {
+        "version": "2107048",
+        "rows": 0,
+        "raw_contains": 0
+      },
+      "collected": 177,
+      "saved": 177,
+      "job_summary": {
+        "planned": 1000,
+        "attempted": 177,
+        "new_saved": 177,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 93859301,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 93855461,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 97359475,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 93857672,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 97375123,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 96294442,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 94548516,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 99277595,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 97349382,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 97213121,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      },
+      "rate_limited": false,
+      "first_lines": "=== Collection started at 2025-09-28T02:40:35.385101 ===\nParams: model_id=2107048, version_id=2107048, model_name=PornMaster-Pro 色情大师- Illustrious & noob, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 2107048 -> 0 rows (raw_metadata contains -> 0)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=2107048, version_id=2107048, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=177 (items returned)\nSaved 177 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 177, \"new_saved\": 177, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 93859301, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93855461, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 97359475, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93857672, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 97375123, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 96294442, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 94548516, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 99277595, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 97349382, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 97213121, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T02:40:59.278876 ===",
+      "last_lines": "=== Collection started at 2025-09-28T02:40:35.385101 ===\nParams: model_id=2107048, version_id=2107048, model_name=PornMaster-Pro 色情大师- Illustrious & noob, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 2107048 -> 0 rows (raw_metadata contains -> 0)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=2107048, version_id=2107048, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=177 (items returned)\nSaved 177 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 177, \"new_saved\": 177, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 93859301, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93855461, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 97359475, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93857672, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 97375123, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 96294442, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 94548516, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 99277595, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 97349382, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 97213121, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T02:40:59.278876 ==="
+    },
+    {
+      "file": "C:\\APP\\civitai-prompt-collector-v2\\scripts\\collect_job_8afb6fe9.log",
+      "size": 1540,
+      "params": {
+        "model_id": "196220",
+        "version_id": "196220",
+        "model_name": "STOIQO NewReality 🟡 FLUX, SD3.5, SDXL, SD1.5",
+        "max_items": 1000,
+        "save": true,
+        "categorize": true
+      },
+      "api_total": null,
+      "db_preview": {
+        "version": "196220",
+        "rows": 0,
+        "raw_contains": 1
+      },
+      "collected": 132,
+      "saved": 131,
+      "job_summary": {
+        "planned": 1000,
+        "attempted": 132,
+        "new_saved": 131,
+        "duplicates_total": 1,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 3601014,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3601220,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3153853,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3153856,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3153857,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3601762,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3601758,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3289194,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3532751,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3496966,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      },
+      "rate_limited": false,
+      "first_lines": "=== Collection started at 2025-09-28T00:29:52.306820 ===\nParams: model_id=196220, version_id=196220, model_name=STOIQO NewReality 🟡 FLUX, SD3.5, SDXL, SD1.5, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 196220 -> 0 rows (raw_metadata contains -> 1)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=196220, version_id=196220, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=132 (items returned)\nSaved 131 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 132, \"new_saved\": 131, \"duplicates_total\": 1, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 3601014, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3601220, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3153853, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3153856, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3153857, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3601762, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3601758, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3289194, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3532751, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3496966, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T00:30:15.450590 ===",
+      "last_lines": "=== Collection started at 2025-09-28T00:29:52.306820 ===\nParams: model_id=196220, version_id=196220, model_name=STOIQO NewReality 🟡 FLUX, SD3.5, SDXL, SD1.5, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 196220 -> 0 rows (raw_metadata contains -> 1)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=196220, version_id=196220, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=132 (items returned)\nSaved 131 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 132, \"new_saved\": 131, \"duplicates_total\": 1, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 3601014, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3601220, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3153853, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3153856, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3153857, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3601762, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3601758, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3289194, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3532751, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3496966, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T00:30:15.450590 ==="
+    },
+    {
+      "file": "C:\\APP\\civitai-prompt-collector-v2\\scripts\\collect_job_9fa9dd59.log",
+      "size": 1516,
+      "params": {
+        "model_id": "1004186",
+        "version_id": "1004186",
+        "model_name": "Big Love",
+        "max_items": 1000,
+        "save": true,
+        "categorize": true
+      },
+      "api_total": null,
+      "db_preview": {
+        "version": "1004186",
+        "rows": 0,
+        "raw_contains": 4
+      },
+      "collected": 100,
+      "saved": 100,
+      "job_summary": {
+        "planned": 1000,
+        "attempted": 100,
+        "new_saved": 100,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 40039268,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 40039269,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 40038872,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 40039031,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 40039260,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 40039139,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 40039190,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 40039189,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 40674320,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 40038773,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      },
+      "rate_limited": false,
+      "first_lines": "=== Collection started at 2025-09-28T02:09:21.918260 ===\nParams: model_id=1004186, version_id=1004186, model_name=Big Love, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 1004186 -> 0 rows (raw_metadata contains -> 4)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=1004186, version_id=1004186, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=100 (items returned)\nSaved 100 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 100, \"new_saved\": 100, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 40039268, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40039269, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40038872, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40039031, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40039260, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40039139, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40039190, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40039189, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40674320, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40038773, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T02:09:48.264842 ===",
+      "last_lines": "=== Collection started at 2025-09-28T02:09:21.918260 ===\nParams: model_id=1004186, version_id=1004186, model_name=Big Love, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 1004186 -> 0 rows (raw_metadata contains -> 4)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=1004186, version_id=1004186, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=100 (items returned)\nSaved 100 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 100, \"new_saved\": 100, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 40039268, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40039269, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40038872, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40039031, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40039260, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40039139, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40039190, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40039189, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40674320, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40038773, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T02:09:48.264842 ==="
+    },
+    {
+      "file": "C:\\APP\\civitai-prompt-collector-v2\\scripts\\collect_job_b4f18bee.log",
+      "size": 1555,
+      "params": {
+        "model_id": "1945718",
+        "version_id": "1945718",
+        "model_name": "PornMaster-Pro 色情大师- Illustrious & noob",
+        "max_items": 1000,
+        "save": true,
+        "categorize": true
+      },
+      "api_total": null,
+      "db_preview": {
+        "version": "1945718",
+        "rows": 0,
+        "raw_contains": 0
+      },
+      "collected": 820,
+      "saved": 820,
+      "job_summary": {
+        "planned": 1000,
+        "attempted": 820,
+        "new_saved": 820,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 84662904,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 89568928,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 84663668,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 89568930,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 84669834,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 84664871,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 84662912,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 84662903,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 90746063,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 84662910,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      },
+      "rate_limited": false,
+      "first_lines": "=== Collection started at 2025-09-28T02:48:56.900263 ===\nParams: model_id=1945718, version_id=1945718, model_name=PornMaster-Pro 色情大师- Illustrious & noob, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 1945718 -> 0 rows (raw_metadata contains -> 0)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=1945718, version_id=1945718, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=820 (items returned)\nSaved 820 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 820, \"new_saved\": 820, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 84662904, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 89568928, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84663668, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 89568930, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84669834, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84664871, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84662912, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84662903, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 90746063, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84662910, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T02:49:48.174959 ===",
+      "last_lines": "=== Collection started at 2025-09-28T02:48:56.900263 ===\nParams: model_id=1945718, version_id=1945718, model_name=PornMaster-Pro 色情大师- Illustrious & noob, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 1945718 -> 0 rows (raw_metadata contains -> 0)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=1945718, version_id=1945718, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=820 (items returned)\nSaved 820 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 820, \"new_saved\": 820, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 84662904, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 89568928, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84663668, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 89568930, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84669834, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84664871, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84662912, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84662903, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 90746063, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84662910, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T02:49:48.174959 ==="
+    },
+    {
+      "file": "C:\\APP\\civitai-prompt-collector-v2\\scripts\\collect_job_cb47160c.log",
+      "size": 1551,
+      "params": {
+        "model_id": "2099739",
+        "version_id": "2099739",
+        "model_name": "PornMaster-Pro 色情大师- Illustrious & noob",
+        "max_items": 1000,
+        "save": true,
+        "categorize": true
+      },
+      "api_total": null,
+      "db_preview": {
+        "version": "2099739",
+        "rows": 0,
+        "raw_contains": 0
+      },
+      "collected": 26,
+      "saved": 24,
+      "job_summary": {
+        "planned": 1000,
+        "attempted": 26,
+        "new_saved": 24,
+        "duplicates_total": 2,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 93460296,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 93459473,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 93857672,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 93446283,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 93558676,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 94984537,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 93446292,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 93550895,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 93447538,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 94422543,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      },
+      "rate_limited": false,
+      "first_lines": "=== Collection started at 2025-09-28T02:45:44.051581 ===\nParams: model_id=2099739, version_id=2099739, model_name=PornMaster-Pro 色情大师- Illustrious & noob, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 2099739 -> 0 rows (raw_metadata contains -> 0)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=2099739, version_id=2099739, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=26 (items returned)\nSaved 24 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 26, \"new_saved\": 24, \"duplicates_total\": 2, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 93460296, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93459473, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93857672, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93446283, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93558676, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 94984537, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93446292, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93550895, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93447538, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 94422543, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T02:46:02.439169 ===",
+      "last_lines": "=== Collection started at 2025-09-28T02:45:44.051581 ===\nParams: model_id=2099739, version_id=2099739, model_name=PornMaster-Pro 色情大师- Illustrious & noob, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 2099739 -> 0 rows (raw_metadata contains -> 0)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=2099739, version_id=2099739, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=26 (items returned)\nSaved 24 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 26, \"new_saved\": 24, \"duplicates_total\": 2, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 93460296, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93459473, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93857672, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93446283, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93558676, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 94984537, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93446292, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93550895, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93447538, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 94422543, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T02:46:02.439169 ==="
+    },
+    {
+      "file": "C:\\APP\\civitai-prompt-collector-v2\\scripts\\collect_job_f9324056.log",
+      "size": 1516,
+      "params": {
+        "model_id": "1973705",
+        "version_id": "1973705",
+        "model_name": "Big Love",
+        "max_items": 1000,
+        "save": true,
+        "categorize": true
+      },
+      "api_total": null,
+      "db_preview": {
+        "version": "1973705",
+        "rows": 0,
+        "raw_contains": 0
+      },
+      "collected": 156,
+      "saved": 156,
+      "job_summary": {
+        "planned": 1000,
+        "attempted": 156,
+        "new_saved": 156,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 96227664,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 88285693,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 95362550,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 95588840,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 95588722,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 88291579,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 97909537,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 95362601,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 86905512,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 86404753,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      },
+      "rate_limited": false,
+      "first_lines": "=== Collection started at 2025-09-28T01:17:53.536735 ===\nParams: model_id=1973705, version_id=1973705, model_name=Big Love, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 1973705 -> 0 rows (raw_metadata contains -> 0)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=1973705, version_id=1973705, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=156 (items returned)\nSaved 156 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 156, \"new_saved\": 156, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 96227664, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 88285693, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 95362550, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 95588840, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 95588722, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 88291579, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 97909537, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 95362601, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 86905512, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 86404753, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T01:18:16.810331 ===",
+      "last_lines": "=== Collection started at 2025-09-28T01:17:53.536735 ===\nParams: model_id=1973705, version_id=1973705, model_name=Big Love, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 1973705 -> 0 rows (raw_metadata contains -> 0)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=1973705, version_id=1973705, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=156 (items returned)\nSaved 156 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 156, \"new_saved\": 156, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 96227664, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 88285693, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 95362550, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 95588840, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 95588722, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 88291579, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 97909537, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 95362601, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 86905512, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 86404753, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T01:18:16.810331 ==="
+    },
+    {
+      "file": "C:\\APP\\civitai-prompt-collector-v2\\scripts\\collect_job_fc3dff8f.log",
+      "size": 1516,
+      "params": {
+        "model_id": "1990969",
+        "version_id": "1990969",
+        "model_name": "Big Love",
+        "max_items": 1000,
+        "save": true,
+        "categorize": true
+      },
+      "api_total": null,
+      "db_preview": {
+        "version": "1990969",
+        "rows": 0,
+        "raw_contains": 0
+      },
+      "collected": 188,
+      "saved": 188,
+      "job_summary": {
+        "planned": 1000,
+        "attempted": 188,
+        "new_saved": 188,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 88649534,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 87495973,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 93805818,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 87495975,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 87877577,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 88946609,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 89177198,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 88649536,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 88946604,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 87885724,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      },
+      "rate_limited": false,
+      "first_lines": "=== Collection started at 2025-09-28T00:55:59.918453 ===\nParams: model_id=1990969, version_id=1990969, model_name=Big Love, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 1990969 -> 0 rows (raw_metadata contains -> 0)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=1990969, version_id=1990969, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=188 (items returned)\nSaved 188 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 188, \"new_saved\": 188, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 88649534, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 87495973, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93805818, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 87495975, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 87877577, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 88946609, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 89177198, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 88649536, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 88946604, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 87885724, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T00:56:27.298948 ===",
+      "last_lines": "=== Collection started at 2025-09-28T00:55:59.918453 ===\nParams: model_id=1990969, version_id=1990969, model_name=Big Love, max_items=1000, save=True, categorize=True\nDB preview: model_version_id == 1990969 -> 0 rows (raw_metadata contains -> 0)\nAPI preview: totalItems not reported (cursor-based)\nCollecting... (sanitized model_id=1990969, version_id=1990969, max_items=1000, strict_version_match=False)\nUsing collect_images_safe for version-based collection\nCollected total=188 (items returned)\nSaved 188 items to DB\nRunning categorization...\nCategorization finished.\nJob summary: {\"planned\": 1000, \"attempted\": 188, \"new_saved\": 188, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 88649534, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 87495973, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93805818, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 87495975, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 87877577, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 88946609, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 89177198, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 88649536, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 88946604, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 87885724, \"model_id\": null, \"model_version_id\": null}]}\nWrote job summary to collection_state\n=== Collection finished at 2025-09-28T00:56:27.298948 ==="
+    }
+  ],
+  "collection_state": [
+    {
+      "model_id": "1767015",
+      "version_id": "1767015",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 978,
+      "duplicates": 0,
+      "saved": 978,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 978, \"new_saved\": 978, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 75219175, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 75219166, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 78559360, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 76249101, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 79235021, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 76249104, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 81924941, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 80614960, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 78541891, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 78559359, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 18:09:53",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 978,
+        "new_saved": 978,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 75219175,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 75219166,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 78559360,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 76249101,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 79235021,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 76249104,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 81924941,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 80614960,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 78541891,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 78559359,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "1767015",
+      "last_offset": 1029,
+      "total_collected": 978,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 18:09:25",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "1945718",
+      "version_id": "1945718",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 820,
+      "duplicates": 0,
+      "saved": 820,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 820, \"new_saved\": 820, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 84662904, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 89568928, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84663668, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 89568930, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84669834, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84664871, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84662912, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84662903, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 90746063, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84662910, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 17:49:48",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 820,
+        "new_saved": 820,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 84662904,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 89568928,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 84663668,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 89568930,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 84669834,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 84664871,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 84662912,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 84662903,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 90746063,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 84662910,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "1945718",
+      "last_offset": 849,
+      "total_collected": 820,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 17:49:24",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "2099739",
+      "version_id": "2099739",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 26,
+      "duplicates": 2,
+      "saved": 24,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 26, \"new_saved\": 24, \"duplicates_total\": 2, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 93460296, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93459473, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93857672, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93446283, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93558676, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 94984537, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93446292, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93550895, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93447538, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 94422543, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 17:46:02",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 26,
+        "new_saved": 24,
+        "duplicates_total": 2,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 93460296,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 93459473,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 93857672,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 93446283,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 93558676,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 94984537,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 93446292,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 93550895,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 93447538,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 94422543,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "2099739",
+      "last_offset": 28,
+      "total_collected": 24,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 17:45:48",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "2107048",
+      "version_id": "2107048",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 177,
+      "duplicates": 0,
+      "saved": 177,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 177, \"new_saved\": 177, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 93859301, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93855461, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 97359475, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93857672, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 97375123, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 96294442, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 94548516, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 99277595, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 97349382, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 97213121, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 17:40:59",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 177,
+        "new_saved": 177,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 93859301,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 93855461,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 97359475,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 93857672,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 97375123,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 96294442,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 94548516,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 99277595,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 97349382,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 97213121,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "2107048",
+      "last_offset": 197,
+      "total_collected": 177,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 17:40:42",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "1004186",
+      "version_id": "1004186",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 100,
+      "duplicates": 0,
+      "saved": 100,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 100, \"new_saved\": 100, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 40039268, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40039269, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40038872, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40039031, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40039260, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40039139, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40039190, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40039189, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40674320, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 40038773, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 17:09:48",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 100,
+        "new_saved": 100,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 40039268,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 40039269,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 40038872,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 40039031,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 40039260,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 40039139,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 40039190,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 40039189,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 40674320,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 40038773,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "1004186",
+      "last_offset": 102,
+      "total_collected": 100,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 17:09:31",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "1077585",
+      "version_id": "1077585",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 1000,
+      "duplicates": 0,
+      "saved": 1000,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 1000, \"new_saved\": 1000, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 90524024, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 41008691, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 41008701, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 41008719, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 83407273, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 87871073, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 69778142, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 47118652, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 64978838, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 87871070, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 16:53:35",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 1000,
+        "new_saved": 1000,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 90524024,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 41008691,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 41008701,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 41008719,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 83407273,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 87871073,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 69778142,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 47118652,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 64978838,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 87871070,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "1077585",
+      "last_offset": 1200,
+      "total_collected": 1000,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 16:53:09",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "1744439",
+      "version_id": "1744439",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 612,
+      "duplicates": 0,
+      "saved": 612,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 612, \"new_saved\": 612, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 79968782, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 74624546, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 77090849, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 74565992, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 78661168, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84445567, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 79682322, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 76842212, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 84823610, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 80129011, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 16:21:47",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 612,
+        "new_saved": 612,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 79968782,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 74624546,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 77090849,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 74565992,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 78661168,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 84445567,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 79682322,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 76842212,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 84823610,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 80129011,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "1744439",
+      "last_offset": 838,
+      "total_collected": 612,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 16:21:26",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "1973705",
+      "version_id": "1973705",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 156,
+      "duplicates": 0,
+      "saved": 156,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 156, \"new_saved\": 156, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 96227664, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 88285693, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 95362550, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 95588840, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 95588722, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 88291579, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 97909537, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 95362601, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 86905512, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 86404753, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 16:18:16",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 156,
+        "new_saved": 156,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 96227664,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 88285693,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 95362550,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 95588840,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 95588722,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 88291579,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 97909537,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 95362601,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 86905512,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 86404753,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "1973705",
+      "last_offset": 199,
+      "total_collected": 156,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 16:18:01",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "1990969",
+      "version_id": "1990969",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 188,
+      "duplicates": 0,
+      "saved": 188,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 188, \"new_saved\": 188, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 88649534, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 87495973, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 93805818, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 87495975, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 87877577, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 88946609, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 89177198, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 88649536, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 88946604, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 87885724, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 15:56:27",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 188,
+        "new_saved": 188,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 88649534,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 87495973,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 93805818,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 87495975,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 87877577,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 88946609,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 89177198,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 88649536,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 88946604,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 87885724,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "1990969",
+      "last_offset": 275,
+      "total_collected": 188,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 15:56:11",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "2117129",
+      "version_id": "2117129",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 162,
+      "duplicates": 1,
+      "saved": 161,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 162, \"new_saved\": 161, \"duplicates_total\": 1, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 95236578, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 100734340, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 100734413, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 100734262, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 100734176, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 100734080, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 100734026, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 97901303, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 95297376, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 99120857, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 15:50:19",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 162,
+        "new_saved": 161,
+        "duplicates_total": 1,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 95236578,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 100734340,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 100734413,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 100734262,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 100734176,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 100734080,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 100734026,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 97901303,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 95297376,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 99120857,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "2117129",
+      "last_offset": 182,
+      "total_collected": 161,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 15:50:04",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "2248865",
+      "version_id": "2248865",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 52,
+      "duplicates": 0,
+      "saved": 52,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 52, \"new_saved\": 52, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 102614261, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102614251, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102627016, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102614273, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102614268, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102614265, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102614262, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102614252, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102614250, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 102541619, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 15:45:00",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 52,
+        "new_saved": 52,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 102614261,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 102614251,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 102627016,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 102614273,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 102614268,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 102614265,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 102614262,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 102614252,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 102614250,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 102541619,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "2248865",
+      "last_offset": 52,
+      "total_collected": 52,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 15:44:47",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "219222",
+      "version_id": "219222",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 18,
+      "duplicates": 0,
+      "saved": 18,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 18, \"new_saved\": 18, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 3537846, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3537845, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3537840, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3532681, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3537844, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3537841, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3537839, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3534933, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3534932, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3552992, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 15:40:17",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 18,
+        "new_saved": 18,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 3537846,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3537845,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3537840,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3532681,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3537844,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3537841,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3537839,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3534933,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3534932,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3552992,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "219222",
+      "last_offset": 23,
+      "total_collected": 18,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 15:40:04",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "181258",
+      "version_id": "181258",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 68,
+      "duplicates": 0,
+      "saved": 68,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 68, \"new_saved\": 68, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 3027213, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3027208, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3027217, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3027203, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3026814, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3009977, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3027202, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3026771, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3026770, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3025851, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 15:34:08",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 68,
+        "new_saved": 68,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 3027213,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3027208,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3027217,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3027203,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3026814,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3009977,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3027202,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3026771,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3026770,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3025851,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "181258",
+      "last_offset": 123,
+      "total_collected": 68,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 15:33:54",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "196220",
+      "version_id": "196220",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 132,
+      "duplicates": 1,
+      "saved": 131,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 132, \"new_saved\": 131, \"duplicates_total\": 1, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 3601014, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3601220, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3153853, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3153856, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3153857, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3601762, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3601758, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3289194, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3532751, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3496966, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 15:30:15",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 132,
+        "new_saved": 131,
+        "duplicates_total": 1,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 3601014,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3601220,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3153853,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3153856,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3153857,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3601762,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3601758,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3289194,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3532751,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3496966,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "196220",
+      "last_offset": 160,
+      "total_collected": 131,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 15:30:01",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "232565",
+      "version_id": "232565",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 1000,
+      "duplicates": 1000,
+      "saved": 0,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 1000, \"new_saved\": 0, \"duplicates_total\": 1000, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 7483483, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 6117064, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 5765635, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 4204997, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 7517492, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 5592112, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 6302149, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 3777190, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 6107740, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 6494826, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 15:25:47",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 1000,
+        "new_saved": 0,
+        "duplicates_total": 1000,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 7483483,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 6117064,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 5765635,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 4204997,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 7517492,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 5592112,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 6302149,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 3777190,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 6107740,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 6494826,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "232565",
+      "last_offset": 2210,
+      "total_collected": 1000,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 15:25:33",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "254534",
+      "version_id": "254534",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 1000,
+      "duplicates": 1,
+      "saved": 999,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 1000, \"new_saved\": 999, \"duplicates_total\": 1, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 4741756, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 4561223, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 4334211, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 23760299, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 4360726, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 4399374, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 23453887, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 24088810, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 23759647, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 25393367, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 13:29:39",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 1000,
+        "new_saved": 999,
+        "duplicates_total": 1,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 4741756,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 4561223,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 4334211,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 23760299,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 4360726,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 4399374,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 23453887,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 24088810,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 23759647,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 25393367,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "254534",
+      "last_offset": 1100,
+      "total_collected": 999,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 13:29:13",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "271128",
+      "version_id": "271128",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 90,
+      "duplicates": 1,
+      "saved": 89,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 90, \"new_saved\": 89, \"duplicates_total\": 1, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 4955168, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 4955166, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 4908917, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 7480731, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 4962423, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 4907227, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 4863043, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 5158549, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 4962366, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 4906754, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 12:13:28",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 90,
+        "new_saved": 89,
+        "duplicates_total": 1,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 4955168,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 4955166,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 4908917,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 7480731,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 4962423,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 4907227,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 4863043,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 5158549,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 4962366,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 4906754,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "271128",
+      "last_offset": 113,
+      "total_collected": 89,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 12:13:15",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "275491",
+      "version_id": "275491",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 1000,
+      "duplicates": 0,
+      "saved": 1000,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 1000, \"new_saved\": 1000, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 5154788, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 4905243, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 4931264, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 5331079, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 5331077, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 5331078, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 5215051, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 8310959, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 8310956, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 4964237, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 12:10:07",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 1000,
+        "new_saved": 1000,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 5154788,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 4905243,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 4931264,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 5331079,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 5331077,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 5331078,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 5215051,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 8310959,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 8310956,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 4964237,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "275491",
+      "last_offset": 1100,
+      "total_collected": 1000,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 12:09:37",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "312982",
+      "version_id": "312982",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 1000,
+      "duplicates": 0,
+      "saved": 1000,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 1000, \"new_saved\": 1000, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 6863410, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 8338658, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 8230259, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 70496310, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 21513070, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 16484371, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 9359907, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 16613885, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 10209637, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 25342638, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 12:01:05",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 1000,
+        "new_saved": 1000,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 6863410,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 8338658,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 8230259,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 70496310,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 21513070,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 16484371,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 9359907,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 16613885,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 10209637,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 25342638,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "312982",
+      "last_offset": 1100,
+      "total_collected": 1000,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 12:00:40",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "417857",
+      "version_id": "417857",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 540,
+      "duplicates": 0,
+      "saved": 540,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 540, \"new_saved\": 540, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 9330358, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 9797260, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 8799011, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 10204247, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 10006337, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 9143887, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 9686924, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 9686923, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 10201802, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 9004605, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 10:57:03",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 540,
+        "new_saved": 540,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 9330358,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 9797260,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 8799011,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 10204247,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 10006337,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 9143887,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 9686924,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 9686923,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 10201802,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 9004605,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "417857",
+      "last_offset": 558,
+      "total_collected": 540,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 10:56:44",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "479474",
+      "version_id": "479474",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 1000,
+      "duplicates": 0,
+      "saved": 1000,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 1000, \"new_saved\": 1000, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 14619790, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 15795743, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 86448649, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 12577027, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 14950731, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 11717235, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 86448629, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 17464304, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 78492371, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 86448671, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 09:37:22",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 1000,
+        "new_saved": 1000,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 14619790,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 15795743,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 86448649,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 12577027,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 14950731,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 11717235,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 86448629,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 17464304,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 78492371,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 86448671,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "479474",
+      "last_offset": 1100,
+      "total_collected": 1000,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 09:36:54",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "498484",
+      "version_id": "498484",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 231,
+      "duplicates": 0,
+      "saved": 231,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 231, \"new_saved\": 231, \"duplicates_total\": 0, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 14776904, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 12094049, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 17063141, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 14673075, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 12093472, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 13097360, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 12094485, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 17062628, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 16732903, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 17062451, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 09:05:10",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 231,
+        "new_saved": 231,
+        "duplicates_total": 0,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 14776904,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 12094049,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 17063141,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 14673075,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 12093472,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 13097360,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 12094485,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 17062628,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 16732903,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 17062451,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "498484",
+      "last_offset": 293,
+      "total_collected": 231,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 08:57:59",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "690310",
+      "version_id": "690310",
+      "last_offset": 0,
+      "total_collected": 42498,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 1000,
+      "duplicates": 10,
+      "saved": 990,
+      "summary_json": "{\"planned\": 1000, \"attempted\": 1000, \"new_saved\": 990, \"duplicates_total\": 10, \"duplicates_by_version\": [], \"sample_items\": [{\"civitai_id\": 34097040, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 58237929, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 41650677, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 37004723, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 58225813, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 29402205, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 33626166, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 34707619, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 58237933, \"model_id\": null, \"model_version_id\": null}, {\"civitai_id\": 58001256, \"model_id\": null, \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 08:13:17",
+      "summary_json_parsed": {
+        "planned": 1000,
+        "attempted": 1000,
+        "new_saved": 990,
+        "duplicates_total": 10,
+        "duplicates_by_version": [],
+        "sample_items": [
+          {
+            "civitai_id": 34097040,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 58237929,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 41650677,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 37004723,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 58225813,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 29402205,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 33626166,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 34707619,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 58237933,
+            "model_id": null,
+            "model_version_id": null
+          },
+          {
+            "civitai_id": 58001256,
+            "model_id": null,
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "690310",
+      "last_offset": 1699,
+      "total_collected": 990,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 08:06:11",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "161068",
+      "version_id": "690310",
+      "last_offset": 0,
+      "total_collected": 0,
+      "status": "running",
+      "planned_total": 10000000,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-27 07:45:43",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "974693",
+      "version_id": "1542140",
+      "last_offset": 1000,
+      "total_collected": 42451,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 50,
+      "duplicates": 0,
+      "saved": 50,
+      "summary_json": "{\"planned\": 10000000, \"attempted\": 50, \"new_saved\": 50, \"duplicates_total\": 0, \"duplicates_by_version\": [{\"model_id\": \"1542140\", \"version_id\": \"\", \"count\": 50}], \"sample_items\": [{\"civitai_id\": \"97991842\", \"model_id\": \"1542140\", \"model_version_id\": null}, {\"civitai_id\": \"96344704\", \"model_id\": \"1542140\", \"model_version_id\": null}, {\"civitai_id\": \"96344688\", \"model_id\": \"1542140\", \"model_version_id\": null}, {\"civitai_id\": \"96344656\", \"model_id\": \"1542140\", \"model_version_id\": null}, {\"civitai_id\": \"96344568\", \"model_id\": \"1542140\", \"model_version_id\": null}, {\"civitai_id\": \"96344488\", \"model_id\": \"1542140\", \"model_version_id\": null}, {\"civitai_id\": \"86284638\", \"model_id\": \"1542140\", \"model_version_id\": null}, {\"civitai_id\": \"86284639\", \"model_id\": \"1542140\", \"model_version_id\": null}, {\"civitai_id\": \"83288054\", \"model_id\": \"1542140\", \"model_version_id\": null}, {\"civitai_id\": \"83287984\", \"model_id\": \"1542140\", \"model_version_id\": null}]}",
+      "last_update": "2025-09-27 05:36:52",
+      "summary_json_parsed": {
+        "planned": 10000000,
+        "attempted": 50,
+        "new_saved": 50,
+        "duplicates_total": 0,
+        "duplicates_by_version": [
+          {
+            "model_id": "1542140",
+            "version_id": "",
+            "count": 50
+          }
+        ],
+        "sample_items": [
+          {
+            "civitai_id": "97991842",
+            "model_id": "1542140",
+            "model_version_id": null
+          },
+          {
+            "civitai_id": "96344704",
+            "model_id": "1542140",
+            "model_version_id": null
+          },
+          {
+            "civitai_id": "96344688",
+            "model_id": "1542140",
+            "model_version_id": null
+          },
+          {
+            "civitai_id": "96344656",
+            "model_id": "1542140",
+            "model_version_id": null
+          },
+          {
+            "civitai_id": "96344568",
+            "model_id": "1542140",
+            "model_version_id": null
+          },
+          {
+            "civitai_id": "96344488",
+            "model_id": "1542140",
+            "model_version_id": null
+          },
+          {
+            "civitai_id": "86284638",
+            "model_id": "1542140",
+            "model_version_id": null
+          },
+          {
+            "civitai_id": "86284639",
+            "model_id": "1542140",
+            "model_version_id": null
+          },
+          {
+            "civitai_id": "83288054",
+            "model_id": "1542140",
+            "model_version_id": null
+          },
+          {
+            "civitai_id": "83287984",
+            "model_id": "1542140",
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "974693",
+      "version_id": "1736657",
+      "last_offset": 0,
+      "total_collected": 42401,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 46,
+      "duplicates": 46,
+      "saved": 0,
+      "summary_json": "{\"planned\": 200, \"attempted\": 46, \"new_saved\": 0, \"duplicates_total\": 46, \"duplicates_by_version\": [{\"model_id\": \"1736657\", \"version_id\": \"\", \"count\": 46}], \"sample_items\": [{\"civitai_id\": \"99296752\", \"model_id\": \"1736657\", \"model_version_id\": null}, {\"civitai_id\": \"99296747\", \"model_id\": \"1736657\", \"model_version_id\": null}, {\"civitai_id\": \"99296748\", \"model_id\": \"1736657\", \"model_version_id\": null}, {\"civitai_id\": \"99296768\", \"model_id\": \"1736657\", \"model_version_id\": null}, {\"civitai_id\": \"99296765\", \"model_id\": \"1736657\", \"model_version_id\": null}, {\"civitai_id\": \"99296760\", \"model_id\": \"1736657\", \"model_version_id\": null}, {\"civitai_id\": \"99296759\", \"model_id\": \"1736657\", \"model_version_id\": null}, {\"civitai_id\": \"99296758\", \"model_id\": \"1736657\", \"model_version_id\": null}, {\"civitai_id\": \"99296757\", \"model_id\": \"1736657\", \"model_version_id\": null}, {\"civitai_id\": \"99296756\", \"model_id\": \"1736657\", \"model_version_id\": null}]}",
+      "last_update": "2025-09-26 18:24:00",
+      "summary_json_parsed": {
+        "planned": 200,
+        "attempted": 46,
+        "new_saved": 0,
+        "duplicates_total": 46,
+        "duplicates_by_version": [
+          {
+            "model_id": "1736657",
+            "version_id": "",
+            "count": 46
+          }
+        ],
+        "sample_items": [
+          {
+            "civitai_id": "99296752",
+            "model_id": "1736657",
+            "model_version_id": null
+          },
+          {
+            "civitai_id": "99296747",
+            "model_id": "1736657",
+            "model_version_id": null
+          },
+          {
+            "civitai_id": "99296748",
+            "model_id": "1736657",
+            "model_version_id": null
+          },
+          {
+            "civitai_id": "99296768",
+            "model_id": "1736657",
+            "model_version_id": null
+          },
+          {
+            "civitai_id": "99296765",
+            "model_id": "1736657",
+            "model_version_id": null
+          },
+          {
+            "civitai_id": "99296760",
+            "model_id": "1736657",
+            "model_version_id": null
+          },
+          {
+            "civitai_id": "99296759",
+            "model_id": "1736657",
+            "model_version_id": null
+          },
+          {
+            "civitai_id": "99296758",
+            "model_id": "1736657",
+            "model_version_id": null
+          },
+          {
+            "civitai_id": "99296757",
+            "model_id": "1736657",
+            "model_version_id": null
+          },
+          {
+            "civitai_id": "99296756",
+            "model_id": "1736657",
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "2091367",
+      "version_id": "2091367",
+      "last_offset": 0,
+      "total_collected": 42305,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 5,
+      "duplicates": 5,
+      "saved": 0,
+      "summary_json": "{\"planned\": 5, \"attempted\": 5, \"new_saved\": 0, \"duplicates_total\": 5, \"duplicates_by_version\": [{\"model_id\": \"2091367\", \"version_id\": \"\", \"count\": 5}], \"sample_items\": [{\"civitai_id\": \"102532809\", \"model_id\": \"2091367\", \"model_version_id\": null}, {\"civitai_id\": \"102532805\", \"model_id\": \"2091367\", \"model_version_id\": null}, {\"civitai_id\": \"102532803\", \"model_id\": \"2091367\", \"model_version_id\": null}, {\"civitai_id\": \"102486449\", \"model_id\": \"2091367\", \"model_version_id\": null}, {\"civitai_id\": \"102486450\", \"model_id\": \"2091367\", \"model_version_id\": null}]}",
+      "last_update": "2025-09-26 16:43:33",
+      "summary_json_parsed": {
+        "planned": 5,
+        "attempted": 5,
+        "new_saved": 0,
+        "duplicates_total": 5,
+        "duplicates_by_version": [
+          {
+            "model_id": "2091367",
+            "version_id": "",
+            "count": 5
+          }
+        ],
+        "sample_items": [
+          {
+            "civitai_id": "102532809",
+            "model_id": "2091367",
+            "model_version_id": null
+          },
+          {
+            "civitai_id": "102532805",
+            "model_id": "2091367",
+            "model_version_id": null
+          },
+          {
+            "civitai_id": "102532803",
+            "model_id": "2091367",
+            "model_version_id": null
+          },
+          {
+            "civitai_id": "102486449",
+            "model_id": "2091367",
+            "model_version_id": null
+          },
+          {
+            "civitai_id": "102486450",
+            "model_id": "2091367",
+            "model_version_id": null
+          }
+        ]
+      }
+    },
+    {
+      "model_id": "",
+      "version_id": "2091367",
+      "last_offset": 3831,
+      "total_collected": 1191,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-26 11:21:56",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "0",
+      "version_id": "2094547",
+      "last_offset": 0,
+      "total_collected": 42295,
+      "status": "completed",
+      "planned_total": 5,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-26 04:30:01",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "",
+      "version_id": "2094547",
+      "last_offset": 15,
+      "total_collected": 5,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-26 00:24:41",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "",
+      "version_id": "1759168",
+      "last_offset": 50402,
+      "total_collected": 39589,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-25 16:01:58",
+      "summary_json_parsed": null
+    },
+    {
+      "model_id": "",
+      "version_id": "1934796",
+      "last_offset": 1671,
+      "total_collected": 1410,
+      "status": "idle",
+      "planned_total": null,
+      "attempted": 0,
+      "duplicates": 0,
+      "saved": 0,
+      "summary_json": null,
+      "last_update": "2025-09-25 03:52:45",
+      "summary_json_parsed": null
+    }
+  ]
+}
