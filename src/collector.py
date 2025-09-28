@@ -10,7 +10,7 @@ import time
 from datetime import datetime
 from typing import Dict, List, Optional, Tuple, Any
 
-from src.config import (
+from config import (
     CIVITAI_API_KEY, USER_AGENT, API_BASE_URL,
     REQUEST_TIMEOUT, RETRY_DELAY, RATE_LIMIT_WAIT,
     QUALITY_KEYWORDS
@@ -46,6 +46,37 @@ class CivitaiAPIClient:
                 print(f"[API] Header {k} contains non-Latin1 characters, sanitized")
 
         return safe_headers
+
+    def get_model_meta(self, model_id: int) -> Optional[Dict[str, Any]]:
+        """Fetch model metadata (including modelVersions) from Civitai API"""
+        try:
+            url = f"https://civitai.com/api/v1/models/{model_id}"
+            headers = self._get_headers()
+            resp = requests.get(url, headers=headers, timeout=REQUEST_TIMEOUT)
+            if resp.status_code == 200:
+                return resp.json()
+            else:
+                print(f"[API] get_model_meta HTTP {resp.status_code}: {resp.text[:200]}")
+                return None
+        except Exception as e:
+            print(f"[API] get_model_meta failed: {e}")
+            return None
+
+    def get_images_page_info(self, version_id: int) -> Optional[Dict[str, Any]]:
+        """Query the images endpoint for a single page to extract metadata (e.g., totalItems)"""
+        try:
+            url = "https://civitai.com/api/v1/images"
+            headers = self._get_headers()
+            params = {"modelVersionId": version_id, "limit": 1, "page": 1}
+            resp = requests.get(url, params=params, headers=headers, timeout=REQUEST_TIMEOUT)
+            if resp.status_code == 200:
+                return resp.json().get('metadata', {})
+            else:
+                print(f"[API] get_images_page_info HTTP {resp.status_code}: {resp.text[:200]}")
+                return None
+        except Exception as e:
+            print(f"[API] get_images_page_info failed: {e}")
+            return None
 
     def fetch_batch(self, url_or_params, max_retries: int = 3) -> Tuple[List[Dict], Optional[str]]:
         """APIから1ページ分のデータを取得"""
@@ -113,8 +144,31 @@ class PromptDataExtractor:
                 "download_count": stats.get("downloadCount", 0),
                 "model_name": meta.get("Model") or meta.get("model") or item.get("model") or "",
                 "model_id": str(item.get("modelId") or meta.get("ModelId") or ""),
+                "model_version_id": str(item.get("modelVersionId") or item.get('modelVersionIds') or meta.get('modelVersionId') or ""),
                 "raw_metadata": json.dumps(item, ensure_ascii=False)
             }
+
+            # Parse civitaiResources into a normalized resources list
+            resources = []
+            try:
+                civres = meta.get('civitaiResources') or item.get('civitaiResources') or []
+                if isinstance(civres, list):
+                    for idx, r in enumerate(civres):
+                        if not isinstance(r, dict):
+                            continue
+                        resources.append({
+                            'index': idx,
+                            'type': r.get('type') or r.get('resourceType') or '',
+                            'name': r.get('name') or r.get('resourceName') or r.get('checkpointName') or '',
+                            'modelId': str(r.get('modelId') or r.get('model') or ''),
+                            'modelVersionId': str(r.get('modelVersionId') or r.get('id') or ''),
+                            'resourceId': str(r.get('id') or r.get('resourceId') or ''),
+                            'raw': json.dumps(r, ensure_ascii=False)
+                        })
+            except Exception:
+                resources = []
+
+            prompt_data['resources'] = resources
 
             # 追加メトリクス計算
             prompt_text = prompt_data["full_prompt"] or ""
@@ -127,6 +181,63 @@ class PromptDataExtractor:
         except Exception as e:
             print(f"[Extractor] Error extracting data: {e}")
             return None
+
+    @staticmethod
+    def matches_version(item: Dict[str, Any], target_version_id: Optional[str], strict: bool = False) -> bool:
+        """Determine whether the given API item should be considered a match for target_version_id.
+
+        - If target_version_id is falsy, always return True.
+        - If strict is True, require that meta.civitaiResources contains a checkpoint resource
+          whose modelVersionId or id exactly equals the target_version_id.
+        - If strict is False, perform a permissive check across common fields.
+        """
+        if not target_version_id:
+            return True
+        targ = str(target_version_id).strip()
+        try:
+            meta = item.get('meta', {}) or {}
+
+            # Strict mode: only accept if civitaiResources contains a checkpoint with matching id
+            if strict:
+                civres = meta.get('civitaiResources') or item.get('civitaiResources') or []
+                if isinstance(civres, list):
+                    for r in civres:
+                        if not isinstance(r, dict):
+                            continue
+                        typ = r.get('type') or r.get('resourceType') or ''
+                        if str(typ).lower() != 'checkpoint':
+                            continue
+                        candidate = r.get('modelVersionId') or r.get('id') or r.get('modelVersionID')
+                        if candidate and str(candidate) == targ:
+                            return True
+                return False
+
+            # Non-strict: check common fields
+            mv = item.get('modelVersionId') or meta.get('modelVersionId') or ''
+            if mv and str(mv) == targ:
+                return True
+            mvlist = item.get('modelVersionIds') or meta.get('modelVersionIds') or []
+            if isinstance(mvlist, list) and targ in [str(x) for x in mvlist]:
+                return True
+
+            # Check civitaiResources for any resource pointing to the version (any type)
+            civres = meta.get('civitaiResources') or item.get('civitaiResources') or []
+            if isinstance(civres, list):
+                for r in civres:
+                    if isinstance(r, dict):
+                        candidate = r.get('modelVersionId') or r.get('id') or r.get('modelVersionID')
+                        if candidate and str(candidate) == targ:
+                            return True
+
+            # Fallback: raw JSON string contains the id somewhere
+            raw = json.dumps(item)
+            if targ in raw:
+                return True
+
+        except Exception:
+            return False
+
+        return False
 
 
 class QualityScorer:
@@ -172,7 +283,7 @@ class CivitaiPromptCollector:
         max_items: int = 5000
     ) -> Dict[str, int]:
         """指定されたモデルのプロンプト・画像を収集（modelVersionId指定時は画像APIで全件取得）"""
-        print(f"\n=== Collecting: {model_name or 'ALL_MODELS'} (model_id={model_id}) ===")
+        print(f"\n=== Collecting: {model_name or 'ALL_MODELS'} (model_id={model_id!r}, type={type(model_id)}) ===")
 
         collected = 0
         valid_items = []
@@ -226,7 +337,11 @@ class CivitaiPromptCollector:
                     if prompt_data:
                         if model_name and not prompt_data.get("model_name"):
                             prompt_data["model_name"] = model_name
-                        prompt_data["model_id"] = str(model_id)
+                        # When calling images API with a numeric id, this likely is a modelVersionId
+                        # store it in model_version_id to avoid confusion
+                        prompt_data["model_version_id"] = str(model_id)
+                        # keep model_id field empty unless known
+                        prompt_data["model_id"] = prompt_data.get('model_id') or ""
                         prompt_data["collected_at"] = datetime.now().isoformat()
                         valid_items.append(prompt_data)
                     collected += 1
@@ -256,8 +371,11 @@ class CivitaiPromptCollector:
                     if prompt_data and prompt_data.get("full_prompt"):
                         if model_name and not prompt_data.get("model_name"):
                             prompt_data["model_name"] = model_name
-                        if model_id and not prompt_data.get("model_id"):
-                            prompt_data["model_id"] = str(model_id)
+                            if model_id and not prompt_data.get("model_version_id"):
+                                # if user supplied a model_id (non-numeric), store as model_id
+                                prompt_data["model_id"] = str(model_id)
+                            if model_id and str(model_id).isdigit() and not prompt_data.get("model_version_id"):
+                                prompt_data["model_version_id"] = str(model_id)
                         prompt_data["collected_at"] = datetime.now().isoformat()
                         valid_items.append(prompt_data)
                     collected += 1
@@ -332,3 +450,27 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+def check_total_items(model_id: Optional[str] = None, version_id: Optional[str] = None, timeout: int = 30) -> Optional[int]:
+    """Query the images API for a 1-item sample and return metadata.totalItems if present.
+
+    Returns None if totalItems is not available.
+    """
+    try:
+        base_api = API_BASE_URL.rsplit('/', 1)[0]
+        url = f"{base_api}/images"
+        params = {"limit": 1}
+        if version_id:
+            params['modelVersionId'] = version_id
+        elif model_id:
+            params['modelId'] = model_id
+        headers = CivitaiAPIClient()._get_headers()
+        import requests
+        resp = requests.get(url, params=params, headers=headers, timeout=timeout)
+        if resp.status_code == 200:
+            meta = resp.json().get('metadata', {}) or {}
+            return meta.get('totalItems')
+    except Exception:
+        pass
+    return None
