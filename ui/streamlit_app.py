@@ -28,6 +28,8 @@ import ast
 # プロジェクトルートをパスに追加
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
+# Ensure src/ is on sys.path so modules that use bare imports (e.g. `from config import ...`) resolve
+sys.path.append(str(project_root / 'src'))
 
 try:
     from src.config import CATEGORIES, DEFAULT_DB_PATH
@@ -470,7 +472,7 @@ def main():
         if st.button('🔁 全件収集（最初から最後まで）', disabled=start_disabled):
             # Start full collect (no max-items limit) as background job
             job_id = str(uuid.uuid4())[:8]
-            log_dir = Path(project_root) / 'logs'
+            log_dir = Path(project_root) / 'scripts'
             log_file = log_dir / f'collect_full_{job_id}.log'
             def _clean_id_local(s):
                 if not s:
@@ -501,7 +503,7 @@ def main():
         if st.button('▶ 再開（保存された状態から）'):
             # Start resume job using scripts/resume_collect.py
             job_id = str(uuid.uuid4())[:8]
-            log_dir = Path(project_root) / 'logs'
+            log_dir = Path(project_root) / 'scripts'
             log_file = log_dir / f'collect_resume_{job_id}.log'
             args = [
                 sys.executable,
@@ -576,7 +578,8 @@ def main():
         if start_button:
             # Launch background subprocess to run collection
             job_id = str(uuid.uuid4())[:8]
-            log_dir = Path(project_root) / 'logs'
+            # write this job's log to the new centralized logs/collect_jobs directory
+            log_dir = Path(project_root) / 'logs' / 'collect_jobs'
             log_file = log_dir / f'collect_job_{job_id}.log'
 
             # Enforce version_id usage: version is required and will be used as modelVersionId

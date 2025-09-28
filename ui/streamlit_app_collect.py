@@ -254,7 +254,7 @@ def read_log_tail(path, lines=50):
         with log_path.open('r', encoding='utf-8', errors='replace') as f:
             data = f.read()
             return '\n'.join(data.splitlines()[-lines:])
-    except Exception as e:
+    except Exception:
         return ''
 
 def extract_progress_from_log(tail):
@@ -717,7 +717,8 @@ def main():
         if start_button:
             # Launch background subprocess to run collection
             job_id = str(uuid.uuid4())[:8]
-            log_dir = Path(project_root) / 'scripts'
+            # write this job's log to the centralized logs/collect_jobs directory
+            log_dir = Path(project_root) / 'logs' / 'collect_jobs'
             log_file = log_dir / f'collect_job_{job_id}.log'
 
             # Enforce version_id usage: version is required and will be used as modelVersionId
