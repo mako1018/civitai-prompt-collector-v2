@@ -11,7 +11,7 @@
 ```python
 class CivitaiDataCollectorNode:
     """CivitAI APIからプロンプト・画像メタデータを収集"""
-    
+
     @classmethod
     def INPUT_TYPES(cls):
         return {
@@ -23,7 +23,7 @@ class CivitaiDataCollectorNode:
                 }),
                 "version_id": ("STRING", {
                     "default": "",
-                    "multiline": False, 
+                    "multiline": False,
                     "placeholder": "バージョンID (例: 128078)"
                 }),
                 "max_items": ("INT", {
@@ -45,25 +45,25 @@ class CivitaiDataCollectorNode:
                 "min_reactions": ("INT", {"default": 0, "min": 0})
             }
         }
-    
+
     RETURN_TYPES = ("PROMPT_DATASET", "COLLECTION_STATS")
     RETURN_NAMES = ("dataset", "stats")
     FUNCTION = "collect_prompts"
     CATEGORY = "CivitAI/Collection"
-    
+
     def collect_prompts(self, model_id, version_id, max_items, api_key, **kwargs):
         # collector.py のロジックを使用
         pass
 ```
 
-#### 2. PromptClassifier  
+#### 2. PromptClassifier
 **目的**: プロンプトを7カテゴリに自動分類
 **実装ファイル**: `nodes/prompt_classifier_node.py`
 
-```python  
+```python
 class PromptClassifierNode:
     """プロンプトを自動分類 (NSFW/style/lighting/composition/mood/basic/technical)"""
-    
+
     @classmethod
     def INPUT_TYPES(cls):
         return {
@@ -80,7 +80,7 @@ class PromptClassifierNode:
                 })
             }
         }
-    
+
     RETURN_TYPES = ("CLASSIFIED_DATASET", "CATEGORY_DISTRIBUTION")
     RETURN_NAMES = ("classified", "distribution")
     FUNCTION = "classify_prompts"
@@ -94,7 +94,7 @@ class PromptClassifierNode:
 ```python
 class PromptFilterNode:
     """分類済みプロンプトをフィルタリング"""
-    
+
     @classmethod
     def INPUT_TYPES(cls):
         return {
@@ -113,9 +113,9 @@ class PromptFilterNode:
                 "prompt_length_max": ("INT", {"default": 1000})
             }
         }
-    
+
     RETURN_TYPES = ("FILTERED_DATASET",)
-    FUNCTION = "filter_prompts" 
+    FUNCTION = "filter_prompts"
     CATEGORY = "CivitAI/Analysis"
 ```
 
@@ -126,7 +126,7 @@ class PromptFilterNode:
 ```python
 class PromptSelectorNode:
     """フィルタ済みデータセットからプロンプトを選択"""
-    
+
     @classmethod
     def INPUT_TYPES(cls):
         return {
@@ -139,7 +139,7 @@ class PromptSelectorNode:
                 "seed": ("INT", {"default": -1})
             }
         }
-    
+
     RETURN_TYPES = ("STRING", "STRING", "PROMPT_METADATA", "STRING")
     RETURN_NAMES = ("positive_prompt", "negative_prompt", "metadata", "model_info")
     FUNCTION = "select_prompt"
@@ -153,8 +153,8 @@ class PromptSelectorNode:
 ```python
 class PromptAnalyzerNode:
     """プロンプトデータセットの詳細分析"""
-    
-    @classmethod  
+
+    @classmethod
     def INPUT_TYPES(cls):
         return {
             "required": {
@@ -164,7 +164,7 @@ class PromptAnalyzerNode:
                 })
             }
         }
-    
+
     RETURN_TYPES = ("ANALYSIS_REPORT", "CHART_DATA")
     FUNCTION = "analyze_dataset"
     CATEGORY = "CivitAI/Analysis"
@@ -175,7 +175,7 @@ class PromptAnalyzerNode:
 ```python
 class PromptEnhancerNode:
     """プロンプトの自動拡張・品質向上"""
-    
+
     @classmethod
     def INPUT_TYPES(cls):
         return {
@@ -187,7 +187,7 @@ class PromptEnhancerNode:
                 "reference_dataset": ("CLASSIFIED_DATASET",)
             }
         }
-    
+
     RETURN_TYPES = ("STRING", "STRING", "ENHANCEMENT_REPORT")
     RETURN_NAMES = ("enhanced_positive", "enhanced_negative", "report")
     FUNCTION = "enhance_prompt"
@@ -224,7 +224,7 @@ class PromptData:
     resources: List[Dict[str, Any]]
     raw_metadata: str
 
-@dataclass  
+@dataclass
 class ClassificationResult:
     """分類結果"""
     category: str
@@ -237,14 +237,14 @@ class PromptDataset:
     prompts: List[PromptData]
     metadata: Dict[str, Any]
     collection_info: Dict[str, Any]
-    
+
     def __len__(self):
         return len(self.prompts)
-    
+
     def filter_by_category(self, category: str) -> 'PromptDataset':
         # フィルタリング実装
         pass
-    
+
     def get_statistics(self) -> Dict[str, Any]:
         # 統計情報生成
         pass
@@ -258,7 +258,7 @@ class ClassifiedDataset(PromptDataset):
 # ComfyUIカスタムタイプ登録
 def register_civitai_types():
     """ComfyUIにカスタムデータ型を登録"""
-    
+
     # PROMPT_DATASET型
     class PromptDatasetType:
         @staticmethod
@@ -268,17 +268,17 @@ def register_civitai_types():
                 'metadata': data.metadata,
                 'collection_info': data.collection_info
             }, ensure_ascii=False)
-        
+
         @staticmethod
         def deserialize(data_str: str) -> PromptDataset:
             data = json.loads(data_str)
             prompts = [PromptData(**p) for p in data['prompts']]
             return PromptDataset(
                 prompts=prompts,
-                metadata=data['metadata'], 
+                metadata=data['metadata'],
                 collection_info=data['collection_info']
             )
-    
+
     # ComfyUIへの型登録
     import comfy.model_management as model_management
     model_management.register_custom_type("PROMPT_DATASET", PromptDatasetType)
@@ -347,7 +347,7 @@ from .civitai_data_types import register_civitai_types
 from .nodes import (
     CivitaiDataCollectorNode,
     PromptClassifierNode,
-    PromptFilterNode, 
+    PromptFilterNode,
     PromptSelectorNode,
     PromptAnalyzerNode,
     PromptEnhancerNode
@@ -361,7 +361,7 @@ NODE_CLASS_MAPPINGS = {
     "CivitaiDataCollector": CivitaiDataCollectorNode,
     "PromptClassifier": PromptClassifierNode,
     "PromptFilter": PromptFilterNode,
-    "PromptSelector": PromptSelectorNode, 
+    "PromptSelector": PromptSelectorNode,
     "PromptAnalyzer": PromptAnalyzerNode,
     "PromptEnhancer": PromptEnhancerNode,
 }
@@ -369,7 +369,7 @@ NODE_CLASS_MAPPINGS = {
 # ノード表示名
 NODE_DISPLAY_NAME_MAPPINGS = {
     "CivitaiDataCollector": "CivitAI Data Collector",
-    "PromptClassifier": "Prompt Classifier", 
+    "PromptClassifier": "Prompt Classifier",
     "PromptFilter": "Prompt Filter",
     "PromptSelector": "Prompt Selector",
     "PromptAnalyzer": "Prompt Analyzer",
@@ -416,7 +416,7 @@ print(f"Loaded CivitAI Nodes v{__version__}")
 - **キャッシング**: 収集データの効率的再利用
 - **メモリ管理**: 大規模データセットの段階的処理
 
-### エラーハンドリング  
+### エラーハンドリング
 - **API制限対応**: レート制限・タイムアウト処理
 - **データ品質**: 不完全・破損データの適切な処理
 - **ユーザビリティ**: 明確なエラーメッセージ・復旧手順

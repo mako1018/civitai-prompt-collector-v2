@@ -365,27 +365,27 @@ class ClassifiedDataset(PromptDataset):
 ```python
 class CivitaiNodeBase:
     """全CivitAIノードの基底クラス"""
-    
+
     @classmethod
     def INPUT_TYPES(cls):
         raise NotImplementedError
-    
-    @classmethod  
+
+    @classmethod
     def IS_CHANGED(cls, **kwargs):
         # キャッシュ制御
         return hash(str(kwargs))
-    
+
     def __init__(self):
         self.collector = None
         self.categorizer = None
         self.db_manager = None
-        
+
     def _init_components(self):
         """遅延初期化"""
         if not self.collector:
             from .civitai_core import CivitaiPromptCollector, PromptCategorizer, DatabaseManager
             self.collector = CivitaiPromptCollector()
-            self.categorizer = PromptCategorizer() 
+            self.categorizer = PromptCategorizer()
             self.db_manager = DatabaseManager()
 ```
 
