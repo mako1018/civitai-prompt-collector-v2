@@ -3,6 +3,9 @@ CivitAI Prompt Collector - Streamlit Web UI (with collection tab)
 コピー元: streamlit_app.py に収集タブを追加した派生版
 """
 
+# UI制御フラグ（開発時のみ True に変更）
+SHOW_LEGACY_UI_COMPONENTS = False  # 本番では False
+
 import streamlit as st
 import sys
 from pathlib import Path
@@ -78,22 +81,27 @@ st.markdown("""
 @st.cache_data
 def load_data():
     try:
-        db_manager = DatabaseManager()
+        conn = sqlite3.connect(DEFAULT_DB_PATH)
         query = """
         SELECT
-            p.id,
-            p.full_prompt,
-            p.negative_prompt,
-            p.model_name,
-            p.model_id,
-            p.collected_at,
-            pc.category,
-            pc.confidence
-        FROM civitai_prompts p
-        LEFT JOIN prompt_categories pc ON p.id = pc.prompt_id
-        ORDER BY p.collected_at DESC
+            id,
+            civitai_id,
+            full_prompt,
+            negative_prompt,
+            quality_score,
+            reaction_count,
+            comment_count,
+            download_count,
+            prompt_length,
+            tag_count,
+            model_name,
+            model_id,
+            collected_at,
+            model_version_id
+        FROM civitai_prompts
+        WHERE full_prompt IS NOT NULL
+        ORDER BY quality_score DESC
         """
-        conn = db_manager._get_connection()
         df = pd.read_sql_query(query, conn)
         conn.close()
         return df
@@ -168,7 +176,7 @@ def create_confidence_histogram(df):
         return fig
 
 
-def display_chart(fig, use_container_width=True):
+def display_chart(fig):
     """Display a figure produced by either plotly or matplotlib safely.
     If plotly is available and the figure looks like a plotly figure, use st.plotly_chart.
     Otherwise fall back to st.pyplot for matplotlib figures.
@@ -178,7 +186,7 @@ def display_chart(fig, use_container_width=True):
             # plotly figures typically have 'to_plotly_json' or come from plotly.graph_objs
             # Use a conservative check to avoid importing plotly modules here.
             if hasattr(fig, 'to_plotly_json') or getattr(fig, '__module__', '').startswith('plotly'):
-                st.plotly_chart(fig, width='stretch')
+                st.plotly_chart(fig, config={'displayModeBar': False})
                 return
         # Fallback: assume matplotlib figure
         try:
@@ -193,17 +201,25 @@ def display_chart(fig, use_container_width=True):
 
 def display_prompt_card(row):
     with st.container():
+        # Noneセーフなフォーマット
+        prompt_id = row.get('id', 'N/A') or 'N/A'
+        category = row.get('category', 'Unknown') or 'Unknown'
+        confidence = row.get('confidence', 0.0) or 0.0
+        model_name = row.get('model_name', 'Unknown') or 'Unknown'
+        model_id = row.get('model_id', 'N/A') or 'N/A'
+        collected_at = row.get('collected_at', '') or ''
+
         st.markdown(f"""
         <div class="prompt-card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                <strong>ID: {row['id']}</strong>
-                <span class="category-badge">{row['category']} ({row['confidence']:.2f})</span>
+                <strong>ID: {prompt_id}</strong>
+                <span class="category-badge">{category} ({confidence:.2f})</span>
             </div>
             <div style="margin-bottom: 0.5rem;">
-                <strong>モデル:</strong> {row['model_name']} (ID: {row['model_id']})
+                <strong>モデル:</strong> {model_name} (ID: {model_id})
             </div>
                 <div style="margin-bottom: 0.5rem;">
-                <strong>作成日:</strong> {row.get('collected_at', '')}
+                <strong>作成日:</strong> {collected_at}
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -630,12 +646,13 @@ def main():
                 else:
                     col3.metric("API が報告する総件数", "N/A")
 
-                with st.expander("補足: なぜ0件/少数かを判断するためのヒント"):
-                    st.markdown("""
-                    - DB 側の `model_version_id` が未設定（今回の補完で埋められている可能性があります）だと UI に保存数が表示されません。
-                    - raw_metadata に該当バージョンが含まれている件数はヒントになります（必ずしも保存対象とは限りません）。
-                    - API の totalItems は利用可能な場合にのみ返されます（返さないAPIはカーソル方式で全件取得されます）。
-                    """)
+                if SHOW_LEGACY_UI_COMPONENTS:
+                    with st.expander("補足: なぜ0件/少数かを判断するためのヒント"):
+                        st.markdown("""
+                        - DB 側の `model_version_id` が未設定（今回の補完で埋められている可能性があります）だと UI に保存数が表示されません。
+                        - raw_metadata に該当バージョンが含まれている件数はヒントになります（必ずしも保存対象とは限りません）。
+                        - API の totalItems は利用可能な場合にのみ返されます（返さないAPIはカーソル方式で全件取得されます）。
+                        """)
             else:
                 st.info("Version ID を入力すると、DB に保存済みの件数と API の総件数をプレビューします。")
         except Exception as e:
@@ -648,10 +665,14 @@ def main():
             start_disabled = True
             st.warning("Version ID は必須です。Version ID を入力してください。")
 
-        start_button = st.button("▶ 収集開始（バックグラウンド）", disabled=start_disabled)
-        # New controls: Full Collect, Resume, Stop
-        st.write('')
-        if st.button('🔍 全件収集（最初から最後まで）', disabled=start_disabled):
+        if SHOW_LEGACY_UI_COMPONENTS:
+            start_button = st.button("▶ 収集開始（バックグラウンド）", disabled=start_disabled)
+            # New controls: Full Collect, Resume, Stop
+            st.write('')
+        else:
+            start_button = False
+
+        if SHOW_LEGACY_UI_COMPONENTS and st.button('🔍 全件収集（最初から最後まで）', disabled=start_disabled):
             # Start full collect (no max-items limit) as background job
             job_id = str(uuid.uuid4())[:8]
             log_dir = Path(project_root) / 'scripts'
@@ -683,7 +704,7 @@ def main():
             except Exception as e:
                 st.error(f"ジョブ開始失敗: {e}")
 
-        if st.button('▶ 再開（保存された状態から）'):
+        if SHOW_LEGACY_UI_COMPONENTS and st.button('▶ 再開（保存された状態から）'):
             # Start resume job using scripts/resume_collect.py
             job_id = str(uuid.uuid4())[:8]
             log_dir = Path(project_root) / 'scripts'
@@ -705,6 +726,7 @@ def main():
             except Exception as e:
                 st.error(f"再開ジョブ開始失敗: {e}")
 
+        # 停止ボタンは重要なので常に表示
         if st.button('⏹ 停止（実行中ジョブへ停止指示）'):
             # Create stop file used by collector scripts to gracefully stop
             stop_file = Path(project_root) / 'scripts' / 'collect_stop.flag'
@@ -770,12 +792,13 @@ def main():
                 st.error(f"バックグラウンドジョブの開始に失敗しました: {e}")
 
         # --- Job status display ---
-        st.subheader("収集ジョブの状態")
+        if SHOW_LEGACY_UI_COMPONENTS:
+            st.subheader("収集ジョブの状態")
 
         jobs = st.session_state.get('collect_jobs', [])
         db_manager = DatabaseManager()
 
-        if jobs:
+        if SHOW_LEGACY_UI_COMPONENTS and jobs:
             for j in list(jobs):
                 with st.expander(f"ジョブ {j['id']} — モデル {j.get('model_id','')} / バージョン {j.get('version_id','')}"):
                     lf = str(Path(j.get('log_file')).as_posix())
@@ -876,17 +899,37 @@ def main():
                                     duplicates = int(summary.get('attempted')) - int(summary.get('new_saved'))
                                 except Exception:
                                     duplicates = None
-                            cols = st.columns(4)
-                            cols[0].metric('取得予定 (planned)', planned_display)
-                            cols[1].metric('取得 (fetched)', fetched)
-                            cols[2].metric('新規保存', summary.get('new_saved') if summary.get('new_saved') is not None else (summary.get('saved') if summary.get('saved') is not None else '0'))
-                            cols[3].metric('重複 (duplicates)', duplicates if duplicates is not None else 'N/A')
-                            if summary.get('updated_count'):
-                                st.write(f"既存行を更新した件数（model_version_id 埋め等）: {summary.get('updated_count')}")
+                            # 保存された総件数を計算（新規保存 + 更新件数）
+                            new_saved = summary.get('new_saved') if summary.get('new_saved') is not None else (summary.get('saved') if summary.get('saved') is not None else 0)
+                            updated_count = summary.get('updated_count') or 0
+                            total_saved = (new_saved or 0) + updated_count
+
+                            # メイン表示: 最も重要な情報を強調
+                            st.markdown("#### 📊 収集結果サマリー")
+                            cols_main = st.columns(3)
+                            cols_main[0].metric('🎯 **今回保存成功件数**', f"{total_saved}件", help="この実行でデータベースに新規保存/更新された件数")
+                            cols_main[1].metric('📥 API から取得', f"{fetched}件" if fetched != 'N/A' else 'N/A', help="CivitAI APIから実際に取得したデータ件数")
+                            cols_main[2].metric('📋 取得予定', planned_display, help="当初予定していた収集件数")
+
+                            # 詳細情報
+                            with st.expander("📋 詳細内訳", expanded=False):
+                                cols_detail = st.columns(4)
+                                cols_detail[0].metric('🆕 新規保存', new_saved or 0)
+                                cols_detail[1].metric('🔄 既存更新', updated_count)
+                                cols_detail[2].metric('🔁 重複スキップ', duplicates if duplicates is not None else 'N/A')
+                                if summary.get('api_total') is not None:
+                                    cols_detail[3].metric('📊 API総件数', summary.get('api_total'))
+
+                            # 取得と保存の関係を説明
+                            if fetched != 'N/A' and total_saved > 0:
+                                fetch_count = int(fetched) if str(fetched).isdigit() else 0
+                                if fetch_count > total_saved:
+                                    st.info(f"💡 **説明**: APIから{fetch_count}件取得しましたが、{fetch_count - total_saved}件は既にデータベースに存在していたため重複としてスキップされました。")
+                                elif total_saved > 0:
+                                    st.success(f"✅ **結果**: {total_saved}件のデータがデータベースに保存されました！")
+
                             if summary.get('sample_ids'):
-                                st.write('サンプル civitai_id: ' + ', '.join(summary.get('sample_ids')))
-                            if summary.get('api_total') is not None:
-                                st.write(f"API が報告する総件数: {summary.get('api_total')}")
+                                st.write('📝 サンプル civitai_id: ' + ', '.join(summary.get('sample_ids')))
                     except Exception:
                         pass
                     col_refresh, col_open, col_remove = st.columns([1,2,1])
@@ -909,8 +952,432 @@ def main():
                                     st.experimental_rerun()
                             except Exception:
                                 pass
-        else:
+        elif SHOW_LEGACY_UI_COMPONENTS:
             st.info('収集中のジョブはありません。')
+
+        # Enhanced NSFW Collection Strategy
+        st.markdown("---")
+        st.markdown("### 🔥 効率的収集戦略")
+        st.markdown("CivitAI API制約を理解した効率的な収集方法")
+
+        # データベース状況確認
+        try:
+            db_manager = DatabaseManager()
+            conn = db_manager._get_connection()
+            cursor = conn.cursor()
+            cursor.execute('SELECT COUNT(*) FROM civitai_prompts')
+            total_records = cursor.fetchone()[0]
+            conn.close()
+
+            # 推奨戦略の表示
+            if total_records == 0:
+                st.warning(f"📊 データベースは空です（{total_records}件）。**初回全件収集** を推奨します。")
+                recommended_mode = "initial_full_collection"
+            else:
+                st.info(f"📊 既存データ: {total_records:,}件。**継続追加収集** で効率的に更新できます。")
+                recommended_mode = "incremental_newest"
+        except Exception as e:
+            st.error(f"データベース確認エラー: {e}")
+            recommended_mode = "comprehensive_multi"
+
+        # 包括的収集機能の統合
+        try:
+            # Enhanced collection UI with efficient strategies
+            available_modes = ["initial_full_collection", "incremental_newest", "comprehensive_multi", "nsfw_explicit_only", "standard_safe"]
+            try:
+                default_index = available_modes.index(recommended_mode)
+            except:
+                default_index = 0
+
+            collection_mode = st.selectbox(
+                "収集モード",
+                available_modes,
+                index=default_index,
+                format_func=lambda x: {
+                    "initial_full_collection": "🚀 指定バージョン全件収集 - 全戦略実行で当該バージョンの全データ構築",
+                    "incremental_newest": "⚡ 継続追加収集 - Newest のみで効率的更新",
+                    "comprehensive_multi": "🎯 包括的マルチ収集（従来）- NSFW + 安全コンテンツ",
+                    "nsfw_explicit_only": "🔞 NSFW明示的のみ - 最大限の性的表現",
+                    "standard_safe": "✅ 標準安全モード - 従来の収集方法"
+                }[x],
+                help="効率的な収集戦略: 初回は全件→以降は Newest のみ推奨"
+            )
+
+            # 戦略説明の表示
+            if collection_mode == "initial_full_collection":
+                st.info("💡 **指定バージョン全件収集**: 指定モデルバージョンで全戦略（NSFW × Sort）を実行し、そのバージョンの全データを構築。重複は除去され、後の分析に必要な Reaction数や時系列データを確保。")
+                col1, col2, col3 = st.columns(3)
+                col1.metric("予想重複率", "20-30%", "複数戦略による")
+                col2.metric("データ品質", "最高", "バージョン内全網羅")
+                col3.metric("効率性", "低", "初回のみ実行")
+            elif collection_mode == "incremental_newest":
+                st.success("⚡ **継続追加収集**: 指定バージョンで Newest のみ実行し、新着データを効率的に追加。既存データの Reaction情報を活用した分析が可能。重複を最小化。")
+                col1, col2, col3 = st.columns(3)
+                col1.metric("予想重複率", "0-5%", "新着のみ取得")
+                col2.metric("データ品質", "高", "時系列順序保持")
+                col3.metric("効率性", "最高", "継続実行推奨")
+
+            # 詳細設定
+            with st.expander("🛠️ 詳細設定"):
+                col1, col2 = st.columns(2)
+
+                with col1:
+                    # NSFWレベル設定
+                    if collection_mode == "initial_full_collection":
+                        default_nsfw = ["Soft", "X"]
+                    elif collection_mode == "incremental_newest":
+                        default_nsfw = ["Soft", "X"]
+                    elif collection_mode == "comprehensive_multi":
+                        default_nsfw = ["Soft", "X"]
+                    elif collection_mode == "nsfw_explicit_only":
+                        default_nsfw = ["X"]
+                    else:
+                        default_nsfw = ["Soft"]
+
+                    nsfw_levels = st.multiselect(
+                        "NSFWレベル（複数選択推奨）",
+                        ["None", "Soft", "Mature", "X"],
+                        default=default_nsfw,
+                        help="X: 明示的性器・性行為, Mature: 示唆的, Soft: 軽度性的"
+                    )
+
+                    # ソート戦略
+                    if collection_mode == "initial_full_collection":
+                        default_sort = ["Most Reactions", "Newest"]
+                        sort_help = "初回収集: 人気順と新着順で包括的にデータ収集"
+                    elif collection_mode == "incremental_newest":
+                        default_sort = ["Newest"]
+                        sort_help = "継続収集: 新着のみで効率的に更新（重複最小化）"
+                    else:
+                        default_sort = ["Most Reactions", "Newest"]
+                        sort_help = "CivitAI APIで実際に使用可能なソートオプション"
+
+                    sort_strategies = st.multiselect(
+                        "ソート戦略（APIで使用可能なもののみ）",
+                        ["Most Reactions", "Newest", "Oldest"],
+                        default=default_sort,
+                        help=sort_help
+                    )
+
+                with col2:
+                    # 収集後の分析設定
+                    st.info("💡 **分析設定**\n収集はNSFW+ソートのみ。キーワード分析は収集後に実行されます。")
+
+                    # 後処理オプション
+                    post_analysis_options = st.multiselect(
+                        "収集後自動分析 (オプション)",
+                        [
+                            "keyword_extraction", "nsfw_classification", "quality_scoring"
+                        ],
+                        default=["keyword_extraction", "nsfw_classification"],
+                        format_func=lambda x: {
+                            'keyword_extraction': '🔍 キーワード抽出・分類',
+                            'nsfw_classification': '🎯 NSFW レベル詳細分析',
+                            'quality_scoring': '⭐ 品質スコア算出'
+                        }.get(x, x),
+                        help="収集完了後に実行する分析処理を選択"
+                    )
+
+            # 収集量設定
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                enhanced_max_items = st.number_input("戦略あたり最大件数", 50, 1000, 200, help="各NSFWレベル×ソート組み合わせの最大収集数")
+            with col2:
+                enable_dedup = st.checkbox("重複除去", True, help="同一プロンプトの除去")
+            with col3:
+                auto_categorize = st.checkbox("自動分類", True, help="収集後の自動NSFW分類")
+
+            # 継続収集モード追加
+            st.markdown("---")
+            continuous_mode = st.checkbox(
+                "🔄 継続収集モード（推奨）",
+                value=True,
+                help="前回収集済みデータをスキップし、新しいデータのみを毎回同じ件数で収集"
+            )
+
+            if continuous_mode:
+                st.success("💡 継続モード有効: 毎回同じ件数設定で新しいプロンプトのみを継続収集できます")
+            else:
+                st.warning("⚠️ 通常モード: 重複により2回目以降の収集数が減少する可能性があります")
+
+            # 実行ボタン
+            enhanced_collect_button = st.button(
+                "🚀 効率的収集実行",
+                type="primary",
+                disabled=start_disabled,
+                help="選択したNSFWレベル・ソート戦略でCivitAI APIから効率的にデータ収集"
+            )
+
+            if enhanced_collect_button and version_id:
+                with st.spinner("� 効率的収集を実行中..."):
+                    try:
+                        # Simple API-based collection for working UI
+                        collection_results = {
+                            'total_collected': 0,
+                            'strategies_executed': 0,
+                            'errors': []
+                        }
+
+                        # 戦略別結果記録用
+                        strategy_results = []
+                        total_saved_this_run = 0
+                        total_fetched_this_run = 0
+
+                        # Execute multiple strategies
+                        for nsfw_level in nsfw_levels:
+                            for sort_strategy in sort_strategies:
+                                try:
+                                    # 継続収集モードの場合、既存の最新IDを取得
+                                    start_after_id = None
+                                    # CivitAI APIの制限: limit最大200
+                                    actual_limit = min(enhanced_max_items, 200)
+
+                                    # 継続収集用のcursor準備
+                                    next_cursor = None
+                                    if continuous_mode:
+                                        try:
+                                            # collection_stateテーブルから最後のcursorを取得
+                                            db_temp = DatabaseManager(DEFAULT_DB_PATH)
+                                            conn = db_temp._get_connection()
+                                            cursor = conn.cursor()
+                                            cursor.execute(
+                                                """SELECT next_page_cursor FROM collection_state
+                                                   WHERE version_id = ?
+                                                   ORDER BY last_update DESC LIMIT 1""",
+                                                (str(version_id),)
+                                            )
+                                            result = cursor.fetchone()
+                                            if result and result[0]:
+                                                next_cursor = result[0]
+                                                st.write(f"🔄 継続モード: 前回の続きから収集中... (cursor: {next_cursor[:20]}...)")
+                                            else:
+                                                st.write(f"🔄 継続モード: 初回収集または前回完了済み")
+                                            conn.close()
+                                        except Exception as e:
+                                            st.warning(f"継続収集準備エラー: {e}")
+
+                                    # Direct API call with NSFW parameters
+                                    api_params = {
+                                        'modelVersionId': version_id,
+                                        'nsfw': nsfw_level,
+                                        'sort': sort_strategy,
+                                        'limit': actual_limit
+                                    }
+
+                                    # 継続収集用のcursorパラメータ追加
+                                    if continuous_mode and next_cursor:
+                                        api_params['cursor'] = next_cursor
+
+
+                                    # Make API request (simplified)
+                                    response = requests.get(
+                                        "https://civitai.com/api/v1/images",
+                                        params=api_params,
+                                        timeout=30
+                                    )
+
+                                    if response.status_code == 200:
+                                        data = response.json()
+                                        items = data.get('items', [])
+
+                                        # データベース保存処理を追加
+                                        saved_count = 0
+                                        duplicate_count = 0
+                                        error_count = 0
+                                        db = DatabaseManager(DEFAULT_DB_PATH)
+
+                                        # 継続収集モードでの結果確認
+                                        if continuous_mode:
+                                            if items:
+                                                st.write(f"🆕 新しいデータ: {len(items)}件取得しました ({nsfw_level}+{sort_strategy})")
+                                            else:
+                                                st.info(f"📭 データなし: このページは空です ({nsfw_level}+{sort_strategy})")
+                                                continue  # このAPIリクエストをスキップ
+
+                                        for item in items:
+                                            try:
+                                                # Null チェック
+                                                if item is None:
+                                                    continue
+
+                                                # 安全なデータ抽出
+                                                item_id = item.get('id') if item else None
+                                                if not item_id:
+                                                    continue
+
+                                                meta = item.get('meta') or {}
+                                                stats = item.get('stats') or {}
+
+                                                full_prompt = meta.get('prompt', '') if isinstance(meta, dict) else ''
+                                                negative_prompt = meta.get('negativePrompt', '') if isinstance(meta, dict) else ''
+
+                                                prompt_data = {
+                                                    'civitai_id': str(item_id),
+                                                    'full_prompt': full_prompt,
+                                                    'negative_prompt': negative_prompt,
+                                                    'model_version_id': str(version_id),
+                                                    'model_id': str(item.get('modelVersionId', '') or ''),
+                                                    'model_name': st.session_state.get('model_name_input', 'Unknown'),
+                                                    'quality_score': stats.get('likeCount', 0) if isinstance(stats, dict) else 0,
+                                                    'reaction_count': stats.get('reactionCount', 0) if isinstance(stats, dict) else 0,
+                                                    'comment_count': stats.get('commentCount', 0) if isinstance(stats, dict) else 0,
+                                                    'download_count': stats.get('downloadCount', 0) if isinstance(stats, dict) else 0,
+                                                    'prompt_length': len(full_prompt) if full_prompt else 0,
+                                                    'tag_count': len(full_prompt.split(',')) if full_prompt else 0,
+                                                    'collected_at': datetime.now().isoformat(),
+                                                    'raw_metadata': str(item)
+                                                }
+
+                                                # データベースに保存（結果を詳細記録）
+                                                save_result = db.save_prompt_data(prompt_data)
+                                                if save_result:
+                                                    saved_count += 1
+                                                else:
+                                                    # 保存失敗の理由を推測（通常は重複）
+                                                    duplicate_count += 1
+                                            except Exception as save_error:
+                                                error_count += 1
+                                                st.warning(f"保存エラー (Item ID: {item.get('id', 'Unknown') if item else 'None'}): {save_error}")
+
+                                        # 戦略別結果記録
+                                        strategy_result = {
+                                            'strategy': f"{nsfw_level}+{sort_strategy}",
+                                            'fetched': len(items),
+                                            'saved': saved_count,
+                                            'duplicates': duplicate_count,
+                                            'errors': error_count
+                                        }
+                                        strategy_results.append(strategy_result)
+
+                                        collection_results['total_collected'] += len(items)
+                                        collection_results['strategies_executed'] += 1
+                                        total_saved_this_run += saved_count
+                                        total_fetched_this_run += len(items)
+
+                                        # 継続収集用のnextCursorを保存
+                                        if continuous_mode:
+                                            try:
+                                                metadata = data.get('metadata', {})
+                                                next_cursor_to_save = metadata.get('nextCursor')
+                                                if next_cursor_to_save:
+                                                    db_temp = DatabaseManager(DEFAULT_DB_PATH)
+                                                    conn = db_temp._get_connection()
+                                                    cursor = conn.cursor()
+                                                    cursor.execute(
+                                                        """UPDATE collection_state
+                                                           SET next_page_cursor = ?, last_update = datetime('now')
+                                                           WHERE version_id = ?""",
+                                                        (next_cursor_to_save, str(version_id))
+                                                    )
+                                                    conn.commit()
+                                                    conn.close()
+                                            except Exception as e:
+                                                st.warning(f"nextCursor保存エラー: {e}")
+
+                                        # 戦略別結果表示（詳細版）
+                                        if duplicate_count > 0:
+                                            st.write(f"✅ {nsfw_level}+{sort_strategy}: {len(items)}件取得、{saved_count}件保存、{duplicate_count}件重複スキップ")
+                                        else:
+                                            st.write(f"✅ {nsfw_level}+{sort_strategy}: {len(items)}件取得、{saved_count}件保存")
+                                    else:
+                                        # エラー詳細を取得
+                                        try:
+                                            error_detail = response.json()
+                                            error_msg = f"{nsfw_level}+{sort_strategy}: HTTP {response.status_code} - {error_detail.get('error', {}).get('message', 'Unknown error')}"
+                                        except:
+                                            error_msg = f"{nsfw_level}+{sort_strategy}: HTTP {response.status_code}"
+
+                                        collection_results['errors'].append(error_msg)
+                                        st.error(error_msg)
+
+                                    time.sleep(0.5)  # API制限対策
+
+                                except Exception as e:
+                                    error_msg = f"{nsfw_level}+{sort_strategy}: {str(e)}"
+                                    collection_results['errors'].append(error_msg)
+                                    st.error(error_msg)
+
+                        # 結果表示の改善
+                        st.success(f"🎉 包括的収集完了！")
+
+                        # メインの結果表示（今回の実行結果にフォーカス）
+                        col1, col2, col3 = st.columns(3)
+                        col1.metric("🎯 今回保存成功", f"{total_saved_this_run}件", help="この実行で実際にデータベースに保存された件数")
+                        col2.metric("📥 今回取得総件数", f"{total_fetched_this_run}件", help="この実行でCivitAI APIから取得したデータ件数")
+                        col3.metric("⚙️ 実行戦略数", f"{collection_results['strategies_executed']}個", help="実行された収集戦略の組み合わせ数")
+
+                        # 保存されなかった件数とその理由
+                        not_saved = total_fetched_this_run - total_saved_this_run
+                        if not_saved > 0:
+                            total_duplicates = sum(sr['duplicates'] for sr in strategy_results)
+                            total_errors = sum(sr['errors'] for sr in strategy_results)
+
+                            st.markdown("#### 🔍 保存されなかった理由の内訳")
+                            col_dup, col_err, col_other = st.columns(3)
+                            col_dup.metric("🔁 重複データ", f"{total_duplicates}件", help="既にデータベースに存在していたため保存されなかった")
+                            col_err.metric("❌ エラー", f"{total_errors}件", help="データ形式やその他のエラーで保存に失敗")
+                            col_other.metric("❓ その他", f"{not_saved - total_duplicates - total_errors}件", help="その他の理由（プロンプトが空、必須項目不足等）")
+
+                            st.info(f"""
+                            **💡 保存されなかった{not_saved}件について:**
+                            - **重複データ**: {total_duplicates}件 → 既にデータベースに存在するため正常にスキップ
+                            - **エラー**: {total_errors}件 → データ形式の問題等で保存失敗
+                            - **その他**: {not_saved - total_duplicates - total_errors}件 → プロンプトが空、必須項目不足等
+
+                            **重複が多い理由**: 継続収集モードでは同じデータが含まれることがあります。これは正常な動作です。
+                            """)
+
+                        # 戦略別詳細結果
+                        if strategy_results:
+                            with st.expander("📊 戦略別詳細結果", expanded=False):
+                                for sr in strategy_results:
+                                    st.write(f"**{sr['strategy']}**: 取得{sr['fetched']}件 → 保存{sr['saved']}件（重複{sr['duplicates']}件、エラー{sr['errors']}件）")
+
+                        # 詳細説明
+                        st.markdown("#### 📋 収集結果まとめ")
+                        if total_saved_this_run > 0:
+                            st.success(f"""
+                            **✅ 成功**: 今回{total_saved_this_run}件の新しいデータをデータベースに保存しました！
+                            **🔄 継続収集**: 次回実行時はさらに新しいデータが追加されます。
+                            """)
+                        else:
+                            st.warning(f"""
+                            **ℹ️ 結果**: 今回新しいデータは保存されませんでした。
+                            **💡 理由**: 取得したデータが全て重複または無効なデータだった可能性があります。
+                            """)
+
+                        if collection_results['errors']:
+                            with st.expander("⚠️ エラー詳細"):
+                                for error in collection_results['errors']:
+                                    st.write(f"- {error}")
+
+                    except Exception as e:
+                        st.error(f"包括的収集でエラー: {e}")
+
+            # 簡易キーワード統計表示
+            with st.expander("📊 収集統計予測"):
+                st.markdown("**CivitAI API制約に基づく予想収集数:**")
+
+                # 戦略数の計算
+                strategy_count = len(nsfw_levels) * len(sort_strategies)
+                st.metric("実行戦略数", f"{strategy_count}個", f"NSFW{len(nsfw_levels)}種 × ソート{len(sort_strategies)}種")
+
+                if enhanced_max_items:
+                    total_max = strategy_count * enhanced_max_items
+                    if collection_mode == "incremental_newest":
+                        expected_duplicates = "0-5%"
+                        expected_saved = int(total_max * 0.975)  # 97.5%保存予想
+                    else:
+                        expected_duplicates = "20-30%"
+                        expected_saved = int(total_max * 0.75)   # 75%保存予想
+
+                    col1, col2 = st.columns(2)
+                    col1.metric("予想取得数", f"{total_max:,}件", f"戦略あたり{enhanced_max_items}件")
+                    col2.metric("予想保存数", f"{expected_saved:,}件", f"重複率{expected_duplicates}")
+
+        except Exception as e:
+            st.warning(f"NSFW収集機能でエラー: {e}")
+            st.info("従来の収集機能をご利用ください")
 
     with tab1:
         st.header("ダッシュボード")
@@ -934,11 +1401,11 @@ def main():
         with col1:
             pie_chart = create_category_distribution_chart(df)
             if pie_chart:
-                display_chart(pie_chart, use_container_width=True)
+                display_chart(pie_chart)
         with col2:
             hist_chart = create_confidence_histogram(df)
             if hist_chart:
-                display_chart(hist_chart, use_container_width=True)
+                display_chart(hist_chart)
 
     with tab2:
         st.header("プロンプト一覧")
@@ -959,21 +1426,338 @@ def main():
 
     with tab3:
         st.header("詳細分析")
-        if not stats['category_stats'].empty:
-            st.subheader("カテゴリ別統計")
+        try:
+            # 統計データを再取得して確実に利用可能にする
+            current_stats = get_database_stats()
+            if 'category_stats' in current_stats and not current_stats['category_stats'].empty:
+                st.subheader("カテゴリ別統計")
+                try:
+                    category_chart = px.bar(current_stats['category_stats'], x='category', y='count', title='カテゴリ別プロンプト数', labels={'count': 'プロンプト数', 'category': 'カテゴリ'}, color='avg_confidence', color_continuous_scale='viridis')
+                    display_chart(category_chart)
+                except Exception:
+                    st.write(current_stats['category_stats'])
+        except Exception as e:
+            pass  # カテゴリ統計がない場合は静かにスキップ
+
+        # 🔍 プロンプト構造分析 - 新機能追加
+        st.subheader("🔍 プロンプト構造分析")
+        if not df.empty and 'full_prompt' in df.columns:
             try:
-                category_chart = px.bar(stats['category_stats'], x='category', y='count', title='カテゴリ別プロンプト数', labels={'count': 'プロンプト数', 'category': 'カテゴリ'}, color='avg_confidence', color_continuous_scale='viridis')
-                display_chart(category_chart, use_container_width=True)
-            except Exception:
-                st.write(stats['category_stats'])
+                # プロンプトデータの基本分析
+                valid_prompts = df[df['full_prompt'].notna() & (df['full_prompt'] != '')]
+                total_prompts = len(valid_prompts)
+
+                if total_prompts > 0:
+                    # デバッグ情報（開発時のみ - 本番では非表示）
+                    if False:  # デバッグフラグ - 必要時にTrueに変更
+                        with st.expander("🔧 デバッグ情報", expanded=False):
+                            st.write(f"DataFrameカラム数: {len(df.columns)}")
+                            st.write(f"利用可能なカラム: {list(df.columns)}")
+                            st.write(f"total_prompts: {total_prompts}")
+                            if 'prompt_length' in df.columns:
+                                st.write(f"prompt_lengthカラム存在: ✅")
+                                st.write(f"prompt_length非NULL数: {df['prompt_length'].notna().sum()}")
+                            else:
+                                st.write(f"prompt_lengthカラム存在: ❌")
+
+                    # 構造パターン分析
+                    comma_separated = len(valid_prompts[valid_prompts['full_prompt'].str.contains(',', na=False)])
+                    weight_usage = len(valid_prompts[valid_prompts['full_prompt'].str.contains(r':\s*\d+\.?\d*', regex=True, na=False)])
+                    parentheses_usage = len(valid_prompts[valid_prompts['full_prompt'].str.contains(r'[(\[]', regex=True, na=False)])
+                    embedding_usage = len(valid_prompts[valid_prompts['full_prompt'].str.contains(r'<[^>]+>', regex=True, na=False)])
+
+                    # メトリクス表示
+                    col1, col2, col3, col4 = st.columns(4)
+
+                    with col1:
+                        st.metric(
+                            "カンマ区切り使用率",
+                            f"{comma_separated/total_prompts*100:.1f}%",
+                            f"{comma_separated}/{total_prompts}"
+                        )
+
+                    with col2:
+                        st.metric(
+                            "重み付け記法",
+                            f"{weight_usage/total_prompts*100:.1f}%",
+                            f"{weight_usage}/{total_prompts}"
+                        )
+
+                    with col3:
+                        st.metric(
+                            "括弧使用率",
+                            f"{parentheses_usage/total_prompts*100:.1f}%",
+                            f"{parentheses_usage}/{total_prompts}"
+                        )
+
+                    with col4:
+                        st.metric(
+                            "エンベッディング",
+                            f"{embedding_usage/total_prompts*100:.1f}%",
+                            f"{embedding_usage}/{total_prompts}"
+                        )
+
+                    # 長さ分布分析
+                    st.subheader("📏 プロンプト長さ統計")
+
+                    # prompt_lengthカラムの存在確認とデータ処理
+                    if 'prompt_length' in df.columns:
+                        length_data = df['prompt_length'].dropna()
+                    else:
+                        # prompt_lengthが無い場合は動的計算（静かに実行）
+                        length_data = valid_prompts['full_prompt'].str.len()
+
+                    if len(length_data) > 0:
+                        col_left, col_right = st.columns(2)
+
+                        with col_left:
+                            st.write("**基本統計**")
+                            st.metric("平均文字数", f"{length_data.mean():.1f}")
+                            st.metric("中央値", f"{length_data.median():.1f}")
+                            st.write(f"最短: **{length_data.min()}** 文字")
+                            st.write(f"最長: **{length_data.max()}** 文字")
+                            st.write(f"標準偏差: **{length_data.std():.1f}**")
+
+                        with col_right:
+                            # 長さ分布のヒストグラム
+                            try:
+                                if PLOTLY_AVAILABLE:
+                                    # DataFrameを作成してplotly用に整形
+                                    hist_df = pd.DataFrame({'prompt_length': length_data})
+                                    length_hist = px.histogram(
+                                        hist_df,
+                                        x='prompt_length',
+                                        nbins=min(20, len(length_data.unique())),
+                                        title='プロンプト長さ分布',
+                                        labels={'prompt_length': '文字数', 'count': '件数'}
+                                    )
+                                    display_chart(length_hist)
+                                else:
+                                    # Plotlyが無い場合のフォールバック
+                                    st.write("**長さ分布**")
+                                    length_counts = length_data.value_counts().sort_index()
+                                    st.bar_chart(length_counts.head(10))
+                            except Exception as e:
+                                st.warning(f"グラフ表示エラー: {str(e)}")
+                                # シンプルな統計表示
+                                st.write("**長さ範囲別分布**")
+                                bins = [0, 100, 300, 500, 1000, float('inf')]
+                                labels = ['0-99', '100-299', '300-499', '500-999', '1000+']
+                                length_ranges = pd.cut(length_data, bins=bins, labels=labels, include_lowest=True)
+                                range_counts = length_ranges.value_counts()
+                                st.write(range_counts)
+                    else:
+                        st.warning("プロンプト長さのデータが見つかりません")
+
+                    # ComfyUI連携のヒント
+                    st.info("""
+                    💡 **ComfyUI連携のポイント**
+                    - **97%以上**がカンマ区切り → パーサーはカンマベース実装を推奨
+                    - **50%以上**が重み付け使用 → `:数値` パターンの処理が重要
+                    - 括弧使用が多い場合 → グループ化機能の実装を検討
+                    """)
+
+                else:
+                    st.warning("有効なプロンプトデータがありません")
+            except Exception as e:
+                st.error(f"プロンプト構造分析エラー: {str(e)}")
+        else:
+            st.warning("プロンプトデータが不足しています")
+
+        # 🎯 キーワード品質相関分析 - 新機能追加
+        st.subheader("🎯 キーワード品質相関分析")
+        if not df.empty and 'full_prompt' in df.columns and 'quality_score' in df.columns:
+            try:
+                valid_prompts = df[df['full_prompt'].notna() & (df['full_prompt'] != '')]
+                
+                if len(valid_prompts) > 0:
+                    # 品質キーワード定義
+                    quality_keywords = [
+                        'masterpiece', 'best quality', 'high quality', 'detailed', 'ultra detailed',
+                        'realistic', 'photorealistic', '8k', '4k', 'high resolution',
+                        'cinematic', 'dramatic', 'lighting', 'depth of field', 'sharp',
+                        'beautiful', 'stunning', 'amazing', 'incredible', 'perfect'
+                    ]
+                    
+                    # スタイルキーワード定義
+                    style_keywords = [
+                        'anime', 'realistic', 'portrait', 'landscape', 'abstract',
+                        'oil painting', 'watercolor', 'digital art', 'concept art', 'cartoon'
+                    ]
+                    
+                    # キーワード分析実行
+                    keyword_analysis = {}
+                    
+                    for keyword in quality_keywords + style_keywords:
+                        # そのキーワードを含むプロンプト
+                        contains_keyword = valid_prompts[
+                            valid_prompts['full_prompt'].str.lower().str.contains(keyword, na=False)
+                        ]
+                        
+                        if len(contains_keyword) >= 5:  # 最低5件以上のデータがある場合のみ
+                            avg_quality = contains_keyword['quality_score'].mean()
+                            count = len(contains_keyword)
+                            max_quality = contains_keyword['quality_score'].max()
+                            
+                            keyword_analysis[keyword] = {
+                                'count': count,
+                                'avg_quality': avg_quality,
+                                'max_quality': max_quality
+                            }
+                    
+                    if keyword_analysis:
+                        # 品質順にソート
+                        sorted_keywords = sorted(keyword_analysis.items(), 
+                                               key=lambda x: x[1]['avg_quality'], reverse=True)
+                        
+                        col_left, col_right = st.columns(2)
+                        
+                        with col_left:
+                            st.write("**🏆 高品質キーワード TOP10**")
+                            for i, (keyword, stats) in enumerate(sorted_keywords[:10]):
+                                st.write(f"{i+1}. **{keyword}**: {stats['avg_quality']:.1f}点 ({stats['count']}件)")
+                        
+                        with col_right:
+                            # キーワード品質散布図
+                            try:
+                                if PLOTLY_AVAILABLE and len(sorted_keywords) >= 3:
+                                    # 散布図用データ準備
+                                    scatter_data = []
+                                    for keyword, stats in sorted_keywords[:15]:  # 上位15個
+                                        scatter_data.append({
+                                            'keyword': keyword,
+                                            'count': stats['count'],
+                                            'avg_quality': stats['avg_quality'],
+                                            'max_quality': stats['max_quality']
+                                        })
+                                    
+                                    scatter_df = pd.DataFrame(scatter_data)
+                                    
+                                    scatter_fig = px.scatter(
+                                        scatter_df,
+                                        x='count',
+                                        y='avg_quality',
+                                        size='max_quality',
+                                        hover_name='keyword',
+                                        title='キーワード使用頻度 vs 平均品質',
+                                        labels={'count': '使用回数', 'avg_quality': '平均品質スコア'}
+                                    )
+                                    display_chart(scatter_fig)
+                                else:
+                                    st.write("**キーワード統計（簡易表示）**")
+                                    for keyword, stats in sorted_keywords[:5]:
+                                        st.write(f"• {keyword}: {stats['avg_quality']:.1f}点")
+                            except Exception as e:
+                                st.write("**キーワード統計（テキスト表示）**")
+                                for keyword, stats in sorted_keywords[:8]:
+                                    st.write(f"• {keyword}: {stats['avg_quality']:.1f}点 ({stats['count']}件)")
+                        
+                        # ComfyUI活用提案
+                        if sorted_keywords:
+                            top_keywords = [kw[0] for kw in sorted_keywords[:5]]
+                            st.success(f"""
+                            💡 **ComfyUI プロンプト最適化の提案**
+                            
+                            **高品質キーワード活用:**
+                            - メインプロンプトに追加: `{', '.join(top_keywords[:3])}`
+                            - 品質向上テンプレート: `masterpiece, best quality, {top_keywords[0]}`
+                            - 条件付きプロンプト: 品質スコア{sorted_keywords[0][1]['avg_quality']:.0f}+を目指す場合
+                            """)
+                    else:
+                        st.info("キーワード分析に十分なデータがありません（各キーワード最低5件必要）")
+                        
+            except Exception as e:
+                st.error(f"キーワード品質分析エラー: {str(e)}")
+        else:
+            st.warning("品質分析に必要なデータ（プロンプト・品質スコア）が不足しています")
 
         st.subheader("モデル別統計")
         model_stats = df['model_name'].value_counts().head(10)
         try:
             model_chart = px.bar(x=model_stats.values, y=model_stats.index, orientation='h', title='上位10モデル使用頻度', labels={'x': 'プロンプト数', 'y': 'モデル名'})
-            display_chart(model_chart, use_container_width=True)
+            display_chart(model_chart)
         except Exception:
             st.write(model_stats)
+
+        # 📈 収集戦略推奨 - 新機能追加
+        st.subheader("📈 データドリブン収集戦略推奨")
+        if not df.empty:
+            try:
+                total_prompts = len(df)
+                avg_quality = df['quality_score'].mean() if 'quality_score' in df.columns else 0
+                
+                col1, col2 = st.columns(2)
+                
+                with col1:
+                    st.write("**📊 現在のデータ状況**")
+                    st.metric("総プロンプト数", f"{total_prompts:,}")
+                    if 'quality_score' in df.columns:
+                        st.metric("平均品質スコア", f"{avg_quality:.1f}")
+                        
+                        # 品質分布分析
+                        high_quality_count = len(df[df['quality_score'] >= 100])
+                        high_quality_rate = (high_quality_count / total_prompts) * 100 if total_prompts > 0 else 0
+                        st.metric("高品質率 (100+)", f"{high_quality_rate:.1f}%")
+                
+                with col2:
+                    st.write("**🎯 収集戦略提案**")
+                    
+                    # データ量に基づく提案
+                    if total_prompts < 500:
+                        st.warning("📊 データ量不足: 1,000件以上の収集を推奨")
+                    elif total_prompts < 1000:
+                        st.info("📊 データ量やや不足: さらなる収集で精度向上")
+                    else:
+                        st.success("📊 十分なデータ量を確保")
+                    
+                    # 品質に基づく提案
+                    if 'quality_score' in df.columns:
+                        if avg_quality < 50:
+                            st.warning("⭐ 品質向上が必要: 高品質プロンプト(100+)を優先収集")
+                        elif avg_quality < 100:
+                            st.info("⭐ 品質は標準レベル: より高品質データの収集を検討")
+                        else:
+                            st.success("⭐ 高品質データを確保")
+                
+                # 具体的な推奨アクション
+                st.write("**🚀 次のアクション推奨**")
+                
+                recommendations = []
+                
+                if total_prompts < 1000:
+                    recommendations.append("🔄 **継続収集**: 「🔎 収集」タブで効率的収集戦略を実行")
+                
+                if 'quality_score' in df.columns and avg_quality < 100:
+                    recommendations.append("⭐ **品質フィルタ**: quality_score >= 100 の条件で高品質データを重点収集")
+                
+                if len(df['model_name'].unique()) < 3:
+                    recommendations.append("🤖 **モデル多様化**: 複数の異なるモデルからデータ収集")
+                
+                # キーワード多様性チェック
+                if 'full_prompt' in df.columns:
+                    unique_keywords_estimate = len(set(' '.join(df['full_prompt'].fillna('').str.lower()).split()))
+                    if unique_keywords_estimate < 1000:
+                        recommendations.append("🏷️ **キーワード多様化**: 異なるスタイル・テーマのプロンプト収集")
+                
+                if not recommendations:
+                    recommendations.append("✅ **現状維持**: 良好なデータ収集状況です")
+                
+                for i, rec in enumerate(recommendations, 1):
+                    st.write(f"{i}. {rec}")
+                
+                # ComfyUIワークフロー提案
+                if 'quality_score' in df.columns and avg_quality >= 50:
+                    st.info("""
+                    🔧 **ComfyUIワークフロー統合提案**
+                    - プロンプト自動補完: 高品質キーワードの自動追加
+                    - 品質予測ノード: 入力プロンプトの品質スコア予測
+                    - スタイル推奨: データベースから類似プロンプトの提案
+                    """)
+                    
+            except Exception as e:
+                st.error(f"収集戦略分析エラー: {str(e)}")
+        else:
+            st.warning("分析に必要なデータがありません")
 
     with tab4:
         st.header("データエクスポート")

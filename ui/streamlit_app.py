@@ -527,6 +527,258 @@ def main():
             except Exception as e:
                 st.error(f'停止フラグの作成に失敗しました: {e}')
 
+        # Enhanced NSFW Collection Strategy
+        st.markdown("---")
+        st.markdown("### 🔥 包括的NSFW収集戦略")
+
+        # 包括的収集機能の統合
+        try:
+            # Import enhanced collection strategy
+            sys.path.append(str(project_root / 'src'))
+            from enhanced_collection_strategy import ComprehensiveCollectionStrategy
+
+            # Initialize strategy
+            if 'collection_strategy' not in st.session_state:
+                st.session_state.collection_strategy = ComprehensiveCollectionStrategy()
+
+            strategy = st.session_state.collection_strategy
+
+            # Enhanced collection UI
+            collection_mode = st.selectbox(
+                "収集モード",
+                [
+                    "comprehensive_multi", "nsfw_explicit_only", "standard_safe",
+                    "targeted_keywords", "experimental_deep"
+                ],
+                format_func=lambda x: {
+                    "comprehensive_multi": "🎯 包括的マルチ収集（推奨）- NSFW + 安全コンテンツ",
+                    "nsfw_explicit_only": "🔞 NSFW明示的のみ - 最大限の性的表現",
+                    "standard_safe": "✅ 標準安全モード - 従来の収集方法",
+                    "targeted_keywords": "🎪 キーワードターゲット収集 - 特定表現重点",
+                    "experimental_deep": "🧪 実験的深層収集 - 全パラメータ組合せ"
+                }[x],
+                help="WD14補完に最適化された収集戦略を選択"
+            )
+
+            # 詳細設定
+            with st.expander("🛠️ 詳細設定 - 性的表現・体位・sex toyを網羅"):
+                col1, col2 = st.columns(2)
+
+                with col1:
+                    # NSFWレベル設定
+                    nsfw_levels = st.multiselect(
+                        "NSFWレベル（複数選択推奨）",
+                        ["None", "Soft", "Mature", "X"],
+                        default=["Soft", "X"] if collection_mode == "comprehensive_multi" else (["X"] if collection_mode == "nsfw_explicit_only" else ["Soft"]),
+                        help="X: 明示的性器・性行為, Mature: 示唆的, Soft: 軽度性的"
+                    )
+
+                    # ソート戦略
+                    sort_strategies = st.multiselect(
+                        "ソート戦略（複数選択推奨）",
+                        ["Most Reactions", "Most Downloads", "Most Likes", "Most Discussed", "Newest"],
+                        default=["Most Reactions", "Newest"],
+                        help="異なるソートで多様なプロンプトを収集"
+                    )
+
+                with col2:
+                    # 収集対象キーワードカテゴリ
+                    available_categories = list(strategy.sexual_keywords.keys())
+                    selected_categories = st.multiselect(
+                        "収集対象カテゴリ",
+                        available_categories,
+                        default=available_categories,
+                        format_func=lambda x: {
+                            'explicit_genital': '🔞 明示的性器（pussy, cock, labia等）',
+                            'explicit_acts': '🔥 明示的性行為（sex, oral, anal等）',
+                            'sex_positions': '🤸 体位・ポーズ（missionary, doggy, cowgirl等）',
+                            'sex_toys': '🧸 性具・おもちゃ（dildo, vibrator, buttplug等）',
+                            'body_explicit': '💃 身体部位（breasts, ass, thighs等）',
+                            'fetish_kink': '⛓️ フェチ・BDSM（bondage, latex, roleplay等）',
+                            'clothing_lingerie': '👙 下着・衣装（lingerie, stockings, corset等）',
+                            'suggestive_mood': '😈 暗示的・ムード（sexy, seductive, erotic等）'
+                        }.get(x, x)
+                    )
+
+                    # カスタムキーワード追加
+                    custom_keywords = st.text_area(
+                        "追加キーワード（カンマ区切り）",
+                        placeholder="例: ahegao, paizuri, nakadashi, hentai, lactation, pregnant, milf",
+                        help="日本語エロ表現、妊娠・母乳等の特殊カテゴリ、アニメ系表現等を追加"
+                    )
+
+            # 収集量設定
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                max_per_strategy = st.number_input("戦略あたり最大件数", 50, 2000, 300, help="各NSFWレベル×ソート組み合わせの最大収集数")
+            with col2:
+                enable_dedup = st.checkbox("重複除去", True, help="同一プロンプトの除去")
+            with col3:
+                save_to_db = st.checkbox("DBに自動保存", True, help="収集後に自動でデータベース保存")
+
+            # 実行ボタン
+            enhanced_collect_button = st.button(
+                "🚀 包括的NSFW収集実行",
+                type="primary",
+                disabled=start_disabled,
+                help="選択した戦略でNSFW表現を包括的に収集し、WD14補完用データを生成"
+            )
+
+            if enhanced_collect_button and version_id:
+                # 設定パッケージング
+                enhanced_settings = {
+                    'collection_mode': collection_mode,
+                    'nsfw_levels': nsfw_levels,
+                    'sort_strategies': sort_strategies,
+                    'selected_categories': selected_categories,
+                    'custom_keywords': [kw.strip() for kw in custom_keywords.split(',') if kw.strip()] if custom_keywords else [],
+                    'max_per_strategy': max_per_strategy,
+                    'enable_dedup': enable_dedup,
+                    'save_to_db': save_to_db
+                }
+
+                # 実行確認
+                with st.expander("📋 実行予定の詳細", expanded=True):
+                    st.markdown("**収集戦略組み合わせ:**")
+                    estimated_requests = len(nsfw_levels) * len(sort_strategies)
+                    st.write(f"- 予定リクエスト数: {estimated_requests}回")
+                    st.write(f"- 最大収集予定: {estimated_requests * max_per_strategy}件")
+                    st.write(f"- NSFWレベル: {', '.join(nsfw_levels)}")
+                    st.write(f"- ソート戦略: {', '.join(sort_strategies)}")
+                    st.write(f"- キーワードカテゴリ: {len(selected_categories)}種類")
+
+                    if st.button("✅ 確定実行"):
+                        with st.spinner("🔥 包括的NSFW収集を実行中..."):
+                            try:
+                                results = strategy.execute_comprehensive_collection(
+                                    model_id, version_id, enhanced_settings
+                                )
+                                st.success(f"🎉 包括的収集完了！総収集数: {results['total_collected']}件")
+
+                                # 自動保存処理
+                                if save_to_db and results['total_collected'] > 0:
+                                    with st.spinner("データベースに保存中..."):
+                                        try:
+                                            # 収集したアイテムをデータベース形式に変換
+                                            all_items = []
+                                            for strategy_name, result in results['by_strategy'].items():
+                                                if result['success'] and result['items']:
+                                                    all_items.extend(result['items'])
+
+                                            if all_items:
+                                                # データベース保存
+                                                from src.database import save_prompts_batch
+
+                                                # 重複除去
+                                                if enable_dedup:
+                                                    seen_ids = set()
+                                                    unique_items = []
+                                                    for item in all_items:
+                                                        item_id = item.get('id')
+                                                        if item_id not in seen_ids:
+                                                            seen_ids.add(item_id)
+                                                            unique_items.append(item)
+                                                    all_items = unique_items
+                                                    st.info(f"重複除去後: {len(all_items)}件")
+
+                                                # バッチ保存
+                                                save_prompts_batch(all_items, model_name or f"model_{model_id}")
+                                                st.success(f"✅ {len(all_items)}件をデータベースに保存しました")
+
+                                                # 自動分類実行
+                                                if run_categorize:
+                                                    with st.spinner("自動分類実行中..."):
+                                                        try:
+                                                            process_database_prompts()
+                                                            st.success("✅ 自動分類完了")
+                                                        except Exception as e:
+                                                            st.warning(f"自動分類でエラー: {e}")
+
+                                        except Exception as e:
+                                            st.error(f"データベース保存でエラー: {e}")
+
+                            except Exception as e:
+                                st.error(f"包括的収集でエラー: {e}")
+
+            # キーワード統計表示
+            with st.expander("📊 対象キーワード統計"):
+                total_keywords = 0
+                for category in selected_categories:
+                    if category in strategy.sexual_keywords:
+                        count = len(strategy.sexual_keywords[category])
+                        total_keywords += count
+                        st.write(f"**{category}**: {count}個")
+                        # サンプルキーワード表示
+                        sample = strategy.sexual_keywords[category][:10]
+                        st.write(f"  例: {', '.join(sample)}")
+
+                st.write(f"**総キーワード数: {total_keywords}個**")
+                if custom_keywords:
+                    st.write(f"**追加カスタムキーワード**: {', '.join([kw.strip() for kw in custom_keywords.split(',') if kw.strip()])}")
+
+            # キーワードターゲット収集機能
+            st.markdown("---")
+            try:
+                from keyword_target_collector import add_keyword_target_ui
+
+                st.markdown("### 🎯 特殊キーワードターゲット収集")
+                st.markdown("日本語エロ表現、妊娠・母乳、特殊フェチなど専門カテゴリの重点収集")
+
+                keyword_settings = add_keyword_target_ui()
+
+                if st.button("🎯 キーワードターゲット実行", help="選択したキーワードカテゴリに特化した収集"):
+                    if keyword_settings['selected_categories'] and version_id:
+                        with st.spinner("キーワードベース収集実行中..."):
+                            try:
+                                collector = keyword_settings['collector']
+                                categories = collector.get_comprehensive_keywords()
+
+                                # 選択されたカテゴリのキーワードを収集
+                                target_keywords = []
+                                for category in keyword_settings['selected_categories']:
+                                    target_keywords.extend(categories[category])
+
+                                # キーワード検索実行
+                                keyword_results = collector.search_by_keywords(
+                                    target_keywords,
+                                    model_id=model_id,
+                                    version_id=version_id,
+                                    nsfw_level=keyword_settings['nsfw_level'],
+                                    max_per_keyword=keyword_settings['max_per_keyword']
+                                )
+
+                                # 結果表示
+                                st.success(f"🎉 キーワード収集完了！総発見数: {keyword_results['total_found']}件")
+
+                                # 詳細結果
+                                with st.expander("📊 キーワード別結果"):
+                                    for keyword, result in keyword_results['keyword_results'].items():
+                                        if result['found_count'] > 0:
+                                            st.write(f"**{keyword}**: {result['found_count']}件発見 (検索結果: {result['total_retrieved']}件)")
+
+                                # エラー表示
+                                if keyword_results['errors']:
+                                    with st.expander("⚠️ エラー"):
+                                        for error in keyword_results['errors']:
+                                            st.write(f"- {error}")
+
+                                # 保存処理
+                                if keyword_settings['save_results'] and keyword_results['total_found'] > 0:
+                                    st.info("キーワード収集結果を保存中...")
+                                    # 保存処理の実装
+
+                            except Exception as e:
+                                st.error(f"キーワード収集でエラー: {e}")
+                    else:
+                        st.error("キーワードカテゴリとVersion IDを選択してください")
+
+            except ImportError:
+                st.info("キーワードターゲット機能は準備中です")
+
+        except ImportError as e:
+            st.error(f"包括的収集モジュールの読み込みに失敗: {e}")
+            st.info("従来の収集機能をご利用ください")
+
         # If user clicked 'fetch_info', call API to populate model_name and versions
         if fetch_info and model_id:
             try:
