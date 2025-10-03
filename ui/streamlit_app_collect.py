@@ -135,11 +135,11 @@ def get_database_stats():
 def create_category_distribution_chart(df):
     if df.empty:
         return None
-    
+
     # categoryカラムが存在するかチェック
     if 'category' not in df.columns:
         return None
-        
+
     category_counts = df['category'].value_counts()
     df_counts = category_counts.rename_axis('category').reset_index(name='count')
     colors = {
@@ -470,7 +470,7 @@ def main():
                 st.stop()
 
     st.sidebar.metric("総プロンプト数", stats['total_prompts'])
-    
+
     # カテゴリカラム存在チェック
     if 'category' in df.columns:
         st.sidebar.metric("分類済み数", len(df[df['category'].notna()]))
@@ -1582,7 +1582,7 @@ def main():
         if not df.empty and 'full_prompt' in df.columns and 'quality_score' in df.columns:
             try:
                 valid_prompts = df[df['full_prompt'].notna() & (df['full_prompt'] != '')]
-                
+
                 if len(valid_prompts) > 0:
                     # 品質キーワード定義
                     quality_keywords = [
@@ -1591,45 +1591,45 @@ def main():
                         'cinematic', 'dramatic', 'lighting', 'depth of field', 'sharp',
                         'beautiful', 'stunning', 'amazing', 'incredible', 'perfect'
                     ]
-                    
+
                     # スタイルキーワード定義
                     style_keywords = [
                         'anime', 'realistic', 'portrait', 'landscape', 'abstract',
                         'oil painting', 'watercolor', 'digital art', 'concept art', 'cartoon'
                     ]
-                    
+
                     # キーワード分析実行
                     keyword_analysis = {}
-                    
+
                     for keyword in quality_keywords + style_keywords:
                         # そのキーワードを含むプロンプト
                         contains_keyword = valid_prompts[
                             valid_prompts['full_prompt'].str.lower().str.contains(keyword, na=False)
                         ]
-                        
+
                         if len(contains_keyword) >= 5:  # 最低5件以上のデータがある場合のみ
                             avg_quality = contains_keyword['quality_score'].mean()
                             count = len(contains_keyword)
                             max_quality = contains_keyword['quality_score'].max()
-                            
+
                             keyword_analysis[keyword] = {
                                 'count': count,
                                 'avg_quality': avg_quality,
                                 'max_quality': max_quality
                             }
-                    
+
                     if keyword_analysis:
                         # 品質順にソート
-                        sorted_keywords = sorted(keyword_analysis.items(), 
+                        sorted_keywords = sorted(keyword_analysis.items(),
                                                key=lambda x: x[1]['avg_quality'], reverse=True)
-                        
+
                         col_left, col_right = st.columns(2)
-                        
+
                         with col_left:
                             st.write("**🏆 高品質キーワード TOP10**")
                             for i, (keyword, stats) in enumerate(sorted_keywords[:10]):
                                 st.write(f"{i+1}. **{keyword}**: {stats['avg_quality']:.1f}点 ({stats['count']}件)")
-                        
+
                         with col_right:
                             # キーワード品質散布図
                             try:
@@ -1643,9 +1643,9 @@ def main():
                                             'avg_quality': stats['avg_quality'],
                                             'max_quality': stats['max_quality']
                                         })
-                                    
+
                                     scatter_df = pd.DataFrame(scatter_data)
-                                    
+
                                     scatter_fig = px.scatter(
                                         scatter_df,
                                         x='count',
@@ -1664,13 +1664,13 @@ def main():
                                 st.write("**キーワード統計（テキスト表示）**")
                                 for keyword, stats in sorted_keywords[:8]:
                                     st.write(f"• {keyword}: {stats['avg_quality']:.1f}点 ({stats['count']}件)")
-                        
+
                         # ComfyUI活用提案
                         if sorted_keywords:
                             top_keywords = [kw[0] for kw in sorted_keywords[:5]]
                             st.success(f"""
                             💡 **ComfyUI プロンプト最適化の提案**
-                            
+
                             **高品質キーワード活用:**
                             - メインプロンプトに追加: `{', '.join(top_keywords[:3])}`
                             - 品質向上テンプレート: `masterpiece, best quality, {top_keywords[0]}`
@@ -1678,7 +1678,7 @@ def main():
                             """)
                     else:
                         st.info("キーワード分析に十分なデータがありません（各キーワード最低5件必要）")
-                        
+
             except Exception as e:
                 st.error(f"キーワード品質分析エラー: {str(e)}")
         else:
@@ -1698,23 +1698,23 @@ def main():
             try:
                 total_prompts = len(df)
                 avg_quality = df['quality_score'].mean() if 'quality_score' in df.columns else 0
-                
+
                 col1, col2 = st.columns(2)
-                
+
                 with col1:
                     st.write("**📊 現在のデータ状況**")
                     st.metric("総プロンプト数", f"{total_prompts:,}")
                     if 'quality_score' in df.columns:
                         st.metric("平均品質スコア", f"{avg_quality:.1f}")
-                        
+
                         # 品質分布分析
                         high_quality_count = len(df[df['quality_score'] >= 100])
                         high_quality_rate = (high_quality_count / total_prompts) * 100 if total_prompts > 0 else 0
                         st.metric("高品質率 (100+)", f"{high_quality_rate:.1f}%")
-                
+
                 with col2:
                     st.write("**🎯 収集戦略提案**")
-                    
+
                     # データ量に基づく提案
                     if total_prompts < 500:
                         st.warning("📊 データ量不足: 1,000件以上の収集を推奨")
@@ -1722,7 +1722,7 @@ def main():
                         st.info("📊 データ量やや不足: さらなる収集で精度向上")
                     else:
                         st.success("📊 十分なデータ量を確保")
-                    
+
                     # 品質に基づく提案
                     if 'quality_score' in df.columns:
                         if avg_quality < 50:
@@ -1731,33 +1731,33 @@ def main():
                             st.info("⭐ 品質は標準レベル: より高品質データの収集を検討")
                         else:
                             st.success("⭐ 高品質データを確保")
-                
+
                 # 具体的な推奨アクション
                 st.write("**🚀 次のアクション推奨**")
-                
+
                 recommendations = []
-                
+
                 if total_prompts < 1000:
                     recommendations.append("🔄 **継続収集**: 「🔎 収集」タブで効率的収集戦略を実行")
-                
+
                 if 'quality_score' in df.columns and avg_quality < 100:
                     recommendations.append("⭐ **品質フィルタ**: quality_score >= 100 の条件で高品質データを重点収集")
-                
+
                 if len(df['model_name'].unique()) < 3:
                     recommendations.append("🤖 **モデル多様化**: 複数の異なるモデルからデータ収集")
-                
+
                 # キーワード多様性チェック
                 if 'full_prompt' in df.columns:
                     unique_keywords_estimate = len(set(' '.join(df['full_prompt'].fillna('').str.lower()).split()))
                     if unique_keywords_estimate < 1000:
                         recommendations.append("🏷️ **キーワード多様化**: 異なるスタイル・テーマのプロンプト収集")
-                
+
                 if not recommendations:
                     recommendations.append("✅ **現状維持**: 良好なデータ収集状況です")
-                
+
                 for i, rec in enumerate(recommendations, 1):
                     st.write(f"{i}. {rec}")
-                
+
                 # ComfyUIワークフロー提案
                 if 'quality_score' in df.columns and avg_quality >= 50:
                     st.info("""
@@ -1766,7 +1766,7 @@ def main():
                     - 品質予測ノード: 入力プロンプトの品質スコア予測
                     - スタイル推奨: データベースから類似プロンプトの提案
                     """)
-                    
+
             except Exception as e:
                 st.error(f"収集戦略分析エラー: {str(e)}")
         else:
