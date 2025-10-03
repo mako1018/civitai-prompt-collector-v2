@@ -10,7 +10,7 @@ import time
 from datetime import datetime
 from typing import Dict, List, Optional, Tuple, Any
 
-from config import (
+from .config import (
     CIVITAI_API_KEY, USER_AGENT, API_BASE_URL,
     REQUEST_TIMEOUT, RETRY_DELAY, RATE_LIMIT_WAIT,
     QUALITY_KEYWORDS

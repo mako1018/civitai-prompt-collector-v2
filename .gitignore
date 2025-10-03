@@ -28,3 +28,6 @@ collect_status.json
 
 # ignore: last_resume.json
 last_resume.json
+
+# Additional virtual environments
+venv/

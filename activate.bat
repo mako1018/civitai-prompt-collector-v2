@@ -1,0 +1,3 @@
+@echo off
+echo 🚀 .venv環境を活性化します...
+.venv\Scripts\activate

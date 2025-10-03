@@ -10,7 +10,7 @@ import os
 from datetime import datetime
 from typing import Dict, List, Optional, Any
 
-from config import DEFAULT_DB_PATH, DB_SCHEMA
+from .config import DEFAULT_DB_PATH, DB_SCHEMA
 
 
 class DatabaseManager:

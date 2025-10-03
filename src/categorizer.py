@@ -14,7 +14,7 @@ try:
     from .config import CATEGORIES
 except ImportError:
     try:
-        from config import CATEGORIES
+        from .config import CATEGORIES
     except ImportError:
         # config.pyが存在しない場合の暫定対応
         CATEGORIES = [

@@ -10,10 +10,10 @@ import streamlit as st
 import sys
 from pathlib import Path
 project_root = Path(__file__).parent.parent
-sys.path.append(str(project_root / 'src'))
+sys.path.insert(0, str(project_root))
 import pandas as pd
 import requests
-from database import DatabaseManager
+from src.database import DatabaseManager
 try:
     import plotly.express as px  # type: ignore[import]
     PLOTLY_AVAILABLE = True
@@ -135,6 +135,11 @@ def get_database_stats():
 def create_category_distribution_chart(df):
     if df.empty:
         return None
+    
+    # categoryカラムが存在するかチェック
+    if 'category' not in df.columns:
+        return None
+        
     category_counts = df['category'].value_counts()
     df_counts = category_counts.rename_axis('category').reset_index(name='count')
     colors = {
@@ -465,7 +470,12 @@ def main():
                 st.stop()
 
     st.sidebar.metric("総プロンプト数", stats['total_prompts'])
-    st.sidebar.metric("分類済み数", len(df[df['category'].notna()]))
+    
+    # カテゴリカラム存在チェック
+    if 'category' in df.columns:
+        st.sidebar.metric("分類済み数", len(df[df['category'].notna()]))
+    else:
+        st.sidebar.metric("分類済み数", "カテゴリ未実装")
 
     tab_collect, tab1, tab2, tab3, tab4 = st.tabs(["🔎 収集", "📊 ダッシュボード", "📋 プロンプト一覧", "📈 詳細分析", "💾 データエクスポート"])
 
@@ -1394,8 +1404,11 @@ def main():
             unique_models = df['model_name'].nunique()
             st.metric("使用モデル数", unique_models)
         with col4:
-            categories_count = df['category'].nunique()
-            st.metric("カテゴリ数", categories_count)
+            if 'category' in df.columns:
+                categories_count = df['category'].nunique()
+                st.metric("カテゴリ数", categories_count)
+            else:
+                st.metric("カテゴリ数", "未実装")
 
         col1, col2 = st.columns(2)
         with col1:
